@@ -1,0 +1,5 @@
+﻿sendTimeout="00:01:00"
+Cuando el ensayo dura mas que un SendTimeout, los resultado son siempre identicos: 10 OK, el resto Fail
+Si el ensayo dura menos, ahi se ve realmente la disponibilidad de conexiones de un server, por ejemplo 35Ok, el resto Fail.
+
+
