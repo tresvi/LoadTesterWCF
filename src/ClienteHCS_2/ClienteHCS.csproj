@@ -109,6 +109,9 @@
     <Compile Include="Forms\FrmDetallesEnsayo.Designer.cs">
       <DependentUpon>FrmDetallesEnsayo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmComparacionEnsayos.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Models\HCSClient.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -116,6 +119,7 @@
     <Compile Include="Models\LoadTest\LoadTestThreadItem.cs" />
     <Compile Include="Models\LoadTest\LoadTestDefinition.cs" />
     <Compile Include="Models\LoadTest\LoadTestReport.cs" />
+    <Compile Include="Models\LoadTest\EnsayoGuardado.cs" />
     <Compile Include="Helpers\SortableBindingList.cs" />
     <EmbeddedResource Include="Forms\FrmDetallesEnsayo.resx">
       <DependentUpon>FrmDetallesEnsayo.cs</DependentUpon>

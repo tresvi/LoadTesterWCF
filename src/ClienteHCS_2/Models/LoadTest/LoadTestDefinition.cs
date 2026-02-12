@@ -10,10 +10,11 @@ namespace ClienteHCS_2
         public int NroHilos { get; set; }
         public double DuracionSeg { get; set; }
         public int PausaMs { get; set; }
+        public bool UsarUnicaConexion { get; set; }
 
         /// <summary>Texto de configuración para mostrar en resúmenes (Servidor, TxFile, Nro hilos, etc.).</summary>
         public string ToConfigString() =>
-            $"Servidor: {Server}\r\nTxFile: {TxFile}\r\nNro hilos: {NroHilos}\r\nDuración (seg): {DuracionSeg}\r\nPausa entre envíos (ms): {PausaMs}";
+            $"Servidor: {Server}\r\nTxFile: {TxFile}\r\nNro hilos: {NroHilos}\r\nDuración (seg): {DuracionSeg}\r\nPausa entre envíos (ms): {PausaMs}\r\nÚnica conexión para todos los hilos: {(UsarUnicaConexion ? "Sí" : "No")}";
 
         /// <summary>Crea una copia de esta definición.</summary>
         public LoadTestDefinition Copy() => new LoadTestDefinition
@@ -22,7 +23,8 @@ namespace ClienteHCS_2
             TxFile = TxFile,
             NroHilos = NroHilos,
             DuracionSeg = DuracionSeg,
-            PausaMs = PausaMs
+            PausaMs = PausaMs,
+            UsarUnicaConexion = UsarUnicaConexion
         };
     }
 }

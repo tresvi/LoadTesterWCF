@@ -116,7 +116,8 @@ namespace ClienteHCS_2
                 TxFile = _transaccion?.TXFile ?? "",
                 NroHilos = (int)nudHilosParalelos.Value,
                 DuracionSeg = (double)nudDuracion.Value,
-                PausaMs = (int)nudPausaMs.Value
+                PausaMs = (int)nudPausaMs.Value,
+                UsarUnicaConexion = cbUsarUnicaConexion.Checked
             };
             _contador = _contadorOK = _contadorFAIL = 0;
             _contadorSinRespuesta = 0;

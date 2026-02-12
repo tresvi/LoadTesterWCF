@@ -16,6 +16,15 @@ namespace ClienteHCS_2
         private IList<LoadTestThreadItem> _items;
         private LoadTestDefinition _definition;
 
+        // Constructor para permitir abrir el Diseñador de WinForms.
+        public FrmDetallesEnsayo()
+            : this(
+                new LoadTestReport { Fecha = DateTime.Now },
+                new List<LoadTestThreadItem>(),
+                new LoadTestDefinition())
+        {
+        }
+
         public FrmDetallesEnsayo(
             LoadTestReport report,
             IList<LoadTestThreadItem> items,
@@ -201,12 +210,49 @@ namespace ClienteHCS_2
             }
         }
 
+        private void tsbMedidasRendimiento_Click(object sender, EventArgs e)
+        {
+            if (_report == null)
+            {
+                MessageBox.Show("No hay un ensayo actual cargado para comparar.", "Comparar ensayos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (var dlg = new OpenFileDialog())
+            {
+                dlg.Filter = "Ensayo de carga (*.ensayo.json)|*.ensayo.json|JSON (*.json)|*.json";
+                dlg.CheckFileExists = true;
+                dlg.Multiselect = false;
+                if (dlg.ShowDialog() != DialogResult.OK) return;
+
+                try
+                {
+                    var comparado = LeerEnsayoGuardado(dlg.FileName);
+                    string nombreComparado = Path.GetFileNameWithoutExtension(dlg.FileName);
+                    using (var frmComparacion = new FrmComparacionEnsayos(
+                        _report,
+                        _definition,
+                        comparado.Reporte,
+                        comparado.Definicion,
+                        "Ensayo actual",
+                        nombreComparado))
+                    {
+                        frmComparacion.ShowDialog(this);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"No se pudo abrir el ensayo a comparar: {ex.Message}", "Comparar ensayos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         private void GuardarEnsayoCompleto(string path)
         {
             var ensayo = new EnsayoGuardado
             {
                 Reporte = _report,
-                Hilos = _items?.ToList() ?? new List<LoadTestThreadItem>(),
+                Hilos = _items != null ? _items.ToList() : new List<LoadTestThreadItem>(),
                 Definicion = _definition
             };
 
@@ -215,6 +261,17 @@ namespace ClienteHCS_2
         }
 
         private void CargarEnsayoDesdeArchivo(string path)
+        {
+            var ensayo = LeerEnsayoGuardado(path);
+            _report = ensayo.Reporte;
+            _items = ensayo.Hilos ?? new List<LoadTestThreadItem>();
+            _definition = ensayo.Definicion ?? CrearDefinicionDesdeReporte(_report);
+
+            CargarResumen();
+            ConfigurarCharts();
+        }
+
+        private static EnsayoGuardado LeerEnsayoGuardado(string path)
         {
             string json = File.ReadAllText(path);
 
@@ -228,26 +285,27 @@ namespace ClienteHCS_2
                 // Compatibilidad: JSON antiguo con solo LoadTestReport.
             }
 
-            if (ensayo?.Reporte != null)
+            if (ensayo != null && ensayo.Reporte != null)
             {
-                _report = ensayo.Reporte;
-                _items = ensayo.Hilos ?? new List<LoadTestThreadItem>();
-                _definition = ensayo.Definicion ?? CrearDefinicionDesdeReporte(_report);
-            }
-            else
-            {
-                // Compatibilidad con exportaciones previas del reporte.
-                var reporte = JsonConvert.DeserializeObject<LoadTestReport>(json);
-                if (reporte == null)
-                    throw new InvalidOperationException("El archivo no tiene un formato de ensayo válido.");
-
-                _report = reporte;
-                _items = new List<LoadTestThreadItem>();
-                _definition = CrearDefinicionDesdeReporte(reporte);
+                return new EnsayoGuardado
+                {
+                    Reporte = ensayo.Reporte,
+                    Hilos = ensayo.Hilos ?? new List<LoadTestThreadItem>(),
+                    Definicion = ensayo.Definicion ?? CrearDefinicionDesdeReporte(ensayo.Reporte)
+                };
             }
 
-            CargarResumen();
-            ConfigurarCharts();
+            // Compatibilidad con exportaciones previas del reporte.
+            var reporte = JsonConvert.DeserializeObject<LoadTestReport>(json);
+            if (reporte == null)
+                throw new InvalidOperationException("El archivo no tiene un formato de ensayo válido.");
+
+            return new EnsayoGuardado
+            {
+                Reporte = reporte,
+                Hilos = new List<LoadTestThreadItem>(),
+                Definicion = CrearDefinicionDesdeReporte(reporte)
+            };
         }
 
         private static LoadTestDefinition CrearDefinicionDesdeReporte(LoadTestReport reporte)
@@ -259,15 +317,10 @@ namespace ClienteHCS_2
                 TxFile = reporte.TxFile ?? "",
                 NroHilos = reporte.TotalHilos,
                 PausaMs = reporte.PausaMs,
-                DuracionSeg = reporte.TiempoMs > 0 ? reporte.TiempoMs / 1000.0 : 0
+                DuracionSeg = reporte.TiempoMs > 0 ? reporte.TiempoMs / 1000.0 : 0,
+                UsarUnicaConexion = false
             };
         }
 
-        private sealed class EnsayoGuardado
-        {
-            public LoadTestReport Reporte { get; set; }
-            public List<LoadTestThreadItem> Hilos { get; set; }
-            public LoadTestDefinition Definicion { get; set; }
-        }
     }
 }

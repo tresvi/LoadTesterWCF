@@ -1,5 +1,3 @@
-using System.Windows.Forms.DataVisualization.Charting;
-
 namespace ClienteHCS_2
 {
     partial class FrmDetallesEnsayo
@@ -283,6 +281,7 @@ namespace ClienteHCS_2
             this.tsbMedidasRendimiento.Name = "tsbMedidasRendimiento";
             this.tsbMedidasRendimiento.Size = new System.Drawing.Size(52, 52);
             this.tsbMedidasRendimiento.Text = "Comparar Ensayos de Carga";
+            this.tsbMedidasRendimiento.Click += new System.EventHandler(this.tsbMedidasRendimiento_Click);
             // 
             // toolStripSeparator4
             // 
@@ -336,12 +335,12 @@ namespace ClienteHCS_2
         private System.Windows.Forms.Label lblConfig;
         private System.Windows.Forms.Label lblResultados1;
         private System.Windows.Forms.TableLayoutPanel tlpGraficos;
-        private Chart chartThroughputFail;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartThroughputFail;
         private System.Windows.Forms.Label lblTituloThroughputFail;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label lblTituloLatencia;
-        private Chart chartThroughputOk;
-        private Chart chartLatencia;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartThroughputOk;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartLatencia;
         private System.Windows.Forms.Label lblTituloThroughputOk;
         private System.Windows.Forms.Label lblResultados2;
         private System.Windows.Forms.Button btnExportar;
