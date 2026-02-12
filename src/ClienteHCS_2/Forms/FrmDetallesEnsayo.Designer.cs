@@ -25,29 +25,39 @@ namespace ClienteHCS_2
             this.lblResultados1 = new System.Windows.Forms.Label();
             this.tlpGraficos = new System.Windows.Forms.TableLayoutPanel();
             this.lblTituloThroughputFail = new System.Windows.Forms.Label();
-            this.chartThroughputFail = new Chart();
+            this.chartThroughputFail = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lblTituloThroughputOk = new System.Windows.Forms.Label();
-            this.chartThroughputOk = new Chart();
+            this.chartThroughputOk = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.lblTituloLatencia = new System.Windows.Forms.Label();
-            this.chartLatencia = new Chart();
+            this.chartLatencia = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.tsbAbrirEnsayo = new System.Windows.Forms.ToolStripButton();
+            this.tsbGuardarEnsayo = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbMedidasRendimiento = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbInfo = new System.Windows.Forms.ToolStripButton();
             this.grpResumen.SuspendLayout();
             this.tlpResumen.SuspendLayout();
             this.tlpGraficos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartThroughputFail)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartThroughputOk)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartLatencia)).BeginInit();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnExportar
             // 
             this.btnExportar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExportar.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.btnExportar.Location = new System.Drawing.Point(750, 441);
+            this.btnExportar.Location = new System.Drawing.Point(750, 496);
             this.btnExportar.Name = "btnExportar";
             this.btnExportar.Size = new System.Drawing.Size(199, 28);
             this.btnExportar.TabIndex = 3;
             this.btnExportar.Text = "Exportar resultados...";
             this.btnExportar.UseVisualStyleBackColor = true;
-            this.btnExportar.Click += new System.EventHandler(this.btnExportar_Click);
             // 
             // grpResumen
             // 
@@ -55,7 +65,7 @@ namespace ClienteHCS_2
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpResumen.Controls.Add(this.tlpResumen);
             this.grpResumen.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpResumen.Location = new System.Drawing.Point(12, 12);
+            this.grpResumen.Location = new System.Drawing.Point(17, 70);
             this.grpResumen.Name = "grpResumen";
             this.grpResumen.Size = new System.Drawing.Size(1112, 140);
             this.grpResumen.TabIndex = 0;
@@ -134,7 +144,7 @@ namespace ClienteHCS_2
             this.tlpGraficos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
             this.tlpGraficos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
             this.tlpGraficos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.34F));
-            this.tlpGraficos.Size = new System.Drawing.Size(546, 0);
+            this.tlpGraficos.Size = new System.Drawing.Size(546, 55);
             this.tlpGraficos.TabIndex = 1;
             this.tlpGraficos.Visible = false;
             // 
@@ -143,7 +153,7 @@ namespace ClienteHCS_2
             this.lblTituloThroughputFail.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblTituloThroughputFail.AutoSize = true;
             this.lblTituloThroughputFail.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
-            this.lblTituloThroughputFail.Location = new System.Drawing.Point(0, -1);
+            this.lblTituloThroughputFail.Location = new System.Drawing.Point(0, 35);
             this.lblTituloThroughputFail.Margin = new System.Windows.Forms.Padding(0);
             this.lblTituloThroughputFail.Name = "lblTituloThroughputFail";
             this.lblTituloThroughputFail.Size = new System.Drawing.Size(214, 22);
@@ -153,7 +163,7 @@ namespace ClienteHCS_2
             // chartThroughputFail
             // 
             this.chartThroughputFail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chartThroughputFail.Location = new System.Drawing.Point(0, 21);
+            this.chartThroughputFail.Location = new System.Drawing.Point(0, 57);
             this.chartThroughputFail.Margin = new System.Windows.Forms.Padding(0);
             this.chartThroughputFail.Name = "chartThroughputFail";
             this.chartThroughputFail.Size = new System.Drawing.Size(273, 1);
@@ -171,7 +181,7 @@ namespace ClienteHCS_2
             this.tableLayoutPanel1.Controls.Add(this.chartThroughputOk, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.lblTituloLatencia, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.chartLatencia, 0, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(17, 157);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(17, 215);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -179,7 +189,7 @@ namespace ClienteHCS_2
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1104, 295);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1104, 292);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // lblTituloThroughputOk
@@ -200,7 +210,7 @@ namespace ClienteHCS_2
             this.chartThroughputOk.Location = new System.Drawing.Point(552, 32);
             this.chartThroughputOk.Margin = new System.Windows.Forms.Padding(0, 0, 4, 4);
             this.chartThroughputOk.Name = "chartThroughputOk";
-            this.chartThroughputOk.Size = new System.Drawing.Size(548, 259);
+            this.chartThroughputOk.Size = new System.Drawing.Size(548, 256);
             this.chartThroughputOk.TabIndex = 9;
             // 
             // lblTituloLatencia
@@ -220,14 +230,80 @@ namespace ClienteHCS_2
             this.chartLatencia.Location = new System.Drawing.Point(0, 32);
             this.chartLatencia.Margin = new System.Windows.Forms.Padding(0, 0, 4, 4);
             this.chartLatencia.Name = "chartLatencia";
-            this.chartLatencia.Size = new System.Drawing.Size(548, 259);
+            this.chartLatencia.Size = new System.Drawing.Size(548, 256);
             this.chartLatencia.TabIndex = 2;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(48, 48);
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbAbrirEnsayo,
+            this.tsbGuardarEnsayo,
+            this.toolStripSeparator2,
+            this.tsbMedidasRendimiento,
+            this.toolStripSeparator4,
+            this.tsbInfo});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(1136, 55);
+            this.toolStrip1.TabIndex = 43;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // tsbAbrirEnsayo
+            // 
+            this.tsbAbrirEnsayo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbAbrirEnsayo.Image = global::ClienteHCS_2.Properties.Resources.abrir_documento;
+            this.tsbAbrirEnsayo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbAbrirEnsayo.Name = "tsbAbrirEnsayo";
+            this.tsbAbrirEnsayo.Size = new System.Drawing.Size(52, 52);
+            this.tsbAbrirEnsayo.Text = "Abrir Resultado de ensayo de carga";
+            this.tsbAbrirEnsayo.Click += new System.EventHandler(this.tsbAbrirEnsayo_Click);
+            // 
+            // tsbGuardarEnsayo
+            // 
+            this.tsbGuardarEnsayo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbGuardarEnsayo.Image = global::ClienteHCS_2.Properties.Resources.Save_as_80_icon_icons_com_57275;
+            this.tsbGuardarEnsayo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbGuardarEnsayo.Name = "tsbGuardarEnsayo";
+            this.tsbGuardarEnsayo.Size = new System.Drawing.Size(52, 52);
+            this.tsbGuardarEnsayo.Text = "Guardar Ensayo de carga";
+            this.tsbGuardarEnsayo.Click += new System.EventHandler(this.tsbGuardarComo_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 55);
+            // 
+            // tsbMedidasRendimiento
+            // 
+            this.tsbMedidasRendimiento.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbMedidasRendimiento.Image = global::ClienteHCS_2.Properties.Resources.evaluacion_comparativa;
+            this.tsbMedidasRendimiento.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbMedidasRendimiento.Name = "tsbMedidasRendimiento";
+            this.tsbMedidasRendimiento.Size = new System.Drawing.Size(52, 52);
+            this.tsbMedidasRendimiento.Text = "Comparar Ensayos de Carga";
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 55);
+            // 
+            // tsbInfo
+            // 
+            this.tsbInfo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbInfo.Image = global::ClienteHCS_2.Properties.Resources.information;
+            this.tsbInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbInfo.Name = "tsbInfo";
+            this.tsbInfo.Size = new System.Drawing.Size(52, 52);
+            this.tsbInfo.Text = "Info";
             // 
             // FrmDetallesEnsayo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1136, 470);
+            this.ClientSize = new System.Drawing.Size(1136, 525);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.tlpGraficos);
             this.Controls.Add(this.grpResumen);
@@ -241,9 +317,15 @@ namespace ClienteHCS_2
             this.tlpResumen.PerformLayout();
             this.tlpGraficos.ResumeLayout(false);
             this.tlpGraficos.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartThroughputFail)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartThroughputOk)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartLatencia)).EndInit();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -263,5 +345,12 @@ namespace ClienteHCS_2
         private System.Windows.Forms.Label lblTituloThroughputOk;
         private System.Windows.Forms.Label lblResultados2;
         private System.Windows.Forms.Button btnExportar;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton tsbAbrirEnsayo;
+        private System.Windows.Forms.ToolStripButton tsbGuardarEnsayo;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripButton tsbInfo;
+        private System.Windows.Forms.ToolStripButton tsbMedidasRendimiento;
     }
 }

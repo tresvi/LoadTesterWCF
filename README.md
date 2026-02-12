@@ -182,7 +182,7 @@ Las métricas exportadas incluyen todos los valores mencionados anteriormente, p
 
 Agregar carga de ensayo
 hacer barra con comandos
-Implementar funcionalidad de comparacion. Como consideras que desde el punto de vista de experiencia de usuario se podria implementar una funcion de comparación de ensayos. Es decir, el usuario puede comparar el ensayo actual contra otro, y ver un gráfico
+Implementar funcionalidad de comparacion. Como consideras que desde el punto de vista de experiencia de usuario se podria implementar una funcion de comparación de ensayos. Es decir, el usuario puede comparar el ensayo actual contra otro (abierto actualmente mas otro cuyo json se elija), y ver un gráfico de radar con la comparacion entre ellos
 
 Ordenar en carpetas los formularios
 

@@ -1,21 +1,20 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using ClienteHCS_2.Helpers;
+using Newtonsoft.Json;
 
 namespace ClienteHCS_2
 {
-    /// <summary>
-    /// Ventana con configuración del ensayo, resultados y tres histogramas (latencias, throughput OK, throughput Fail).
-    /// Usa System.Windows.Forms.DataVisualization.Charting para los gráficos.
-    /// </summary>
+
     public partial class FrmDetallesEnsayo : Form
     {
-        private readonly LoadTestReport _report;
-        private readonly IList<LoadTestThreadItem> _items;
-        private readonly LoadTestDefinition _definition;
+        private LoadTestReport _report;
+        private IList<LoadTestThreadItem> _items;
+        private LoadTestDefinition _definition;
 
         public FrmDetallesEnsayo(
             LoadTestReport report,
@@ -33,6 +32,14 @@ namespace ClienteHCS_2
 
         private void CargarResumen()
         {
+            if (_definition == null)
+            {
+                lblConfig.Text = "Configuración no disponible";
+                lblResultados1.Text = "Sin datos";
+                lblResultados2.Text = "Sin datos";
+                return;
+            }
+
             lblConfig.Text = _definition.ToConfigString();
 
             if (_report == null) return;
@@ -54,29 +61,6 @@ namespace ClienteHCS_2
                 $"Consistencia rendimiento: {_report.ConsistenciaRendimiento:F4}";
         }
 
-        private void btnExportar_Click(object sender, EventArgs e)
-        {
-            using (var dlg = new SaveFileDialog())
-            {
-                dlg.Filter = "CSV (*.csv)|*.csv|JSON (*.json)|*.json";
-                dlg.DefaultExt = "csv";
-                dlg.FileName = $"PruebaCarga_{_report.Fecha:yyyyMMdd_HHmmss}";
-                if (dlg.ShowDialog() != DialogResult.OK) return;
-
-                try
-                {
-                    if (dlg.FileName.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
-                        LoadTestReportExporter.ExportarJson(_report, dlg.FileName);
-                    else
-                        LoadTestReportExporter.ExportarCsv(_report, dlg.FileName);
-                    MessageBox.Show("Resultados exportados correctamente.", "Exportar", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error al exportar: {ex.Message}", "Exportar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
 
         private void ConfigurarCharts()
         {
@@ -159,6 +143,131 @@ namespace ClienteHCS_2
                 string textoX = valorBucket.ToString(formatoX);
                 series.Points.AddXY(textoX, buckets[i]);
             }
+        }
+
+
+        private void tsbGuardarComo_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new SaveFileDialog())
+            {
+                dlg.Filter = "Ensayo de carga (*.ensayo.json)|*.ensayo.json|CSV (*.csv)|*.csv|JSON reporte (*.json)|*.json";
+                dlg.DefaultExt = "ensayo.json";
+                dlg.FileName = $"PruebaCarga_{_report.Fecha:yyyyMMdd_HHmmss}";
+                if (dlg.ShowDialog() != DialogResult.OK) return;
+
+                try
+                {
+                    if (dlg.FileName.EndsWith(".ensayo.json", StringComparison.OrdinalIgnoreCase))
+                    {
+                        GuardarEnsayoCompleto(dlg.FileName);
+                        MessageBox.Show("Ensayo guardado correctamente.", "Guardar ensayo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (dlg.FileName.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
+                    {
+                        LoadTestReportExporter.ExportarJson(_report, dlg.FileName);
+                        MessageBox.Show("Reporte exportado correctamente.", "Exportar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        LoadTestReportExporter.ExportarCsv(_report, dlg.FileName);
+                        MessageBox.Show("Reporte exportado correctamente.", "Exportar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al guardar/exportar: {ex.Message}", "Guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void tsbAbrirEnsayo_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new OpenFileDialog())
+            {
+                dlg.Filter = "Ensayo de carga (*.ensayo.json)|*.ensayo.json|JSON (*.json)|*.json";
+                dlg.CheckFileExists = true;
+                dlg.Multiselect = false;
+                if (dlg.ShowDialog() != DialogResult.OK) return;
+
+                try
+                {
+                    CargarEnsayoDesdeArchivo(dlg.FileName);
+                    MessageBox.Show("Ensayo cargado correctamente.", "Abrir ensayo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"No se pudo abrir el ensayo: {ex.Message}", "Abrir ensayo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void GuardarEnsayoCompleto(string path)
+        {
+            var ensayo = new EnsayoGuardado
+            {
+                Reporte = _report,
+                Hilos = _items?.ToList() ?? new List<LoadTestThreadItem>(),
+                Definicion = _definition
+            };
+
+            string json = JsonConvert.SerializeObject(ensayo, Formatting.Indented);
+            File.WriteAllText(path, json);
+        }
+
+        private void CargarEnsayoDesdeArchivo(string path)
+        {
+            string json = File.ReadAllText(path);
+
+            EnsayoGuardado ensayo = null;
+            try
+            {
+                ensayo = JsonConvert.DeserializeObject<EnsayoGuardado>(json);
+            }
+            catch
+            {
+                // Compatibilidad: JSON antiguo con solo LoadTestReport.
+            }
+
+            if (ensayo?.Reporte != null)
+            {
+                _report = ensayo.Reporte;
+                _items = ensayo.Hilos ?? new List<LoadTestThreadItem>();
+                _definition = ensayo.Definicion ?? CrearDefinicionDesdeReporte(_report);
+            }
+            else
+            {
+                // Compatibilidad con exportaciones previas del reporte.
+                var reporte = JsonConvert.DeserializeObject<LoadTestReport>(json);
+                if (reporte == null)
+                    throw new InvalidOperationException("El archivo no tiene un formato de ensayo válido.");
+
+                _report = reporte;
+                _items = new List<LoadTestThreadItem>();
+                _definition = CrearDefinicionDesdeReporte(reporte);
+            }
+
+            CargarResumen();
+            ConfigurarCharts();
+        }
+
+        private static LoadTestDefinition CrearDefinicionDesdeReporte(LoadTestReport reporte)
+        {
+            if (reporte == null) return new LoadTestDefinition();
+            return new LoadTestDefinition
+            {
+                Server = reporte.Servidor ?? "",
+                TxFile = reporte.TxFile ?? "",
+                NroHilos = reporte.TotalHilos,
+                PausaMs = reporte.PausaMs,
+                DuracionSeg = reporte.TiempoMs > 0 ? reporte.TiempoMs / 1000.0 : 0
+            };
+        }
+
+        private sealed class EnsayoGuardado
+        {
+            public LoadTestReport Reporte { get; set; }
+            public List<LoadTestThreadItem> Hilos { get; set; }
+            public LoadTestDefinition Definicion { get; set; }
         }
     }
 }
