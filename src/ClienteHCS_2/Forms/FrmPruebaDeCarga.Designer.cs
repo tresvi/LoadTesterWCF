@@ -29,7 +29,7 @@ namespace ClienteHCS_2
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tlpParams = new System.Windows.Forms.TableLayoutPanel();
             this.btnIniciar = new System.Windows.Forms.Button();
@@ -53,7 +53,6 @@ namespace ClienteHCS_2
             this.lblLatenciaResumen = new System.Windows.Forms.Label();
             this.lblSinRespuesta = new System.Windows.Forms.Label();
             this.tlpBottom = new System.Windows.Forms.TableLayoutPanel();
-            this.btnVerDetalles = new System.Windows.Forms.Button();
             this.lblMetricasNuevas = new System.Windows.Forms.Label();
             this.gbConectividad = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -62,6 +61,7 @@ namespace ClienteHCS_2
             this.lblCredenciales = new System.Windows.Forms.Label();
             this.lblTransaccion = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.btnVerDetalles = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.tlpParams.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudHilosParalelos)).BeginInit();
@@ -304,10 +304,10 @@ namespace ClienteHCS_2
             // 
             // colRowNum
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(245)))));
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(235)))));
-            this.colRowNum.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(245)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(235)))));
+            this.colRowNum.DefaultCellStyle = dataGridViewCellStyle2;
             this.colRowNum.DividerWidth = 3;
             this.colRowNum.Frozen = true;
             this.colRowNum.HeaderText = "#";
@@ -426,8 +426,8 @@ namespace ClienteHCS_2
             this.tlpBottom.Controls.Add(this.lblLatenciaResumen, 1, 2);
             this.tlpBottom.Controls.Add(this.lblTiempo, 1, 0);
             this.tlpBottom.Controls.Add(this.lblSinRespuesta, 1, 1);
-            this.tlpBottom.Controls.Add(this.btnVerDetalles, 4, 0);
             this.tlpBottom.Controls.Add(this.lblMetricasNuevas, 5, 2);
+            this.tlpBottom.Controls.Add(this.btnVerDetalles, 5, 0);
             this.tlpBottom.Location = new System.Drawing.Point(12, 551);
             this.tlpBottom.Margin = new System.Windows.Forms.Padding(0);
             this.tlpBottom.Name = "tlpBottom";
@@ -439,20 +439,6 @@ namespace ClienteHCS_2
             this.tlpBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlpBottom.Size = new System.Drawing.Size(1224, 80);
             this.tlpBottom.TabIndex = 21;
-            // 
-            // btnVerDetalles
-            // 
-            this.btnVerDetalles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnVerDetalles.Enabled = false;
-            this.btnVerDetalles.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnVerDetalles.Location = new System.Drawing.Point(873, 3);
-            this.btnVerDetalles.Name = "btnVerDetalles";
-            this.tlpBottom.SetRowSpan(this.btnVerDetalles, 2);
-            this.btnVerDetalles.Size = new System.Drawing.Size(128, 25);
-            this.btnVerDetalles.TabIndex = 21;
-            this.btnVerDetalles.Text = "Ver detalles...";
-            this.btnVerDetalles.UseVisualStyleBackColor = true;
-            this.btnVerDetalles.Click += new System.EventHandler(this.btnVerDetalles_Click);
             // 
             // lblMetricasNuevas
             // 
@@ -535,6 +521,25 @@ namespace ClienteHCS_2
             this.lblTransaccion.Size = new System.Drawing.Size(117, 18);
             this.lblTransaccion.TabIndex = 16;
             this.lblTransaccion.Text = "Transaccion: ---";
+            // 
+            // btnVerDetalles
+            // 
+            this.btnVerDetalles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnVerDetalles.AutoSize = true;
+            this.btnVerDetalles.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnVerDetalles.Enabled = false;
+            this.btnVerDetalles.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVerDetalles.Image = global::ClienteHCS_2.Properties.Resources.kpi_48x48;
+            this.btnVerDetalles.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnVerDetalles.Location = new System.Drawing.Point(1065, 3);
+            this.btnVerDetalles.Name = "btnVerDetalles";
+            this.tlpBottom.SetRowSpan(this.btnVerDetalles, 3);
+            this.btnVerDetalles.Size = new System.Drawing.Size(156, 54);
+            this.btnVerDetalles.TabIndex = 21;
+            this.btnVerDetalles.Text = "Ver detalles...";
+            this.btnVerDetalles.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnVerDetalles.UseVisualStyleBackColor = true;
+            this.btnVerDetalles.Click += new System.EventHandler(this.btnVerDetalles_Click);
             // 
             // FrmPruebaDeCarga
             // 

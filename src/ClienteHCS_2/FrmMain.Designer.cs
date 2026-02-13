@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace ClienteHCS_2
 {
@@ -43,36 +43,40 @@ namespace ClienteHCS_2
             this.txtNotas = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.tsbAbrirTrx = new System.Windows.Forms.ToolStripButton();
-            this.tsbGuardarTrx = new System.Windows.Forms.ToolStripButton();
-            this.tsbGuardarTrxComo = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsbLoadTest = new System.Windows.Forms.ToolStripButton();
-            this.tsbLoadTestMultiTrx = new System.Windows.Forms.ToolStripButton();
-            this.tsbContinutyTest = new System.Windows.Forms.ToolStripButton();
-            this.tsbMedidasRendimiento = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsbInfo = new System.Windows.Forms.ToolStripButton();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnCopiar = new System.Windows.Forms.Button();
             this.btnBorrar = new System.Windows.Forms.Button();
             this.lblResumenRespuesta = new System.Windows.Forms.Label();
             this.txtRespuesta = new System.Windows.Forms.TextBox();
-            this.pbLoadingGif = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.txtMensaje = new System.Windows.Forms.TextBox();
             this.btnEnviar = new System.Windows.Forms.Button();
             this.txtHCSServer = new System.Windows.Forms.TextBox();
             this.cbEsHexa = new System.Windows.Forms.CheckBox();
             this.txtTXFile = new System.Windows.Forms.TextBox();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.pbLoadingGif = new System.Windows.Forms.PictureBox();
+            this.tsbAbrirTrx = new System.Windows.Forms.ToolStripButton();
+            this.tsbGuardarTrx = new System.Windows.Forms.ToolStripButton();
+            this.tsbGuardarTrxComo = new System.Windows.Forms.ToolStripButton();
+            this.tsbLoadTest = new System.Windows.Forms.ToolStripButton();
+            this.tsbLoadTestMultiTrx = new System.Windows.Forms.ToolStripButton();
+            this.tsbContinutyTest = new System.Windows.Forms.ToolStripButton();
+            this.tsbCompararLoadTest = new System.Windows.Forms.ToolStripButton();
+            this.tsbInfo = new System.Windows.Forms.ToolStripButton();
+            this.tsbDetallesLoadTest = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.grpCredenciales.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLoadingGif)).BeginInit();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLoadingGif)).BeginInit();
             this.SuspendLayout();
             // 
             // grpCredenciales
@@ -191,7 +195,7 @@ namespace ClienteHCS_2
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label2.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(465, 17);
+            this.label2.Location = new System.Drawing.Point(631, 19);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(97, 18);
             this.label2.TabIndex = 30;
@@ -206,49 +210,23 @@ namespace ClienteHCS_2
             this.tsbGuardarTrx,
             this.tsbGuardarTrxComo,
             this.toolStripSeparator2,
+            this.toolStripLabel1,
             this.toolStripSeparator1,
             this.tsbLoadTest,
+            this.tsbDetallesLoadTest,
+            this.tsbCompararLoadTest,
+            this.toolStripSeparator4,
+            this.toolStripLabel2,
+            this.toolStripSeparator3,
             this.tsbLoadTestMultiTrx,
             this.tsbContinutyTest,
-            this.tsbMedidasRendimiento,
-            this.toolStripSeparator4,
-            this.toolStripSeparator3,
+            this.toolStripSeparator5,
             this.tsbInfo});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(997, 55);
             this.toolStrip1.TabIndex = 42;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // tsbAbrirTrx
-            // 
-            this.tsbAbrirTrx.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbAbrirTrx.Image = global::ClienteHCS_2.Properties.Resources.abrir_documento;
-            this.tsbAbrirTrx.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbAbrirTrx.Name = "tsbAbrirTrx";
-            this.tsbAbrirTrx.Size = new System.Drawing.Size(52, 52);
-            this.tsbAbrirTrx.Text = "Abrir Transaccion";
-            this.tsbAbrirTrx.Click += new System.EventHandler(this.tsbAbrirTrx_Click);
-            // 
-            // tsbGuardarTrx
-            // 
-            this.tsbGuardarTrx.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbGuardarTrx.Image = global::ClienteHCS_2.Properties.Resources.disco_flexible__1_;
-            this.tsbGuardarTrx.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbGuardarTrx.Name = "tsbGuardarTrx";
-            this.tsbGuardarTrx.Size = new System.Drawing.Size(52, 52);
-            this.tsbGuardarTrx.Text = "Guardar Transaccion";
-            this.tsbGuardarTrx.Click += new System.EventHandler(this.tsbGuardarTrx_Click);
-            // 
-            // tsbGuardarTrxComo
-            // 
-            this.tsbGuardarTrxComo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbGuardarTrxComo.Image = global::ClienteHCS_2.Properties.Resources.Save_as_80_icon_icons_com_57275;
-            this.tsbGuardarTrxComo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbGuardarTrxComo.Name = "tsbGuardarTrxComo";
-            this.tsbGuardarTrxComo.Size = new System.Drawing.Size(52, 52);
-            this.tsbGuardarTrxComo.Text = "Guardar Transaccion Como";
-            this.tsbGuardarTrxComo.Click += new System.EventHandler(this.tsbGuardarTrxComo_Click);
             // 
             // toolStripSeparator2
             // 
@@ -260,47 +238,6 @@ namespace ClienteHCS_2
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 55);
             // 
-            // tsbLoadTest
-            // 
-            this.tsbLoadTest.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbLoadTest.Image = global::ClienteHCS_2.Properties.Resources.escala_corporal;
-            this.tsbLoadTest.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbLoadTest.Name = "tsbLoadTest";
-            this.tsbLoadTest.Size = new System.Drawing.Size(52, 52);
-            this.tsbLoadTest.Text = "Load Test";
-            this.tsbLoadTest.Click += new System.EventHandler(this.tsbLoadTest_Click);
-            // 
-            // tsbLoadTestMultiTrx
-            // 
-            this.tsbLoadTestMultiTrx.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbLoadTestMultiTrx.Image = global::ClienteHCS_2.Properties.Resources.TestCargaMultiTrx;
-            this.tsbLoadTestMultiTrx.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbLoadTestMultiTrx.Name = "tsbLoadTestMultiTrx";
-            this.tsbLoadTestMultiTrx.Size = new System.Drawing.Size(52, 52);
-            this.tsbLoadTestMultiTrx.Text = "Load Test Multi transaccion";
-            this.tsbLoadTestMultiTrx.Click += new System.EventHandler(this.tsbLoadTestMultiTrx_Click);
-            // 
-            // tsbContinutyTest
-            // 
-            this.tsbContinutyTest.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbContinutyTest.Image = global::ClienteHCS_2.Properties.Resources.indicador;
-            this.tsbContinutyTest.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbContinutyTest.Name = "tsbContinutyTest";
-            this.tsbContinutyTest.Size = new System.Drawing.Size(52, 52);
-            this.tsbContinutyTest.Text = "Continuity test";
-            this.tsbContinutyTest.Click += new System.EventHandler(this.tsbContinutyTest_Click);
-            // 
-            // tsbMedidasRendimiento
-            // 
-            this.tsbMedidasRendimiento.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbMedidasRendimiento.Enabled = false;
-            this.tsbMedidasRendimiento.Image = global::ClienteHCS_2.Properties.Resources.evaluacion_comparativa;
-            this.tsbMedidasRendimiento.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbMedidasRendimiento.Name = "tsbMedidasRendimiento";
-            this.tsbMedidasRendimiento.Size = new System.Drawing.Size(52, 52);
-            this.tsbMedidasRendimiento.Text = "Medidas de Rendimiento";
-            this.tsbMedidasRendimiento.Click += new System.EventHandler(this.tsbMedidasRendimiento_Click);
-            // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
@@ -310,16 +247,6 @@ namespace ClienteHCS_2
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 55);
-            // 
-            // tsbInfo
-            // 
-            this.tsbInfo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbInfo.Image = global::ClienteHCS_2.Properties.Resources.information;
-            this.tsbInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbInfo.Name = "tsbInfo";
-            this.tsbInfo.Size = new System.Drawing.Size(52, 52);
-            this.tsbInfo.Text = "Info";
-            this.tsbInfo.Click += new System.EventHandler(this.tsbInfo_Click);
             // 
             // groupBox1
             // 
@@ -388,19 +315,6 @@ namespace ClienteHCS_2
             this.txtRespuesta.Size = new System.Drawing.Size(964, 236);
             this.txtRespuesta.TabIndex = 23;
             // 
-            // pbLoadingGif
-            // 
-            this.pbLoadingGif.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.pbLoadingGif.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbLoadingGif.Image = global::ClienteHCS_2.Properties.Resources.loading;
-            this.pbLoadingGif.Location = new System.Drawing.Point(405, 326);
-            this.pbLoadingGif.Name = "pbLoadingGif";
-            this.pbLoadingGif.Size = new System.Drawing.Size(226, 189);
-            this.pbLoadingGif.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pbLoadingGif.TabIndex = 47;
-            this.pbLoadingGif.TabStop = false;
-            this.pbLoadingGif.Visible = false;
-            // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -445,9 +359,9 @@ namespace ClienteHCS_2
             this.txtHCSServer.BackColor = System.Drawing.SystemColors.Info;
             this.txtHCSServer.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ClienteHCS_2.Properties.Settings.Default, "HCSServer", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.txtHCSServer.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtHCSServer.Location = new System.Drawing.Point(595, 12);
+            this.txtHCSServer.Location = new System.Drawing.Point(751, 12);
             this.txtHCSServer.Name = "txtHCSServer";
-            this.txtHCSServer.Size = new System.Drawing.Size(256, 25);
+            this.txtHCSServer.Size = new System.Drawing.Size(224, 25);
             this.txtHCSServer.TabIndex = 31;
             this.txtHCSServer.Text = global::ClienteHCS_2.Properties.Settings.Default.HCSServer;
             // 
@@ -473,6 +387,126 @@ namespace ClienteHCS_2
             this.txtTXFile.Size = new System.Drawing.Size(135, 25);
             this.txtTXFile.TabIndex = 7;
             this.txtTXFile.Text = global::ClienteHCS_2.Properties.Settings.Default.TXFile;
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(16, 52);
+            this.toolStripLabel1.Text = "   ";
+            // 
+            // pbLoadingGif
+            // 
+            this.pbLoadingGif.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pbLoadingGif.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbLoadingGif.Image = global::ClienteHCS_2.Properties.Resources.loading;
+            this.pbLoadingGif.Location = new System.Drawing.Point(405, 326);
+            this.pbLoadingGif.Name = "pbLoadingGif";
+            this.pbLoadingGif.Size = new System.Drawing.Size(226, 189);
+            this.pbLoadingGif.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pbLoadingGif.TabIndex = 47;
+            this.pbLoadingGif.TabStop = false;
+            this.pbLoadingGif.Visible = false;
+            // 
+            // tsbAbrirTrx
+            // 
+            this.tsbAbrirTrx.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbAbrirTrx.Image = global::ClienteHCS_2.Properties.Resources.abrir_documento;
+            this.tsbAbrirTrx.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbAbrirTrx.Name = "tsbAbrirTrx";
+            this.tsbAbrirTrx.Size = new System.Drawing.Size(52, 52);
+            this.tsbAbrirTrx.Text = "Abrir Transaccion";
+            this.tsbAbrirTrx.Click += new System.EventHandler(this.tsbAbrirTrx_Click);
+            // 
+            // tsbGuardarTrx
+            // 
+            this.tsbGuardarTrx.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbGuardarTrx.Image = global::ClienteHCS_2.Properties.Resources.disco_flexible__1_;
+            this.tsbGuardarTrx.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbGuardarTrx.Name = "tsbGuardarTrx";
+            this.tsbGuardarTrx.Size = new System.Drawing.Size(52, 52);
+            this.tsbGuardarTrx.Text = "Guardar Transaccion";
+            this.tsbGuardarTrx.Click += new System.EventHandler(this.tsbGuardarTrx_Click);
+            // 
+            // tsbGuardarTrxComo
+            // 
+            this.tsbGuardarTrxComo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbGuardarTrxComo.Image = global::ClienteHCS_2.Properties.Resources.Save_as_80_icon_icons_com_57275;
+            this.tsbGuardarTrxComo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbGuardarTrxComo.Name = "tsbGuardarTrxComo";
+            this.tsbGuardarTrxComo.Size = new System.Drawing.Size(52, 52);
+            this.tsbGuardarTrxComo.Text = "Guardar Transaccion Como";
+            this.tsbGuardarTrxComo.Click += new System.EventHandler(this.tsbGuardarTrxComo_Click);
+            // 
+            // tsbLoadTest
+            // 
+            this.tsbLoadTest.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbLoadTest.Image = global::ClienteHCS_2.Properties.Resources.escala_corporal;
+            this.tsbLoadTest.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbLoadTest.Name = "tsbLoadTest";
+            this.tsbLoadTest.Size = new System.Drawing.Size(52, 52);
+            this.tsbLoadTest.Text = "Load Test";
+            this.tsbLoadTest.Click += new System.EventHandler(this.tsbLoadTest_Click);
+            // 
+            // tsbLoadTestMultiTrx
+            // 
+            this.tsbLoadTestMultiTrx.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbLoadTestMultiTrx.Image = global::ClienteHCS_2.Properties.Resources.TestCargaMultiTrx;
+            this.tsbLoadTestMultiTrx.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbLoadTestMultiTrx.Name = "tsbLoadTestMultiTrx";
+            this.tsbLoadTestMultiTrx.Size = new System.Drawing.Size(52, 52);
+            this.tsbLoadTestMultiTrx.Text = "Load Test Multi transaccion";
+            this.tsbLoadTestMultiTrx.Click += new System.EventHandler(this.tsbLoadTestMultiTrx_Click);
+            // 
+            // tsbContinutyTest
+            // 
+            this.tsbContinutyTest.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbContinutyTest.Image = global::ClienteHCS_2.Properties.Resources.indicador;
+            this.tsbContinutyTest.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbContinutyTest.Name = "tsbContinutyTest";
+            this.tsbContinutyTest.Size = new System.Drawing.Size(52, 52);
+            this.tsbContinutyTest.Text = "Continuity test";
+            this.tsbContinutyTest.Click += new System.EventHandler(this.tsbContinutyTest_Click);
+            // 
+            // tsbCompararLoadTest
+            // 
+            this.tsbCompararLoadTest.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbCompararLoadTest.Image = global::ClienteHCS_2.Properties.Resources.evaluacion_comparativa;
+            this.tsbCompararLoadTest.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbCompararLoadTest.Name = "tsbCompararLoadTest";
+            this.tsbCompararLoadTest.Size = new System.Drawing.Size(52, 52);
+            this.tsbCompararLoadTest.Text = "Compara Ensayos de Carga";
+            this.tsbCompararLoadTest.Click += new System.EventHandler(this.tsbMedidasRendimiento_Click);
+            // 
+            // tsbInfo
+            // 
+            this.tsbInfo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbInfo.Image = global::ClienteHCS_2.Properties.Resources.information;
+            this.tsbInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbInfo.Name = "tsbInfo";
+            this.tsbInfo.Size = new System.Drawing.Size(52, 52);
+            this.tsbInfo.Text = "Info";
+            this.tsbInfo.Click += new System.EventHandler(this.tsbInfo_Click);
+            // 
+            // tsbDetallesLoadTest
+            // 
+            this.tsbDetallesLoadTest.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbDetallesLoadTest.Image = global::ClienteHCS_2.Properties.Resources.kpi;
+            this.tsbDetallesLoadTest.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbDetallesLoadTest.Name = "tsbDetallesLoadTest";
+            this.tsbDetallesLoadTest.Size = new System.Drawing.Size(52, 52);
+            this.tsbDetallesLoadTest.Text = "Detalles de ensayos de carga";
+            this.tsbDetallesLoadTest.Click += new System.EventHandler(this.tsbDetallesLoadTest_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 55);
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(16, 52);
+            this.toolStripLabel2.Text = "   ";
             // 
             // FrmMain
             // 
@@ -501,9 +535,9 @@ namespace ClienteHCS_2
             this.toolStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLoadingGif)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLoadingGif)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -529,7 +563,7 @@ namespace ClienteHCS_2
         private System.Windows.Forms.ToolStripButton tsbGuardarTrxComo;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton tsbLoadTest;
-        private System.Windows.Forms.ToolStripButton tsbMedidasRendimiento;
+        private System.Windows.Forms.ToolStripButton tsbCompararLoadTest;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.CheckBox cbEsHexa;
         private System.Windows.Forms.ToolStripButton tsbContinutyTest;
@@ -546,6 +580,10 @@ namespace ClienteHCS_2
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.PictureBox pbLoadingGif;
         private System.Windows.Forms.Button btnCopiar;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripButton tsbDetallesLoadTest;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     }
 }
 

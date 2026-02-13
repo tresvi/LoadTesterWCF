@@ -16,6 +16,15 @@ namespace ClienteHCS_2
         private IList<LoadTestThreadItem> _items;
         private LoadTestDefinition _definition;
 
+        /// <summary>Constructor sin parámetros para abrir la ventana vacía (ej. desde FrmMain). Luego se puede cargar un ensayo con Abrir.</summary>
+        public FrmDetallesEnsayo()
+            : this(
+                new LoadTestReport { Fecha = DateTime.Now },
+                new List<LoadTestThreadItem>(),
+                new LoadTestDefinition())
+        {
+        }
+
         public FrmDetallesEnsayo(
             LoadTestReport report,
             IList<LoadTestThreadItem> items,

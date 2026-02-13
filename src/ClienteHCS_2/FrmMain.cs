@@ -1,4 +1,4 @@
-﻿using ClienteHCS_2.Forms;
+using ClienteHCS_2.Forms;
 using ClienteHCS_2.Properties;
 using System;
 using System.Collections.Generic;
@@ -258,6 +258,14 @@ namespace ClienteHCS_2
 
         private void tsbMedidasRendimiento_Click(object sender, EventArgs e)
         {
+        }
+
+        private void tsbDetallesLoadTest_Click(object sender, EventArgs e)
+        {
+            using (var frm = new FrmDetallesEnsayo())
+            {
+                frm.ShowDialog(this);
+            }
         }
 
 

@@ -17,7 +17,6 @@ namespace ClienteHCS_2
 
         private void InitializeComponent()
         {
-            this.btnExportar = new System.Windows.Forms.Button();
             this.grpResumen = new System.Windows.Forms.GroupBox();
             this.tlpResumen = new System.Windows.Forms.TableLayoutPanel();
             this.lblResultados2 = new System.Windows.Forms.Label();
@@ -47,17 +46,6 @@ namespace ClienteHCS_2
             ((System.ComponentModel.ISupportInitialize)(this.chartLatencia)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // btnExportar
-            // 
-            this.btnExportar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExportar.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.btnExportar.Location = new System.Drawing.Point(750, 496);
-            this.btnExportar.Name = "btnExportar";
-            this.btnExportar.Size = new System.Drawing.Size(199, 28);
-            this.btnExportar.TabIndex = 3;
-            this.btnExportar.Text = "Exportar resultados...";
-            this.btnExportar.UseVisualStyleBackColor = true;
             // 
             // grpResumen
             // 
@@ -307,7 +295,6 @@ namespace ClienteHCS_2
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.tlpGraficos);
             this.Controls.Add(this.grpResumen);
-            this.Controls.Add(this.btnExportar);
             this.MinimumSize = new System.Drawing.Size(598, 394);
             this.Name = "FrmDetallesEnsayo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -344,7 +331,6 @@ namespace ClienteHCS_2
         private Chart chartLatencia;
         private System.Windows.Forms.Label lblTituloThroughputOk;
         private System.Windows.Forms.Label lblResultados2;
-        private System.Windows.Forms.Button btnExportar;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton tsbAbrirEnsayo;
         private System.Windows.Forms.ToolStripButton tsbGuardarEnsayo;
