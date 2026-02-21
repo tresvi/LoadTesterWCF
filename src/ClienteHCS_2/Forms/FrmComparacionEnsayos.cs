@@ -7,7 +7,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ClienteHCS_2
 {
-    public class FrmComparacionEnsayos : Form
+    public partial class FrmComparacionEnsayos : Form
     {
         private readonly LoadTestReport _actual;
         private readonly LoadTestDefinition _defActual;
@@ -16,23 +16,18 @@ namespace ClienteHCS_2
         private readonly string _nombreActual;
         private readonly string _nombreComparado;
 
-        private Label lblTitulo;
-        private Label lblAdvertencias;
-        private Chart chartRadar;
-        private DataGridView dgvMetricas;
-
         public FrmComparacionEnsayos(
             LoadTestReport actual,
-            LoadTestDefinition defActual,
+            LoadTestDefinition definitionActual,
             LoadTestReport comparado,
-            LoadTestDefinition defComparado,
+            LoadTestDefinition definitionComparado,
             string nombreActual,
             string nombreComparado)
         {
             _actual = actual ?? throw new ArgumentNullException(nameof(actual));
-            _defActual = defActual ?? new LoadTestDefinition();
+            _defActual = definitionActual ?? new LoadTestDefinition();
             _comparado = comparado ?? throw new ArgumentNullException(nameof(comparado));
-            _defComparado = defComparado ?? new LoadTestDefinition();
+            _defComparado = definitionComparado ?? new LoadTestDefinition();
             _nombreActual = string.IsNullOrWhiteSpace(nombreActual) ? "Ensayo actual" : nombreActual;
             _nombreComparado = string.IsNullOrWhiteSpace(nombreComparado) ? "Ensayo comparado" : nombreComparado;
 
@@ -40,95 +35,12 @@ namespace ClienteHCS_2
             CargarComparacion();
         }
 
-        private void InitializeComponent()
-        {
-            Text = "Comparación de ensayos";
-            StartPosition = FormStartPosition.CenterParent;
-            MinimumSize = new Size(860, 580);
-            Size = new Size(1040, 700);
-
-            var root = new TableLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                ColumnCount = 1,
-                RowCount = 3,
-                Padding = new Padding(10)
-            };
-            root.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            root.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            root.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
-            Controls.Add(root);
-
-            lblTitulo = new Label
-            {
-                AutoSize = true,
-                Dock = DockStyle.Fill,
-                Font = new Font("Segoe UI", 10f, FontStyle.Bold),
-                Padding = new Padding(0, 0, 0, 6)
-            };
-            root.Controls.Add(lblTitulo, 0, 0);
-
-            lblAdvertencias = new Label
-            {
-                AutoSize = true,
-                Dock = DockStyle.Fill,
-                Font = new Font("Segoe UI", 9f),
-                Padding = new Padding(0, 0, 0, 8)
-            };
-            root.Controls.Add(lblAdvertencias, 0, 1);
-
-            var content = new SplitContainer
-            {
-                Dock = DockStyle.Fill,
-                Orientation = Orientation.Horizontal,
-                SplitterDistance = 340
-            };
-            root.Controls.Add(content, 0, 2);
-
-            chartRadar = new Chart { Dock = DockStyle.Fill, BackColor = Color.White };
-            chartRadar.ChartAreas.Add(new ChartArea("Radar"));
-            var area = chartRadar.ChartAreas[0];
-            area.BackColor = Color.White;
-            area.AxisX.MajorGrid.LineColor = Color.Gainsboro;
-            area.AxisY.MajorGrid.LineColor = Color.Gainsboro;
-            area.AxisY.Minimum = 0;
-            area.AxisY.Maximum = 100;
-            area.AxisY.Interval = 20;
-            area.AxisY.Title = "Score normalizado (0-100)";
-            area.AxisX.Interval = 1;
-            chartRadar.Legends.Add(new Legend("Legend"));
-            content.Panel1.Controls.Add(chartRadar);
-
-            dgvMetricas = new DataGridView
-            {
-                Dock = DockStyle.Fill,
-                ReadOnly = true,
-                AllowUserToAddRows = false,
-                AllowUserToDeleteRows = false,
-                AllowUserToResizeRows = false,
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                MultiSelect = false,
-                RowHeadersVisible = false,
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-            };
-            dgvMetricas.Columns.Add("Metrica", "Métrica");
-            dgvMetricas.Columns.Add("Actual", _nombreActual);
-            dgvMetricas.Columns.Add("Comparado", _nombreComparado);
-            dgvMetricas.Columns.Add("Delta", "Delta");
-            dgvMetricas.Columns.Add("Lectura", "Lectura");
-            content.Panel2.Controls.Add(dgvMetricas);
-        }
-
         private void CargarComparacion()
         {
-            lblTitulo.Text = string.Format(
-                CultureInfo.InvariantCulture,
-                "{0} vs {1}",
-                _nombreActual,
-                _nombreComparado);
+            lblTitulo.Text = string.Format(CultureInfo.InvariantCulture,"{0} vs {1}", _nombreActual,_nombreComparado);
 
             bool hayAdvertenciaFuerte;
-            var advertencias = GenerarAdvertencias(out hayAdvertenciaFuerte);
+            string advertencias = GenerarAdvertencias(out hayAdvertenciaFuerte);
             if (string.IsNullOrEmpty(advertencias))
             {
                 lblAdvertencias.Text = "Comparación homogénea: configuración equivalente en hilos, pausa, conexión única y duración.";
@@ -139,6 +51,9 @@ namespace ClienteHCS_2
                 lblAdvertencias.Text = advertencias;
                 lblAdvertencias.ForeColor = hayAdvertenciaFuerte ? Color.DarkRed : Color.DarkOrange;
             }
+
+            dgvMetricas.Columns["colActual"].HeaderText = _nombreActual;
+            dgvMetricas.Columns["colComparado"].HeaderText = _nombreComparado;
 
             var metricas = new[]
             {
@@ -172,7 +87,7 @@ namespace ClienteHCS_2
             chartRadar.Series.Add(serieComparado);
 
             dgvMetricas.Rows.Clear();
-            foreach (var metrica in metricas)
+            foreach (Metrica metrica in metricas)
             {
                 double scoreActual;
                 double scoreComparado;
