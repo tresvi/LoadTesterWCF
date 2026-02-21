@@ -41,42 +41,49 @@ namespace ClienteHCS_2
             this.optInteractivo = new System.Windows.Forms.RadioButton();
             this.labelTxFile = new System.Windows.Forms.Label();
             this.txtNotas = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsbAbrirTrx = new System.Windows.Forms.ToolStripButton();
             this.tsbGuardarTrx = new System.Windows.Forms.ToolStripButton();
             this.tsbGuardarTrxComo = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbLoadTest = new System.Windows.Forms.ToolStripButton();
-            this.tsbLoadTestMultiTrx = new System.Windows.Forms.ToolStripButton();
-            this.tsbContinutyTest = new System.Windows.Forms.ToolStripButton();
+            this.tsbDetallesLoadTest = new System.Windows.Forms.ToolStripButton();
             this.tsbMedidasRendimiento = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbLoadTestMultiTrx = new System.Windows.Forms.ToolStripButton();
+            this.tsbContinutyTest = new System.Windows.Forms.ToolStripButton();
             this.tsbInfo = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
+            this.tslServer = new System.Windows.Forms.ToolStripLabel();
+            this.tstHCSServer = new System.Windows.Forms.ToolStripTextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnCopiar = new System.Windows.Forms.Button();
             this.btnBorrar = new System.Windows.Forms.Button();
             this.lblResumenRespuesta = new System.Windows.Forms.Label();
             this.txtRespuesta = new System.Windows.Forms.TextBox();
-            this.pbLoadingGif = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.txtMensaje = new System.Windows.Forms.TextBox();
             this.btnEnviar = new System.Windows.Forms.Button();
-            this.txtHCSServer = new System.Windows.Forms.TextBox();
             this.cbEsHexa = new System.Windows.Forms.CheckBox();
             this.txtTXFile = new System.Windows.Forms.TextBox();
+            this.pbLoadingGif = new System.Windows.Forms.PictureBox();
             this.grpCredenciales.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLoadingGif)).BeginInit();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLoadingGif)).BeginInit();
             this.SuspendLayout();
             // 
             // grpCredenciales
             // 
+            this.grpCredenciales.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpCredenciales.Controls.Add(this.txtPassword);
             this.grpCredenciales.Controls.Add(this.lblContrasenia);
             this.grpCredenciales.Controls.Add(this.txtUsuario);
@@ -84,9 +91,11 @@ namespace ClienteHCS_2
             this.grpCredenciales.Controls.Add(this.optOtrasCredenciales);
             this.grpCredenciales.Controls.Add(this.optInteractivo);
             this.grpCredenciales.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpCredenciales.Location = new System.Drawing.Point(9, 60);
+            this.grpCredenciales.Location = new System.Drawing.Point(14, 88);
+            this.grpCredenciales.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpCredenciales.Name = "grpCredenciales";
-            this.grpCredenciales.Size = new System.Drawing.Size(976, 62);
+            this.grpCredenciales.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpCredenciales.Size = new System.Drawing.Size(1322, 95);
             this.grpCredenciales.TabIndex = 4;
             this.grpCredenciales.TabStop = false;
             this.grpCredenciales.Text = "Credenciales";
@@ -95,10 +104,11 @@ namespace ClienteHCS_2
             // 
             this.txtPassword.Enabled = false;
             this.txtPassword.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPassword.Location = new System.Drawing.Point(854, 25);
+            this.txtPassword.Location = new System.Drawing.Point(919, 37);
+            this.txtPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(112, 25);
+            this.txtPassword.Size = new System.Drawing.Size(166, 33);
             this.txtPassword.TabIndex = 5;
             // 
             // lblContrasenia
@@ -106,9 +116,10 @@ namespace ClienteHCS_2
             this.lblContrasenia.AutoSize = true;
             this.lblContrasenia.Enabled = false;
             this.lblContrasenia.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblContrasenia.Location = new System.Drawing.Point(805, 29);
+            this.lblContrasenia.Location = new System.Drawing.Point(842, 42);
+            this.lblContrasenia.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblContrasenia.Name = "lblContrasenia";
-            this.lblContrasenia.Size = new System.Drawing.Size(46, 18);
+            this.lblContrasenia.Size = new System.Drawing.Size(73, 27);
             this.lblContrasenia.TabIndex = 5;
             this.lblContrasenia.Text = "&Pass:";
             // 
@@ -117,9 +128,10 @@ namespace ClienteHCS_2
             this.txtUsuario.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ClienteHCS_2.Properties.Settings.Default, "Usuario", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.txtUsuario.Enabled = false;
             this.txtUsuario.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUsuario.Location = new System.Drawing.Point(673, 25);
+            this.txtUsuario.Location = new System.Drawing.Point(632, 37);
+            this.txtUsuario.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(113, 25);
+            this.txtUsuario.Size = new System.Drawing.Size(168, 33);
             this.txtUsuario.TabIndex = 4;
             this.txtUsuario.Text = global::ClienteHCS_2.Properties.Settings.Default.Usuario;
             // 
@@ -128,9 +140,10 @@ namespace ClienteHCS_2
             this.lblUsuario.AutoSize = true;
             this.lblUsuario.Enabled = false;
             this.lblUsuario.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsuario.Location = new System.Drawing.Point(622, 29);
+            this.lblUsuario.Location = new System.Drawing.Point(553, 42);
+            this.lblUsuario.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(46, 18);
+            this.lblUsuario.Size = new System.Drawing.Size(71, 27);
             this.lblUsuario.TabIndex = 3;
             this.lblUsuario.Text = "&User:";
             // 
@@ -138,11 +151,12 @@ namespace ClienteHCS_2
             // 
             this.optOtrasCredenciales.AutoSize = true;
             this.optOtrasCredenciales.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.optOtrasCredenciales.Location = new System.Drawing.Point(440, 27);
+            this.optOtrasCredenciales.Location = new System.Drawing.Point(439, 40);
+            this.optOtrasCredenciales.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.optOtrasCredenciales.Name = "optOtrasCredenciales";
-            this.optOtrasCredenciales.Size = new System.Drawing.Size(163, 22);
+            this.optOtrasCredenciales.Size = new System.Drawing.Size(86, 31);
             this.optOtrasCredenciales.TabIndex = 2;
-            this.optOtrasCredenciales.Text = "Otras Credenciales";
+            this.optOtrasCredenciales.Text = "Otro";
             this.optOtrasCredenciales.UseVisualStyleBackColor = true;
             this.optOtrasCredenciales.CheckedChanged += new System.EventHandler(this.optOtrasCredenciales_CheckedChanged);
             // 
@@ -151,21 +165,23 @@ namespace ClienteHCS_2
             this.optInteractivo.AutoSize = true;
             this.optInteractivo.Checked = true;
             this.optInteractivo.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.optInteractivo.Location = new System.Drawing.Point(8, 27);
+            this.optInteractivo.Location = new System.Drawing.Point(12, 40);
+            this.optInteractivo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.optInteractivo.Name = "optInteractivo";
-            this.optInteractivo.Size = new System.Drawing.Size(393, 22);
+            this.optInteractivo.Size = new System.Drawing.Size(323, 31);
             this.optInteractivo.TabIndex = 1;
             this.optInteractivo.TabStop = true;
-            this.optInteractivo.Text = "Interactivo (Credenciales del usuario %username%)";
+            this.optInteractivo.Text = "Interactivo (%username%)";
             this.optInteractivo.UseVisualStyleBackColor = true;
             // 
             // labelTxFile
             // 
             this.labelTxFile.AutoSize = true;
             this.labelTxFile.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTxFile.Location = new System.Drawing.Point(18, 135);
+            this.labelTxFile.Location = new System.Drawing.Point(27, 212);
+            this.labelTxFile.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelTxFile.Name = "labelTxFile";
-            this.labelTxFile.Size = new System.Drawing.Size(223, 18);
+            this.labelTxFile.Size = new System.Drawing.Size(354, 27);
             this.labelTxFile.TabIndex = 26;
             this.labelTxFile.Text = "Archivo TxFile (sin extensión):";
             // 
@@ -177,25 +193,15 @@ namespace ClienteHCS_2
             this.txtNotas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNotas.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNotas.ForeColor = System.Drawing.Color.DarkGreen;
-            this.txtNotas.Location = new System.Drawing.Point(9, 603);
+            this.txtNotas.Location = new System.Drawing.Point(14, 752);
+            this.txtNotas.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtNotas.Multiline = true;
             this.txtNotas.Name = "txtNotas";
             this.txtNotas.ReadOnly = true;
             this.txtNotas.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtNotas.Size = new System.Drawing.Size(976, 60);
+            this.txtNotas.Size = new System.Drawing.Size(1316, 91);
             this.txtNotas.TabIndex = 27;
             this.txtNotas.Text = resources.GetString("txtNotas.Text");
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.label2.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(465, 17);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(97, 18);
-            this.label2.TabIndex = 30;
-            this.label2.Text = "Server HCS:";
             // 
             // toolStrip1
             // 
@@ -206,17 +212,25 @@ namespace ClienteHCS_2
             this.tsbGuardarTrx,
             this.tsbGuardarTrxComo,
             this.toolStripSeparator2,
+            this.toolStripLabel1,
             this.toolStripSeparator1,
             this.tsbLoadTest,
-            this.tsbLoadTestMultiTrx,
-            this.tsbContinutyTest,
+            this.tsbDetallesLoadTest,
             this.tsbMedidasRendimiento,
             this.toolStripSeparator4,
+            this.toolStripLabel2,
             this.toolStripSeparator3,
-            this.tsbInfo});
+            this.tsbLoadTestMultiTrx,
+            this.tsbContinutyTest,
+            this.tsbInfo,
+            this.toolStripSeparator5,
+            this.toolStripLabel3,
+            this.tslServer,
+            this.tstHCSServer});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(997, 55);
+            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
+            this.toolStrip1.Size = new System.Drawing.Size(1349, 57);
             this.toolStrip1.TabIndex = 42;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -253,12 +267,18 @@ namespace ClienteHCS_2
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 55);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 57);
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(27, 52);
+            this.toolStripLabel1.Text = "   ";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 55);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 57);
             // 
             // tsbLoadTest
             // 
@@ -269,6 +289,41 @@ namespace ClienteHCS_2
             this.tsbLoadTest.Size = new System.Drawing.Size(52, 52);
             this.tsbLoadTest.Text = "Load Test";
             this.tsbLoadTest.Click += new System.EventHandler(this.tsbLoadTest_Click);
+            // 
+            // tsbDetallesLoadTest
+            // 
+            this.tsbDetallesLoadTest.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbDetallesLoadTest.Image = global::ClienteHCS_2.Properties.Resources.kpi_48x48;
+            this.tsbDetallesLoadTest.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbDetallesLoadTest.Name = "tsbDetallesLoadTest";
+            this.tsbDetallesLoadTest.Size = new System.Drawing.Size(52, 52);
+            this.tsbDetallesLoadTest.Text = "Ver detalles de ensayos de carga";
+            this.tsbDetallesLoadTest.Click += new System.EventHandler(this.tsbDetallesLoadTest_Click);
+            // 
+            // tsbMedidasRendimiento
+            // 
+            this.tsbMedidasRendimiento.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbMedidasRendimiento.Image = global::ClienteHCS_2.Properties.Resources.evaluacion_comparativa;
+            this.tsbMedidasRendimiento.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbMedidasRendimiento.Name = "tsbMedidasRendimiento";
+            this.tsbMedidasRendimiento.Size = new System.Drawing.Size(52, 52);
+            this.tsbMedidasRendimiento.Text = "Medidas de Rendimiento";
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 57);
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(27, 52);
+            this.toolStripLabel2.Text = "   ";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 57);
             // 
             // tsbLoadTestMultiTrx
             // 
@@ -290,27 +345,6 @@ namespace ClienteHCS_2
             this.tsbContinutyTest.Text = "Continuity test";
             this.tsbContinutyTest.Click += new System.EventHandler(this.tsbContinutyTest_Click);
             // 
-            // tsbMedidasRendimiento
-            // 
-            this.tsbMedidasRendimiento.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbMedidasRendimiento.Enabled = false;
-            this.tsbMedidasRendimiento.Image = global::ClienteHCS_2.Properties.Resources.evaluacion_comparativa;
-            this.tsbMedidasRendimiento.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbMedidasRendimiento.Name = "tsbMedidasRendimiento";
-            this.tsbMedidasRendimiento.Size = new System.Drawing.Size(52, 52);
-            this.tsbMedidasRendimiento.Text = "Medidas de Rendimiento";
-            this.tsbMedidasRendimiento.Click += new System.EventHandler(this.tsbMedidasRendimiento_Click);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 55);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 55);
-            // 
             // tsbInfo
             // 
             this.tsbInfo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -320,6 +354,33 @@ namespace ClienteHCS_2
             this.tsbInfo.Size = new System.Drawing.Size(52, 52);
             this.tsbInfo.Text = "Info";
             this.tsbInfo.Click += new System.EventHandler(this.tsbInfo_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 57);
+            // 
+            // toolStripLabel3
+            // 
+            this.toolStripLabel3.Name = "toolStripLabel3";
+            this.toolStripLabel3.Size = new System.Drawing.Size(22, 52);
+            this.toolStripLabel3.Text = "  ";
+            // 
+            // tslServer
+            // 
+            this.tslServer.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tslServer.Name = "tslServer";
+            this.tslServer.Size = new System.Drawing.Size(135, 52);
+            this.tslServer.Text = "Server HCS:";
+            // 
+            // tstHCSServer
+            // 
+            this.tstHCSServer.AutoSize = false;
+            this.tstHCSServer.BackColor = System.Drawing.SystemColors.Info;
+            this.tstHCSServer.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold);
+            this.tstHCSServer.Name = "tstHCSServer";
+            this.tstHCSServer.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
+            this.tstHCSServer.Size = new System.Drawing.Size(300, 57);
             // 
             // groupBox1
             // 
@@ -331,9 +392,11 @@ namespace ClienteHCS_2
             this.groupBox1.Controls.Add(this.lblResumenRespuesta);
             this.groupBox1.Controls.Add(this.txtRespuesta);
             this.groupBox1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
-            this.groupBox1.Location = new System.Drawing.Point(9, 287);
+            this.groupBox1.Location = new System.Drawing.Point(14, 445);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(976, 310);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox1.Size = new System.Drawing.Size(1317, 298);
             this.groupBox1.TabIndex = 45;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Respuesta desde HCS:";
@@ -342,9 +405,10 @@ namespace ClienteHCS_2
             // 
             this.btnCopiar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCopiar.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCopiar.Location = new System.Drawing.Point(803, 267);
+            this.btnCopiar.Location = new System.Drawing.Point(1057, 232);
+            this.btnCopiar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnCopiar.Name = "btnCopiar";
-            this.btnCopiar.Size = new System.Drawing.Size(81, 37);
+            this.btnCopiar.Size = new System.Drawing.Size(122, 57);
             this.btnCopiar.TabIndex = 48;
             this.btnCopiar.Text = "&Copiar";
             this.btnCopiar.UseVisualStyleBackColor = true;
@@ -354,9 +418,10 @@ namespace ClienteHCS_2
             // 
             this.btnBorrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBorrar.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBorrar.Location = new System.Drawing.Point(890, 267);
+            this.btnBorrar.Location = new System.Drawing.Point(1188, 232);
+            this.btnBorrar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnBorrar.Name = "btnBorrar";
-            this.btnBorrar.Size = new System.Drawing.Size(81, 37);
+            this.btnBorrar.Size = new System.Drawing.Size(122, 57);
             this.btnBorrar.TabIndex = 45;
             this.btnBorrar.Text = "&Borrar";
             this.btnBorrar.UseVisualStyleBackColor = true;
@@ -367,9 +432,10 @@ namespace ClienteHCS_2
             this.lblResumenRespuesta.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblResumenRespuesta.AutoSize = true;
             this.lblResumenRespuesta.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResumenRespuesta.Location = new System.Drawing.Point(8, 267);
+            this.lblResumenRespuesta.Location = new System.Drawing.Point(12, 232);
+            this.lblResumenRespuesta.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblResumenRespuesta.Name = "lblResumenRespuesta";
-            this.lblResumenRespuesta.Size = new System.Drawing.Size(24, 19);
+            this.lblResumenRespuesta.Size = new System.Drawing.Size(37, 29);
             this.lblResumenRespuesta.TabIndex = 27;
             this.lblResumenRespuesta.Text = "---";
             this.lblResumenRespuesta.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -380,26 +446,14 @@ namespace ClienteHCS_2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtRespuesta.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRespuesta.Location = new System.Drawing.Point(6, 25);
+            this.txtRespuesta.Location = new System.Drawing.Point(9, 38);
+            this.txtRespuesta.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtRespuesta.Multiline = true;
             this.txtRespuesta.Name = "txtRespuesta";
             this.txtRespuesta.ReadOnly = true;
             this.txtRespuesta.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtRespuesta.Size = new System.Drawing.Size(964, 236);
+            this.txtRespuesta.Size = new System.Drawing.Size(1297, 182);
             this.txtRespuesta.TabIndex = 23;
-            // 
-            // pbLoadingGif
-            // 
-            this.pbLoadingGif.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.pbLoadingGif.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbLoadingGif.Image = global::ClienteHCS_2.Properties.Resources.loading;
-            this.pbLoadingGif.Location = new System.Drawing.Point(405, 326);
-            this.pbLoadingGif.Name = "pbLoadingGif";
-            this.pbLoadingGif.Size = new System.Drawing.Size(226, 189);
-            this.pbLoadingGif.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pbLoadingGif.TabIndex = 47;
-            this.pbLoadingGif.TabStop = false;
-            this.pbLoadingGif.Visible = false;
             // 
             // groupBox2
             // 
@@ -408,9 +462,11 @@ namespace ClienteHCS_2
             this.groupBox2.Controls.Add(this.txtMensaje);
             this.groupBox2.Controls.Add(this.btnEnviar);
             this.groupBox2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
-            this.groupBox2.Location = new System.Drawing.Point(12, 169);
+            this.groupBox2.Location = new System.Drawing.Point(18, 262);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(973, 112);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox2.Size = new System.Drawing.Size(1313, 172);
             this.groupBox2.TabIndex = 46;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Mensaje a enviar por HCS:";
@@ -420,36 +476,26 @@ namespace ClienteHCS_2
             this.txtMensaje.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtMensaje.Font = new System.Drawing.Font("Consolas", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMensaje.Location = new System.Drawing.Point(7, 22);
+            this.txtMensaje.Location = new System.Drawing.Point(10, 34);
+            this.txtMensaje.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtMensaje.Multiline = true;
             this.txtMensaje.Name = "txtMensaje";
             this.txtMensaje.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtMensaje.Size = new System.Drawing.Size(807, 81);
+            this.txtMensaje.Size = new System.Drawing.Size(1061, 122);
             this.txtMensaje.TabIndex = 8;
             // 
             // btnEnviar
             // 
             this.btnEnviar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEnviar.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEnviar.Location = new System.Drawing.Point(820, 22);
+            this.btnEnviar.Location = new System.Drawing.Point(1083, 34);
+            this.btnEnviar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnEnviar.Name = "btnEnviar";
-            this.btnEnviar.Size = new System.Drawing.Size(143, 81);
+            this.btnEnviar.Size = new System.Drawing.Size(214, 125);
             this.btnEnviar.TabIndex = 7;
             this.btnEnviar.Text = "&Enviar>>";
             this.btnEnviar.UseVisualStyleBackColor = true;
             this.btnEnviar.Click += new System.EventHandler(this.btnEnviar_Click);
-            // 
-            // txtHCSServer
-            // 
-            this.txtHCSServer.AcceptsTab = true;
-            this.txtHCSServer.BackColor = System.Drawing.SystemColors.Info;
-            this.txtHCSServer.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ClienteHCS_2.Properties.Settings.Default, "HCSServer", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtHCSServer.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtHCSServer.Location = new System.Drawing.Point(595, 12);
-            this.txtHCSServer.Name = "txtHCSServer";
-            this.txtHCSServer.Size = new System.Drawing.Size(256, 25);
-            this.txtHCSServer.TabIndex = 31;
-            this.txtHCSServer.Text = global::ClienteHCS_2.Properties.Settings.Default.HCSServer;
             // 
             // cbEsHexa
             // 
@@ -457,9 +503,10 @@ namespace ClienteHCS_2
             this.cbEsHexa.Checked = global::ClienteHCS_2.Properties.Settings.Default.EsHexa;
             this.cbEsHexa.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ClienteHCS_2.Properties.Settings.Default, "EsHexa", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.cbEsHexa.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbEsHexa.Location = new System.Drawing.Point(405, 135);
+            this.cbEsHexa.Location = new System.Drawing.Point(621, 209);
+            this.cbEsHexa.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cbEsHexa.Name = "cbEsHexa";
-            this.cbEsHexa.Size = new System.Drawing.Size(153, 24);
+            this.cbEsHexa.Size = new System.Drawing.Size(220, 33);
             this.cbEsHexa.TabIndex = 43;
             this.cbEsHexa.Text = "Msjes en HEXA";
             this.cbEsHexa.UseVisualStyleBackColor = true;
@@ -468,28 +515,42 @@ namespace ClienteHCS_2
             // 
             this.txtTXFile.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ClienteHCS_2.Properties.Settings.Default, "TXFile", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.txtTXFile.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTXFile.Location = new System.Drawing.Point(245, 133);
+            this.txtTXFile.Location = new System.Drawing.Point(382, 210);
+            this.txtTXFile.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtTXFile.Name = "txtTXFile";
-            this.txtTXFile.Size = new System.Drawing.Size(135, 25);
+            this.txtTXFile.Size = new System.Drawing.Size(200, 33);
             this.txtTXFile.TabIndex = 7;
             this.txtTXFile.Text = global::ClienteHCS_2.Properties.Settings.Default.TXFile;
             // 
+            // pbLoadingGif
+            // 
+            this.pbLoadingGif.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pbLoadingGif.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbLoadingGif.Image = global::ClienteHCS_2.Properties.Resources.loading;
+            this.pbLoadingGif.Location = new System.Drawing.Point(608, 502);
+            this.pbLoadingGif.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pbLoadingGif.Name = "pbLoadingGif";
+            this.pbLoadingGif.Size = new System.Drawing.Size(338, 290);
+            this.pbLoadingGif.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pbLoadingGif.TabIndex = 47;
+            this.pbLoadingGif.TabStop = false;
+            this.pbLoadingGif.Visible = false;
+            // 
             // FrmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(997, 671);
+            this.ClientSize = new System.Drawing.Size(1349, 856);
             this.Controls.Add(this.pbLoadingGif);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtHCSServer);
             this.Controls.Add(this.cbEsHexa);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.txtNotas);
             this.Controls.Add(this.txtTXFile);
             this.Controls.Add(this.labelTxFile);
             this.Controls.Add(this.grpCredenciales);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "FrmMain";
             this.Text = "HCS Client 2";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -501,9 +562,9 @@ namespace ClienteHCS_2
             this.toolStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLoadingGif)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLoadingGif)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -520,8 +581,6 @@ namespace ClienteHCS_2
         private System.Windows.Forms.Label labelTxFile;
         private System.Windows.Forms.TextBox txtTXFile;
         private System.Windows.Forms.TextBox txtNotas;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtHCSServer;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton tsbAbrirTrx;
         private System.Windows.Forms.ToolTip toolTip1;
@@ -546,6 +605,13 @@ namespace ClienteHCS_2
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.PictureBox pbLoadingGif;
         private System.Windows.Forms.Button btnCopiar;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripButton tsbDetallesLoadTest;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripLabel tslServer;
+        private System.Windows.Forms.ToolStripTextBox tstHCSServer;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel3;
     }
 }
 

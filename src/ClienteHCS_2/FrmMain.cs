@@ -24,6 +24,9 @@ namespace ClienteHCS_2
 
             pbLoadingGif.Parent = this;
             pbLoadingGif.BringToFront();
+            
+            // Sincronizar el ToolStripTextBox con la configuración guardada
+            tstHCSServer.Text = Properties.Settings.Default.HCSServer;
         }
 
 
@@ -43,7 +46,7 @@ namespace ClienteHCS_2
                 NetworkCredential networkCredential = GetNetworkCredentials();
 
                 //Ejecución y medicion de tiempo de respuesta.
-                HCSClient cliente = new HCSClient(txtHCSServer.Text, networkCredential);
+                HCSClient cliente = new HCSClient(tstHCSServer.Text, networkCredential);
 
                 btnEnviar.Enabled = false;
                 pbLoadingGif.Visible = true;
@@ -120,6 +123,7 @@ namespace ClienteHCS_2
             Settings.Default.TXFile = txtTXFile.Text;
             Settings.Default.Usuario = txtUsuario.Text;
             Settings.Default.EsHexa = cbEsHexa.Checked;
+            Settings.Default.HCSServer = tstHCSServer.Text;
             Settings.Default.Save();
         }
 
@@ -245,19 +249,15 @@ namespace ClienteHCS_2
                 return;
             }
 
-            FrmPruebaDeCarga frmLoadTest = new FrmPruebaDeCarga(txtHCSServer.Text, transaccion, GetNetworkCredentials());
+            FrmPruebaDeCarga frmLoadTest = new FrmPruebaDeCarga(tstHCSServer.Text, transaccion, GetNetworkCredentials());
             frmLoadTest.ShowDialog();
         }
 
 
         private void tsbLoadTestMultiTrx_Click(object sender, EventArgs e)
         {
-            FrmPruebaDeCargaMultiTrx frmLoadTest = new FrmPruebaDeCargaMultiTrx(txtHCSServer.Text, GetNetworkCredentials());
+            FrmPruebaDeCargaMultiTrx frmLoadTest = new FrmPruebaDeCargaMultiTrx(tstHCSServer.Text, GetNetworkCredentials());
             frmLoadTest.ShowDialog();
-        }
-
-        private void tsbMedidasRendimiento_Click(object sender, EventArgs e)
-        {
         }
 
 
@@ -276,7 +276,7 @@ namespace ClienteHCS_2
                 return;
             }
 
-            FrmPruebaDeContinuidad frmContinuityTest = new FrmPruebaDeContinuidad(txtHCSServer.Text, transaccion, GetNetworkCredentials());
+            FrmPruebaDeContinuidad frmContinuityTest = new FrmPruebaDeContinuidad(tstHCSServer.Text, transaccion, GetNetworkCredentials());
             frmContinuityTest.ShowDialog();
         }
 
@@ -312,5 +312,15 @@ namespace ClienteHCS_2
                 MessageBox.Show("No se pudo copiar al portapapeles:\n" + ex.Message);
             }
         }
+
+  
+        private void tsbDetallesLoadTest_Click(object sender, EventArgs e)
+        {
+            using (FrmDetallesEnsayo frm = new FrmDetallesEnsayo())
+            {
+                frm.ShowDialog(this);
+            }
+        }
+
     }
 }

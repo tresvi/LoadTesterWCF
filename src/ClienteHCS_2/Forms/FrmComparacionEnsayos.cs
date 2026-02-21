@@ -50,6 +50,17 @@ namespace ClienteHCS_2
             {
                 lblAdvertencias.Text = advertencias;
                 lblAdvertencias.ForeColor = hayAdvertenciaFuerte ? Color.DarkRed : Color.DarkOrange;
+                
+                if (hayAdvertenciaFuerte)
+                {
+                    string mensajeAlerta = "ADVERTENCIA: Comparación no homogénea\n\n" +
+                        "Los ensayos que está comparando tienen diferencias significativas en su configuración:\n\n" +
+                        advertencias + "\n\n" +
+                        "Los resultados de la comparación deben interpretarse con cautela, ya que las diferencias " +
+                        "en la configuración pueden afectar significativamente el rendimiento y hacer que la comparación no sea válida.";
+                    
+                    MessageBox.Show(this, mensajeAlerta, "Comparación no homogénea", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
 
             dgvMetricas.Columns["colActual"].HeaderText = _nombreActual;

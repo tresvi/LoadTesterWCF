@@ -15,14 +15,19 @@ namespace ClienteHCS_2
         private LoadTestReport _report;
         private IList<LoadTestThreadItem> _items;
         private LoadTestDefinition _definition;
+        private bool _esVacio;
 
         // Constructor para permitir abrir el Diseñador de WinForms.
         public FrmDetallesEnsayo()
-            : this(
-                new LoadTestReport { Fecha = DateTime.Now },
-                new List<LoadTestThreadItem>(),
-                new LoadTestDefinition())
         {
+            _report = new LoadTestReport();
+            _items = new List<LoadTestThreadItem>();
+            _definition = new LoadTestDefinition();
+            _esVacio = true;
+
+            InitializeComponent();
+            CargarResumen();
+            ConfigurarCharts();
         }
 
         public FrmDetallesEnsayo(
@@ -33,6 +38,7 @@ namespace ClienteHCS_2
             _report = report ?? throw new ArgumentNullException(nameof(report));
             _items = items ?? new List<LoadTestThreadItem>();
             _definition = definition ?? throw new ArgumentNullException(nameof(definition));
+            _esVacio = false;
 
             InitializeComponent();
             CargarResumen();
@@ -41,11 +47,11 @@ namespace ClienteHCS_2
 
         private void CargarResumen()
         {
-            if (_definition == null)
+            if (_esVacio || _definition == null)
             {
-                lblConfig.Text = "Configuración no disponible";
-                lblResultados1.Text = "Sin datos";
-                lblResultados2.Text = "Sin datos";
+                lblConfig.Text = "---";
+                lblResultados1.Text = "---";
+                lblResultados2.Text = "---";
                 return;
             }
 
@@ -212,7 +218,7 @@ namespace ClienteHCS_2
 
         private void tsbMedidasRendimiento_Click(object sender, EventArgs e)
         {
-            if (_report == null)
+            if (_report == null || _esVacio)
             {
                 MessageBox.Show("No hay un ensayo actual cargado para comparar.", "Comparar ensayos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -266,6 +272,7 @@ namespace ClienteHCS_2
             _report = ensayo.Reporte;
             _items = ensayo.Hilos ?? new List<LoadTestThreadItem>();
             _definition = ensayo.Definicion ?? CrearDefinicionDesdeReporte(_report);
+            _esVacio = false;
 
             CargarResumen();
             ConfigurarCharts();

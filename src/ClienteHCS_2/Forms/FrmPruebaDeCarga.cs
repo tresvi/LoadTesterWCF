@@ -146,7 +146,6 @@ namespace ClienteHCS_2
                 }
 
                 string correlationIDBase = DateTime.Now.ToString("HHmmss-ffff") + "-";
-                // Guardar solo los 2 primeros segmentos (sin el guion final y sin el número de hilo)
                 _correlationIDBase = DateTime.Now.ToString("HHmmss-ffff");
                 _timerEnsayo = new Stopwatch();
                 _timerEnsayo.Start();
@@ -173,7 +172,7 @@ namespace ClienteHCS_2
         {
             string corrId = correlationIDBase + nroTarea.ToString("D3");
 
-            UpdateGridRowStart(nroTarea - 1, nroTarea, corrId); //, startTime);
+            UpdateGridRowStart(nroTarea - 1, nroTarea, corrId);
 
             var latenciasHilo = new List<long>();
             int trxOk = 0, trxFail = 0;
