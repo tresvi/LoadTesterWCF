@@ -27,6 +27,27 @@ namespace ClienteHCS_2
             
             // Sincronizar el ToolStripTextBox con la configuración guardada
             tstHCSServer.Text = Properties.Settings.Default.HCSServer;
+            
+            // Cargar la última opción de credenciales seleccionada
+            if (Properties.Settings.Default.UsarCredencialesInteractivas)
+            {
+                optInteractivo.Checked = true;
+            }
+            else
+            {
+                optOtrasCredenciales.Checked = true;
+            }
+
+            // Cargar el último mensaje (decodificar de Base64)
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.MensajeBase64))
+            {
+                try
+                {
+                    byte[] bytes = Convert.FromBase64String(Properties.Settings.Default.MensajeBase64);
+                    txtMensaje.Text = Encoding.UTF8.GetString(bytes);
+                }
+                catch { }
+            }
         }
 
 
@@ -124,6 +145,10 @@ namespace ClienteHCS_2
             Settings.Default.Usuario = txtUsuario.Text;
             Settings.Default.EsHexa = cbEsHexa.Checked;
             Settings.Default.HCSServer = tstHCSServer.Text;
+            Settings.Default.UsarCredencialesInteractivas = optInteractivo.Checked;
+            Settings.Default.MensajeBase64 = string.IsNullOrEmpty(txtMensaje.Text)
+                ? ""
+                : Convert.ToBase64String(Encoding.UTF8.GetBytes(txtMensaje.Text));
             Settings.Default.Save();
         }
 
