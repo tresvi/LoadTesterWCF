@@ -77,6 +77,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmComparacionEnsayos.Designer.cs">
+      <DependentUpon>FrmComparacionEnsayos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmPruebaDeCargaMultiTrx.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +112,9 @@
     <Compile Include="Forms\FrmDetallesEnsayo.Designer.cs">
       <DependentUpon>FrmDetallesEnsayo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmComparacionEnsayos.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Models\HCSClient.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -116,7 +122,11 @@
     <Compile Include="Models\LoadTest\LoadTestThreadItem.cs" />
     <Compile Include="Models\LoadTest\LoadTestDefinition.cs" />
     <Compile Include="Models\LoadTest\LoadTestReport.cs" />
+    <Compile Include="Models\LoadTest\EnsayoGuardado.cs" />
     <Compile Include="Helpers\SortableBindingList.cs" />
+    <EmbeddedResource Include="Forms\FrmComparacionEnsayos.resx">
+      <DependentUpon>FrmComparacionEnsayos.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmDetallesEnsayo.resx">
       <DependentUpon>FrmDetallesEnsayo.cs</DependentUpon>
     </EmbeddedResource>
@@ -230,7 +240,12 @@
   <ItemGroup>
     <None Include="Recursos\loading.gif" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Recursos\kpi_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TextFile1.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

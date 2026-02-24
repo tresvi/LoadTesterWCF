@@ -70,5 +70,29 @@ namespace ClienteHCS_2.Properties {
                 this["EsHexa"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UsarCredencialesInteractivas {
+            get {
+                return ((bool)(this["UsarCredencialesInteractivas"]));
+            }
+            set {
+                this["UsarCredencialesInteractivas"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MensajeBase64 {
+            get {
+                return ((string)(this["MensajeBase64"]));
+            }
+            set {
+                this["MensajeBase64"] = value;
+            }
+        }
     }
 }

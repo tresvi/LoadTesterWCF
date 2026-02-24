@@ -1,0 +1,52 @@
+﻿El Skewness (asimetría) y la Kurtosis (curtosis) son medidas estadísticas que, aplicadas a las latencias de un ensayo de carga, pueden proporcionar información muy valiosa sobre el comportamiento del sistema:
+Skewness (Asimetría)
+Representa la simetría de la distribución de latencias:
+•	Skewness ≈ 0: Distribución simétrica (normal). Las latencias están equilibradas alrededor de la media.
+•	Skewness > 0 (positivo): Cola larga hacia la derecha. Indica que hay latencias ocasionales muy altas (outliers superiores).
+•	En la práctica: El sistema tiene picos de latencia esporádicos. La mayoría de las respuestas son rápidas, pero hay casos donde el tiempo se dispara.
+•	Posibles causas: Garbage Collection, bloqueos momentáneos, contención de recursos, timeouts, etc.
+•	Skewness < 0 (negativo): Cola larga hacia la izquierda (raro en sistemas de producción).
+Kurtosis (Curtosis)
+Representa la "pesadez de las colas" y la concentración de valores:
+•	Kurtosis ≈ 3 (o Excess Kurtosis ≈ 0): Distribución normal.
+•	Kurtosis > 3 (Leptocúrtica): Colas pesadas y pico alto.
+•	En la práctica: El sistema es muy consistente la mayoría del tiempo, pero tiene outliers extremos (latencias muy altas o muy bajas).
+•	Indica: Inestabilidad ocasional con eventos extremos.
+•	Kurtosis < 3 (Platicúrtica): Colas ligeras, distribución más plana.
+•	En la práctica: Las latencias están más dispersas, menos consistentes.
+Interpretación práctica para ensayos de carga
+Métrica	Valor	Interpretación
+Skewness positivo alto	> 1	Sistema con picos de latencia frecuentes. Posible señal de contención, GC, o degradación bajo carga.
+Skewness cercano a 0	[-0.5, 0.5]	Distribución equilibrada. El sistema responde de manera consistente.
+Kurtosis alta	> 5	Sistema muy consistente normalmente, pero con eventos extremos ocasionales (outliers).
+Kurtosis baja	< 2	Sistema con alta variabilidad, latencias menos predecibles.
+¿Qué representan en tu caso?
+Para un sistema estable bajo carga:
+•	Skewness bajo (cercano a 0): Las latencias son simétricas, el sistema responde consistentemente.
+•	Kurtosis cercano a 3: No hay muchos outliers extremos, comportamiento predecible.
+Para un sistema inestable:
+•	Skewness alto positivo: Hay latencias extremadamente altas que "jalan" la media hacia arriba.
+•	Kurtosis muy alta: Pocos valores extremos pero MUY extremos (ej: 99% de latencias en 10ms, pero 1% en 500ms).
+Recomendación para tu aplicación
+Podrías agregar estas métricas al LoadTestReport y mostrarlas en FrmDetallesEnsayo con una interpretación simple:
+
+
+
+// En LoadTestReport.cs
+public double Skewness { get; set; }
+public double Kurtosis { get; set; }
+
+// Interpretación
+public string EstabilidadLatenciaInterpretacion 
+{
+    get 
+    {
+        if (Math.Abs(Skewness) < 0.5 && Math.Abs(Kurtosis - 3) < 1)
+            return "Excelente: Distribución normal y estable";
+        if (Skewness > 1)
+            return "Advertencia: Picos de latencia frecuentes";
+        if (Kurtosis > 5)
+            return "Advertencia: Eventos extremos ocasionales";
+        return "Aceptable";
+    }
+}

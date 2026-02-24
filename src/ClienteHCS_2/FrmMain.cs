@@ -24,6 +24,30 @@ namespace ClienteHCS_2
 
             pbLoadingGif.Parent = this;
             pbLoadingGif.BringToFront();
+            
+            // Sincronizar el ToolStripTextBox con la configuración guardada
+            tstHCSServer.Text = Properties.Settings.Default.HCSServer;
+            
+            // Cargar la última opción de credenciales seleccionada
+            if (Properties.Settings.Default.UsarCredencialesInteractivas)
+            {
+                optInteractivo.Checked = true;
+            }
+            else
+            {
+                optOtrasCredenciales.Checked = true;
+            }
+
+            // Cargar el último mensaje (decodificar de Base64)
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.MensajeBase64))
+            {
+                try
+                {
+                    byte[] bytes = Convert.FromBase64String(Properties.Settings.Default.MensajeBase64);
+                    txtMensaje.Text = Encoding.UTF8.GetString(bytes);
+                }
+                catch { }
+            }
         }
 
 
@@ -43,7 +67,7 @@ namespace ClienteHCS_2
                 NetworkCredential networkCredential = GetNetworkCredentials();
 
                 //Ejecución y medicion de tiempo de respuesta.
-                HCSClient cliente = new HCSClient(txtHCSServer.Text, networkCredential);
+                HCSClient cliente = new HCSClient(tstHCSServer.Text, networkCredential);
 
                 btnEnviar.Enabled = false;
                 pbLoadingGif.Visible = true;
@@ -120,6 +144,11 @@ namespace ClienteHCS_2
             Settings.Default.TXFile = txtTXFile.Text;
             Settings.Default.Usuario = txtUsuario.Text;
             Settings.Default.EsHexa = cbEsHexa.Checked;
+            Settings.Default.HCSServer = tstHCSServer.Text;
+            Settings.Default.UsarCredencialesInteractivas = optInteractivo.Checked;
+            Settings.Default.MensajeBase64 = string.IsNullOrEmpty(txtMensaje.Text)
+                ? ""
+                : Convert.ToBase64String(Encoding.UTF8.GetBytes(txtMensaje.Text));
             Settings.Default.Save();
         }
 
@@ -245,19 +274,15 @@ namespace ClienteHCS_2
                 return;
             }
 
-            FrmPruebaDeCarga frmLoadTest = new FrmPruebaDeCarga(txtHCSServer.Text, transaccion, GetNetworkCredentials());
+            FrmPruebaDeCarga frmLoadTest = new FrmPruebaDeCarga(tstHCSServer.Text, transaccion, GetNetworkCredentials());
             frmLoadTest.ShowDialog();
         }
 
 
         private void tsbLoadTestMultiTrx_Click(object sender, EventArgs e)
         {
-            FrmPruebaDeCargaMultiTrx frmLoadTest = new FrmPruebaDeCargaMultiTrx(txtHCSServer.Text, GetNetworkCredentials());
+            FrmPruebaDeCargaMultiTrx frmLoadTest = new FrmPruebaDeCargaMultiTrx(tstHCSServer.Text, GetNetworkCredentials());
             frmLoadTest.ShowDialog();
-        }
-
-        private void tsbMedidasRendimiento_Click(object sender, EventArgs e)
-        {
         }
 
 
@@ -276,7 +301,7 @@ namespace ClienteHCS_2
                 return;
             }
 
-            FrmPruebaDeContinuidad frmContinuityTest = new FrmPruebaDeContinuidad(txtHCSServer.Text, transaccion, GetNetworkCredentials());
+            FrmPruebaDeContinuidad frmContinuityTest = new FrmPruebaDeContinuidad(tstHCSServer.Text, transaccion, GetNetworkCredentials());
             frmContinuityTest.ShowDialog();
         }
 
@@ -312,5 +337,59 @@ namespace ClienteHCS_2
                 MessageBox.Show("No se pudo copiar al portapapeles:\n" + ex.Message);
             }
         }
+
+
+        private void tsbDetallesLoadTest_Click(object sender, EventArgs e)
+        {
+            using (FrmDetallesEnsayo frm = new FrmDetallesEnsayo())
+            {
+                frm.ShowDialog(this);
+            }
+        }
+
+
+        private void tsbCompararEnsayosDeCarga_Click(object sender, EventArgs e)
+        {
+            string filtro = "Ensayo de carga (*.ltst)|*.ltst";
+            
+            OpenFileDialog ofdEnsayo1 = new OpenFileDialog();
+            ofdEnsayo1.Title = "Seleccionar el primer ensayo de carga";
+            ofdEnsayo1.Filter = filtro;
+            ofdEnsayo1.CheckFileExists = true;
+            ofdEnsayo1.Multiselect = false;
+            if (ofdEnsayo1.ShowDialog() != DialogResult.OK) return;
+
+            OpenFileDialog ofdEnsayo2 = new OpenFileDialog();
+            ofdEnsayo2.Title = "Seleccionar el segundo ensayo de carga";
+            ofdEnsayo2.Filter = filtro;
+            ofdEnsayo2.CheckFileExists = true;
+            ofdEnsayo2.Multiselect = false;
+            if (ofdEnsayo2.ShowDialog() != DialogResult.OK) return;
+
+            try
+            {
+                var ensayo1 = FrmDetallesEnsayo.LeerEnsayoGuardado(ofdEnsayo1.FileName);
+                var ensayo2 = FrmDetallesEnsayo.LeerEnsayoGuardado(ofdEnsayo2.FileName);
+
+                string nombre1 = Path.GetFileNameWithoutExtension(ofdEnsayo1.FileName);
+                string nombre2 = Path.GetFileNameWithoutExtension(ofdEnsayo2.FileName);
+
+                using (var frmComparacion = new FrmComparacionEnsayos(
+                    ensayo1.Reporte,
+                    ensayo1.Definicion,
+                    ensayo2.Reporte,
+                    ensayo2.Definicion,
+                    nombre1,
+                    nombre2))
+                {
+                    frmComparacion.ShowDialog(this);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"No se pudieron cargar los ensayos: {ex.Message}", "Comparar ensayos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }
