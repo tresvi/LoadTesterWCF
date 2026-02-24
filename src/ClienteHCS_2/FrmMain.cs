@@ -338,12 +338,56 @@ namespace ClienteHCS_2
             }
         }
 
-  
+
         private void tsbDetallesLoadTest_Click(object sender, EventArgs e)
         {
             using (FrmDetallesEnsayo frm = new FrmDetallesEnsayo())
             {
                 frm.ShowDialog(this);
+            }
+        }
+
+
+        private void tsbCompararEnsayosDeCarga_Click(object sender, EventArgs e)
+        {
+            string filtro = "Ensayo de carga (*.ltst)|*.ltst";
+            
+            OpenFileDialog ofdEnsayo1 = new OpenFileDialog();
+            ofdEnsayo1.Title = "Seleccionar el primer ensayo de carga";
+            ofdEnsayo1.Filter = filtro;
+            ofdEnsayo1.CheckFileExists = true;
+            ofdEnsayo1.Multiselect = false;
+            if (ofdEnsayo1.ShowDialog() != DialogResult.OK) return;
+
+            OpenFileDialog ofdEnsayo2 = new OpenFileDialog();
+            ofdEnsayo2.Title = "Seleccionar el segundo ensayo de carga";
+            ofdEnsayo2.Filter = filtro;
+            ofdEnsayo2.CheckFileExists = true;
+            ofdEnsayo2.Multiselect = false;
+            if (ofdEnsayo2.ShowDialog() != DialogResult.OK) return;
+
+            try
+            {
+                var ensayo1 = FrmDetallesEnsayo.LeerEnsayoGuardado(ofdEnsayo1.FileName);
+                var ensayo2 = FrmDetallesEnsayo.LeerEnsayoGuardado(ofdEnsayo2.FileName);
+
+                string nombre1 = Path.GetFileNameWithoutExtension(ofdEnsayo1.FileName);
+                string nombre2 = Path.GetFileNameWithoutExtension(ofdEnsayo2.FileName);
+
+                using (var frmComparacion = new FrmComparacionEnsayos(
+                    ensayo1.Reporte,
+                    ensayo1.Definicion,
+                    ensayo2.Reporte,
+                    ensayo2.Definicion,
+                    nombre1,
+                    nombre2))
+                {
+                    frmComparacion.ShowDialog(this);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"No se pudieron cargar los ensayos: {ex.Message}", "Comparar ensayos", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

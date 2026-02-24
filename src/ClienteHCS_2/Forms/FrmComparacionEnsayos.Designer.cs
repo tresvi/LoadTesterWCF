@@ -33,7 +33,6 @@ namespace ClienteHCS_2
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -65,13 +64,14 @@ namespace ClienteHCS_2
             this.tableLayoutPanel1.Controls.Add(this.splitContainer1, 0, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(10);
+            this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(15, 15, 15, 15);
             this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1024, 684);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1353, 850);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // lblTitulo
@@ -79,10 +79,11 @@ namespace ClienteHCS_2
             this.lblTitulo.AutoSize = true;
             this.lblTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitulo.Location = new System.Drawing.Point(13, 10);
+            this.lblTitulo.Location = new System.Drawing.Point(19, 15);
+            this.lblTitulo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Padding = new System.Windows.Forms.Padding(0, 0, 0, 6);
-            this.lblTitulo.Size = new System.Drawing.Size(998, 35);
+            this.lblTitulo.Padding = new System.Windows.Forms.Padding(0, 0, 0, 9);
+            this.lblTitulo.Size = new System.Drawing.Size(1315, 54);
             this.lblTitulo.TabIndex = 0;
             this.lblTitulo.Text = "Comparación de ensayos";
             this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -92,10 +93,11 @@ namespace ClienteHCS_2
             this.lblAdvertencias.AutoSize = true;
             this.lblAdvertencias.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblAdvertencias.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAdvertencias.Location = new System.Drawing.Point(13, 45);
+            this.lblAdvertencias.Location = new System.Drawing.Point(19, 69);
+            this.lblAdvertencias.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblAdvertencias.Name = "lblAdvertencias";
-            this.lblAdvertencias.Padding = new System.Windows.Forms.Padding(0, 0, 0, 8);
-            this.lblAdvertencias.Size = new System.Drawing.Size(998, 35);
+            this.lblAdvertencias.Padding = new System.Windows.Forms.Padding(0, 0, 0, 12);
+            this.lblAdvertencias.Size = new System.Drawing.Size(1315, 54);
             this.lblAdvertencias.TabIndex = 1;
             this.lblAdvertencias.Text = "Advertencias";
             this.lblAdvertencias.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -104,7 +106,8 @@ namespace ClienteHCS_2
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer1.Location = new System.Drawing.Point(13, 83);
+            this.splitContainer1.Location = new System.Drawing.Point(19, 128);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -115,13 +118,13 @@ namespace ClienteHCS_2
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.dgvMetricas);
-            this.splitContainer1.Size = new System.Drawing.Size(998, 588);
-            this.splitContainer1.SplitterDistance = 400;
+            this.splitContainer1.Size = new System.Drawing.Size(1315, 702);
+            this.splitContainer1.SplitterDistance = 512;
+            this.splitContainer1.SplitterWidth = 6;
             this.splitContainer1.TabIndex = 2;
             // 
             // chartRadar
             // 
-            this.chartRadar.BackColor = System.Drawing.Color.White;
             chartArea1.AxisX.Interval = 1D;
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gainsboro;
             chartArea1.AxisY.Interval = 20D;
@@ -137,8 +140,9 @@ namespace ClienteHCS_2
             legend1.Name = "Legend";
             this.chartRadar.Legends.Add(legend1);
             this.chartRadar.Location = new System.Drawing.Point(0, 0);
+            this.chartRadar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chartRadar.Name = "chartRadar";
-            this.chartRadar.Size = new System.Drawing.Size(998, 400);
+            this.chartRadar.Size = new System.Drawing.Size(1315, 512);
             this.chartRadar.TabIndex = 0;
             this.chartRadar.Text = "chart1";
             // 
@@ -157,51 +161,59 @@ namespace ClienteHCS_2
             this.colLectura});
             this.dgvMetricas.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvMetricas.Location = new System.Drawing.Point(0, 0);
+            this.dgvMetricas.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgvMetricas.MultiSelect = false;
             this.dgvMetricas.Name = "dgvMetricas";
             this.dgvMetricas.ReadOnly = true;
             this.dgvMetricas.RowHeadersVisible = false;
+            this.dgvMetricas.RowHeadersWidth = 62;
             this.dgvMetricas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMetricas.Size = new System.Drawing.Size(998, 184);
+            this.dgvMetricas.Size = new System.Drawing.Size(1315, 184);
             this.dgvMetricas.TabIndex = 0;
             // 
             // colMetrica
             // 
             this.colMetrica.HeaderText = "Métrica";
+            this.colMetrica.MinimumWidth = 8;
             this.colMetrica.Name = "colMetrica";
             this.colMetrica.ReadOnly = true;
             // 
             // colActual
             // 
             this.colActual.HeaderText = "Actual";
+            this.colActual.MinimumWidth = 8;
             this.colActual.Name = "colActual";
             this.colActual.ReadOnly = true;
             // 
             // colComparado
             // 
             this.colComparado.HeaderText = "Comparado";
+            this.colComparado.MinimumWidth = 8;
             this.colComparado.Name = "colComparado";
             this.colComparado.ReadOnly = true;
             // 
             // colDelta
             // 
             this.colDelta.HeaderText = "Delta";
+            this.colDelta.MinimumWidth = 8;
             this.colDelta.Name = "colDelta";
             this.colDelta.ReadOnly = true;
             // 
             // colLectura
             // 
             this.colLectura.HeaderText = "Lectura";
+            this.colLectura.MinimumWidth = 8;
             this.colLectura.Name = "colLectura";
             this.colLectura.ReadOnly = true;
             // 
             // FrmComparacionEnsayos
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1024, 684);
+            this.ClientSize = new System.Drawing.Size(1353, 850);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.MinimumSize = new System.Drawing.Size(860, 580);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.MinimumSize = new System.Drawing.Size(1279, 862);
             this.Name = "FrmComparacionEnsayos";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Comparación de ensayos";

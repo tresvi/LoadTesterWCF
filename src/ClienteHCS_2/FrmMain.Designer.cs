@@ -50,7 +50,7 @@ namespace ClienteHCS_2
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbLoadTest = new System.Windows.Forms.ToolStripButton();
             this.tsbDetallesLoadTest = new System.Windows.Forms.ToolStripButton();
-            this.tsbMedidasRendimiento = new System.Windows.Forms.ToolStripButton();
+            this.tsbCompararEnsayosDeCarga = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -216,7 +216,7 @@ namespace ClienteHCS_2
             this.toolStripSeparator1,
             this.tsbLoadTest,
             this.tsbDetallesLoadTest,
-            this.tsbMedidasRendimiento,
+            this.tsbCompararEnsayosDeCarga,
             this.toolStripSeparator4,
             this.toolStripLabel2,
             this.toolStripSeparator3,
@@ -300,14 +300,15 @@ namespace ClienteHCS_2
             this.tsbDetallesLoadTest.Text = "Ver detalles de ensayos de carga";
             this.tsbDetallesLoadTest.Click += new System.EventHandler(this.tsbDetallesLoadTest_Click);
             // 
-            // tsbMedidasRendimiento
+            // tsbCompararEnsayosDeCarga
             // 
-            this.tsbMedidasRendimiento.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbMedidasRendimiento.Image = global::ClienteHCS_2.Properties.Resources.evaluacion_comparativa;
-            this.tsbMedidasRendimiento.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbMedidasRendimiento.Name = "tsbMedidasRendimiento";
-            this.tsbMedidasRendimiento.Size = new System.Drawing.Size(52, 52);
-            this.tsbMedidasRendimiento.Text = "Medidas de Rendimiento";
+            this.tsbCompararEnsayosDeCarga.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbCompararEnsayosDeCarga.Image = global::ClienteHCS_2.Properties.Resources.evaluacion_comparativa;
+            this.tsbCompararEnsayosDeCarga.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbCompararEnsayosDeCarga.Name = "tsbCompararEnsayosDeCarga";
+            this.tsbCompararEnsayosDeCarga.Size = new System.Drawing.Size(52, 52);
+            this.tsbCompararEnsayosDeCarga.Text = "Comparar Ensayos de Carga";
+            this.tsbCompararEnsayosDeCarga.Click += new System.EventHandler(this.tsbCompararEnsayosDeCarga_Click);
             // 
             // toolStripSeparator4
             // 
@@ -588,7 +589,7 @@ namespace ClienteHCS_2
         private System.Windows.Forms.ToolStripButton tsbGuardarTrxComo;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton tsbLoadTest;
-        private System.Windows.Forms.ToolStripButton tsbMedidasRendimiento;
+        private System.Windows.Forms.ToolStripButton tsbCompararEnsayosDeCarga;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.CheckBox cbEsHexa;
         private System.Windows.Forms.ToolStripButton tsbContinutyTest;

@@ -165,14 +165,14 @@ namespace ClienteHCS_2
         {
             using (var dlg = new SaveFileDialog())
             {
-                dlg.Filter = "Ensayo de carga (*.ensayo.json)|*.ensayo.json|CSV (*.csv)|*.csv|JSON reporte (*.json)|*.json";
-                dlg.DefaultExt = "ensayo.json";
+                dlg.Filter = "Ensayo de carga (*.ltst)|*.ltst|CSV (*.csv)|*.csv|JSON reporte (*.json)|*.json";
+                dlg.DefaultExt = "ltst";
                 dlg.FileName = $"PruebaCarga_{_report.Fecha:yyyyMMdd_HHmmss}";
                 if (dlg.ShowDialog() != DialogResult.OK) return;
 
                 try
                 {
-                    if (dlg.FileName.EndsWith(".ensayo.json", StringComparison.OrdinalIgnoreCase))
+                    if (dlg.FileName.EndsWith(".ltst", StringComparison.OrdinalIgnoreCase))
                     {
                         GuardarEnsayoCompleto(dlg.FileName);
                         MessageBox.Show("Ensayo guardado correctamente.", "Guardar ensayo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -199,7 +199,7 @@ namespace ClienteHCS_2
         {
             using (var dlg = new OpenFileDialog())
             {
-                dlg.Filter = "Ensayo de carga (*.ensayo.json)|*.ensayo.json|JSON (*.json)|*.json";
+                dlg.Filter = "Ensayo de carga (*.ltst)|*.ltst|JSON (*.json)|*.json";
                 dlg.CheckFileExists = true;
                 dlg.Multiselect = false;
                 if (dlg.ShowDialog() != DialogResult.OK) return;
@@ -226,7 +226,7 @@ namespace ClienteHCS_2
 
             using (var dlg = new OpenFileDialog())
             {
-                dlg.Filter = "Ensayo de carga (*.ensayo.json)|*.ensayo.json|JSON (*.json)|*.json";
+                dlg.Filter = "Ensayo de carga (*.ltst)|*.ltst|JSON (*.json)|*.json";
                 dlg.CheckFileExists = true;
                 dlg.Multiselect = false;
                 if (dlg.ShowDialog() != DialogResult.OK) return;
@@ -278,7 +278,7 @@ namespace ClienteHCS_2
             ConfigurarCharts();
         }
 
-        private static EnsayoGuardado LeerEnsayoGuardado(string path)
+        internal static EnsayoGuardado LeerEnsayoGuardado(string path)
         {
             string json = File.ReadAllText(path);
 
