@@ -29,7 +29,7 @@ namespace ClienteHCS_2
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tlpParams = new System.Windows.Forms.TableLayoutPanel();
             this.btnIniciar = new System.Windows.Forms.Button();
@@ -83,7 +83,7 @@ namespace ClienteHCS_2
             this.groupBox1.Margin = new System.Windows.Forms.Padding(6);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(6);
-            this.groupBox1.Size = new System.Drawing.Size(1836, 191);
+            this.groupBox1.Size = new System.Drawing.Size(1318, 191);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Configuración de Ensayo";
@@ -119,14 +119,14 @@ namespace ClienteHCS_2
             this.tlpParams.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlpParams.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlpParams.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tlpParams.Size = new System.Drawing.Size(1824, 158);
+            this.tlpParams.Size = new System.Drawing.Size(1306, 158);
             this.tlpParams.TabIndex = 0;
             // 
             // btnIniciar
             // 
             this.btnIniciar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.btnIniciar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnIniciar.Location = new System.Drawing.Point(1593, 12);
+            this.btnIniciar.Location = new System.Drawing.Point(1075, 12);
             this.btnIniciar.Margin = new System.Windows.Forms.Padding(6);
             this.btnIniciar.Name = "btnIniciar";
             this.tlpParams.SetRowSpan(this.btnIniciar, 2);
@@ -246,7 +246,7 @@ namespace ClienteHCS_2
             // 
             this.btnAyuda.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAyuda.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAyuda.Location = new System.Drawing.Point(1596, 112);
+            this.btnAyuda.Location = new System.Drawing.Point(1078, 112);
             this.btnAyuda.Margin = new System.Windows.Forms.Padding(6);
             this.btnAyuda.Name = "btnAyuda";
             this.btnAyuda.Size = new System.Drawing.Size(222, 40);
@@ -263,7 +263,7 @@ namespace ClienteHCS_2
             this.prgbarHilos.Location = new System.Drawing.Point(433, 112);
             this.prgbarHilos.Margin = new System.Windows.Forms.Padding(6);
             this.prgbarHilos.Name = "prgbarHilos";
-            this.prgbarHilos.Size = new System.Drawing.Size(1145, 35);
+            this.prgbarHilos.Size = new System.Drawing.Size(627, 35);
             this.prgbarHilos.TabIndex = 15;
             this.prgbarHilos.Value = 60;
             this.prgbarHilos.Visible = false;
@@ -300,15 +300,15 @@ namespace ClienteHCS_2
             this.dgvHilos.RowHeadersVisible = false;
             this.dgvHilos.RowHeadersWidth = 62;
             this.dgvHilos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvHilos.Size = new System.Drawing.Size(1836, 491);
+            this.dgvHilos.Size = new System.Drawing.Size(1318, 374);
             this.dgvHilos.TabIndex = 6;
             // 
             // colRowNum
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(245)))));
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(235)))));
-            this.colRowNum.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(245)))));
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(235)))));
+            this.colRowNum.DefaultCellStyle = dataGridViewCellStyle5;
             this.colRowNum.DividerWidth = 3;
             this.colRowNum.Frozen = true;
             this.colRowNum.HeaderText = "#";
@@ -431,7 +431,7 @@ namespace ClienteHCS_2
             this.tlpBottom.Controls.Add(this.lblSinRespuesta, 1, 1);
             this.tlpBottom.Controls.Add(this.btnVerDetalles, 5, 0);
             this.tlpBottom.Controls.Add(this.lblMetricasNuevas, 5, 2);
-            this.tlpBottom.Location = new System.Drawing.Point(18, 799);
+            this.tlpBottom.Location = new System.Drawing.Point(18, 682);
             this.tlpBottom.Margin = new System.Windows.Forms.Padding(0);
             this.tlpBottom.Name = "tlpBottom";
             this.tlpBottom.RowCount = 4;
@@ -440,7 +440,7 @@ namespace ClienteHCS_2
             this.tlpBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tlpBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tlpBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tlpBottom.Size = new System.Drawing.Size(1836, 123);
+            this.tlpBottom.Size = new System.Drawing.Size(1318, 123);
             this.tlpBottom.TabIndex = 21;
             // 
             // btnVerDetalles
@@ -450,11 +450,11 @@ namespace ClienteHCS_2
             this.btnVerDetalles.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnVerDetalles.Image = global::ClienteHCS_2.Properties.Resources.kpi_48x48;
             this.btnVerDetalles.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVerDetalles.Location = new System.Drawing.Point(1617, 5);
+            this.btnVerDetalles.Location = new System.Drawing.Point(1074, 5);
             this.btnVerDetalles.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnVerDetalles.Name = "btnVerDetalles";
             this.tlpBottom.SetRowSpan(this.btnVerDetalles, 3);
-            this.btnVerDetalles.Size = new System.Drawing.Size(215, 68);
+            this.btnVerDetalles.Size = new System.Drawing.Size(240, 80);
             this.btnVerDetalles.TabIndex = 21;
             this.btnVerDetalles.Text = "Ver detalles...";
             this.btnVerDetalles.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -484,7 +484,7 @@ namespace ClienteHCS_2
             this.gbConectividad.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.gbConectividad.Name = "gbConectividad";
             this.gbConectividad.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbConectividad.Size = new System.Drawing.Size(1834, 83);
+            this.gbConectividad.Size = new System.Drawing.Size(1316, 83);
             this.gbConectividad.TabIndex = 22;
             this.gbConectividad.TabStop = false;
             this.gbConectividad.Text = "Conectividad";
@@ -499,7 +499,7 @@ namespace ClienteHCS_2
             this.flowLayoutPanel1.Location = new System.Drawing.Point(4, 26);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1826, 52);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1308, 52);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // lblServer
@@ -550,7 +550,7 @@ namespace ClienteHCS_2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1872, 929);
+            this.ClientSize = new System.Drawing.Size(1354, 812);
             this.Controls.Add(this.gbConectividad);
             this.Controls.Add(this.lblCreandoHilos);
             this.Controls.Add(this.tlpBottom);
@@ -560,6 +560,7 @@ namespace ClienteHCS_2
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(1339, 739);
             this.Name = "FrmPruebaDeCarga";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Prueba De Carga";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmPruebaDeCarga_FormClosing);
             this.groupBox1.ResumeLayout(false);

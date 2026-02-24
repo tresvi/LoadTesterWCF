@@ -170,6 +170,8 @@ namespace ClienteHCS_2
 
         private async Task RunUserAsync(int nroTarea, string correlationIDBase)
         {
+            await Task.Yield();     // Saltar al ThreadPool inmediatamente para no bloquear el hilo de UI
+
             string corrId = correlationIDBase + nroTarea.ToString("D3");
 
             UpdateGridRowStart(nroTarea - 1, nroTarea, corrId);
