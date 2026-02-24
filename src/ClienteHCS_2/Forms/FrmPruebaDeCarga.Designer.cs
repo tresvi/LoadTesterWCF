@@ -274,7 +274,7 @@ namespace ClienteHCS_2
             this.cbUsarUnicaConexion.AutoSize = true;
             this.tlpParams.SetColumnSpan(this.cbUsarUnicaConexion, 3);
             this.cbUsarUnicaConexion.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold);
-            this.cbUsarUnicaConexion.Location = new System.Drawing.Point(517, 18);
+            this.cbUsarUnicaConexion.Location = new System.Drawing.Point(431, 15);
             this.cbUsarUnicaConexion.Margin = new System.Windows.Forms.Padding(4);
             this.cbUsarUnicaConexion.Name = "cbUsarUnicaConexion";
             this.cbUsarUnicaConexion.Size = new System.Drawing.Size(458, 31);
@@ -429,7 +429,7 @@ namespace ClienteHCS_2
             this.tlpBottom.Controls.Add(this.lblLatenciaResumen, 1, 2);
             this.tlpBottom.Controls.Add(this.lblTiempo, 1, 0);
             this.tlpBottom.Controls.Add(this.lblSinRespuesta, 1, 1);
-            this.tlpBottom.Controls.Add(this.btnVerDetalles, 4, 0);
+            this.tlpBottom.Controls.Add(this.btnVerDetalles, 5, 0);
             this.tlpBottom.Controls.Add(this.lblMetricasNuevas, 5, 2);
             this.tlpBottom.Location = new System.Drawing.Point(18, 848);
             this.tlpBottom.Margin = new System.Windows.Forms.Padding(0);
@@ -448,13 +448,16 @@ namespace ClienteHCS_2
             this.btnVerDetalles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnVerDetalles.Enabled = false;
             this.btnVerDetalles.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnVerDetalles.Location = new System.Drawing.Point(1310, 5);
+            this.btnVerDetalles.Image = global::ClienteHCS_2.Properties.Resources.kpi_48x48;
+            this.btnVerDetalles.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnVerDetalles.Location = new System.Drawing.Point(1617, 5);
             this.btnVerDetalles.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnVerDetalles.Name = "btnVerDetalles";
             this.tlpBottom.SetRowSpan(this.btnVerDetalles, 2);
-            this.btnVerDetalles.Size = new System.Drawing.Size(192, 38);
+            this.btnVerDetalles.Size = new System.Drawing.Size(215, 50);
             this.btnVerDetalles.TabIndex = 21;
             this.btnVerDetalles.Text = "Ver detalles...";
+            this.btnVerDetalles.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnVerDetalles.UseVisualStyleBackColor = true;
             this.btnVerDetalles.Click += new System.EventHandler(this.btnVerDetalles_Click);
             // 

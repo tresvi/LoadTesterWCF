@@ -15,15 +15,11 @@ namespace ClienteHCS_2
 
         private void InitializeComponent()
         {
-            this.btnExportar = new System.Windows.Forms.Button();
             this.grpResumen = new System.Windows.Forms.GroupBox();
             this.tlpResumen = new System.Windows.Forms.TableLayoutPanel();
             this.lblResultados2 = new System.Windows.Forms.Label();
             this.lblConfig = new System.Windows.Forms.Label();
             this.lblResultados1 = new System.Windows.Forms.Label();
-            this.tlpGraficos = new System.Windows.Forms.TableLayoutPanel();
-            this.lblTituloThroughputFail = new System.Windows.Forms.Label();
-            this.chartThroughputFail = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lblTituloThroughputOk = new System.Windows.Forms.Label();
             this.chartThroughputOk = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -38,24 +34,11 @@ namespace ClienteHCS_2
             this.tsbInfo = new System.Windows.Forms.ToolStripButton();
             this.grpResumen.SuspendLayout();
             this.tlpResumen.SuspendLayout();
-            this.tlpGraficos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chartThroughputFail)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartThroughputOk)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartLatencia)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // btnExportar
-            // 
-            this.btnExportar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExportar.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.btnExportar.Location = new System.Drawing.Point(750, 496);
-            this.btnExportar.Name = "btnExportar";
-            this.btnExportar.Size = new System.Drawing.Size(199, 28);
-            this.btnExportar.TabIndex = 3;
-            this.btnExportar.Text = "Exportar resultados...";
-            this.btnExportar.UseVisualStyleBackColor = true;
             // 
             // grpResumen
             // 
@@ -63,9 +46,11 @@ namespace ClienteHCS_2
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpResumen.Controls.Add(this.tlpResumen);
             this.grpResumen.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpResumen.Location = new System.Drawing.Point(17, 70);
+            this.grpResumen.Location = new System.Drawing.Point(26, 108);
+            this.grpResumen.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpResumen.Name = "grpResumen";
-            this.grpResumen.Size = new System.Drawing.Size(1112, 140);
+            this.grpResumen.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpResumen.Size = new System.Drawing.Size(1668, 215);
             this.grpResumen.TabIndex = 0;
             this.grpResumen.TabStop = false;
             this.grpResumen.Text = "Configuración y resultados del ensayo";
@@ -80,12 +65,13 @@ namespace ClienteHCS_2
             this.tlpResumen.Controls.Add(this.lblConfig, 0, 0);
             this.tlpResumen.Controls.Add(this.lblResultados1, 1, 0);
             this.tlpResumen.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpResumen.Location = new System.Drawing.Point(3, 17);
+            this.tlpResumen.Location = new System.Drawing.Point(4, 26);
+            this.tlpResumen.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tlpResumen.Name = "tlpResumen";
-            this.tlpResumen.Padding = new System.Windows.Forms.Padding(4);
+            this.tlpResumen.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.tlpResumen.RowCount = 1;
             this.tlpResumen.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpResumen.Size = new System.Drawing.Size(1106, 120);
+            this.tlpResumen.Size = new System.Drawing.Size(1660, 184);
             this.tlpResumen.TabIndex = 0;
             // 
             // lblResultados2
@@ -93,10 +79,11 @@ namespace ClienteHCS_2
             this.lblResultados2.AutoSize = true;
             this.lblResultados2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblResultados2.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.lblResultados2.Location = new System.Drawing.Point(372, 4);
+            this.lblResultados2.Location = new System.Drawing.Point(552, 6);
+            this.lblResultados2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblResultados2.Name = "lblResultados2";
-            this.lblResultados2.Padding = new System.Windows.Forms.Padding(4);
-            this.lblResultados2.Size = new System.Drawing.Size(727, 112);
+            this.lblResultados2.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.lblResultados2.Size = new System.Drawing.Size(1098, 172);
             this.lblResultados2.TabIndex = 2;
             this.lblResultados2.Text = "Resultados...";
             // 
@@ -104,10 +91,11 @@ namespace ClienteHCS_2
             // 
             this.lblConfig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblConfig.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.lblConfig.Location = new System.Drawing.Point(7, 4);
+            this.lblConfig.Location = new System.Drawing.Point(10, 6);
+            this.lblConfig.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblConfig.Name = "lblConfig";
-            this.lblConfig.Padding = new System.Windows.Forms.Padding(4);
-            this.lblConfig.Size = new System.Drawing.Size(264, 112);
+            this.lblConfig.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.lblConfig.Size = new System.Drawing.Size(396, 172);
             this.lblConfig.TabIndex = 0;
             this.lblConfig.Text = "Configuración...";
             // 
@@ -116,56 +104,13 @@ namespace ClienteHCS_2
             this.lblResultados1.AutoSize = true;
             this.lblResultados1.Dock = System.Windows.Forms.DockStyle.Left;
             this.lblResultados1.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.lblResultados1.Location = new System.Drawing.Point(277, 4);
+            this.lblResultados1.Location = new System.Drawing.Point(414, 6);
+            this.lblResultados1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblResultados1.Name = "lblResultados1";
-            this.lblResultados1.Padding = new System.Windows.Forms.Padding(4);
-            this.lblResultados1.Size = new System.Drawing.Size(89, 112);
+            this.lblResultados1.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.lblResultados1.Size = new System.Drawing.Size(130, 172);
             this.lblResultados1.TabIndex = 1;
             this.lblResultados1.Text = "Resultados...";
-            // 
-            // tlpGraficos
-            // 
-            this.tlpGraficos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tlpGraficos.ColumnCount = 2;
-            this.tlpGraficos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpGraficos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpGraficos.Controls.Add(this.lblTituloThroughputFail, 0, 4);
-            this.tlpGraficos.Controls.Add(this.chartThroughputFail, 0, 5);
-            this.tlpGraficos.Location = new System.Drawing.Point(1126, 348);
-            this.tlpGraficos.Name = "tlpGraficos";
-            this.tlpGraficos.RowCount = 6;
-            this.tlpGraficos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tlpGraficos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
-            this.tlpGraficos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
-            this.tlpGraficos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
-            this.tlpGraficos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
-            this.tlpGraficos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.34F));
-            this.tlpGraficos.Size = new System.Drawing.Size(546, 55);
-            this.tlpGraficos.TabIndex = 1;
-            this.tlpGraficos.Visible = false;
-            // 
-            // lblTituloThroughputFail
-            // 
-            this.lblTituloThroughputFail.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblTituloThroughputFail.AutoSize = true;
-            this.lblTituloThroughputFail.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
-            this.lblTituloThroughputFail.Location = new System.Drawing.Point(0, 35);
-            this.lblTituloThroughputFail.Margin = new System.Windows.Forms.Padding(0);
-            this.lblTituloThroughputFail.Name = "lblTituloThroughputFail";
-            this.lblTituloThroughputFail.Size = new System.Drawing.Size(214, 22);
-            this.lblTituloThroughputFail.TabIndex = 4;
-            this.lblTituloThroughputFail.Text = "Histograma Throughput Fail (trx fallidas/seg por hilo)";
-            // 
-            // chartThroughputFail
-            // 
-            this.chartThroughputFail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chartThroughputFail.Location = new System.Drawing.Point(0, 57);
-            this.chartThroughputFail.Margin = new System.Windows.Forms.Padding(0);
-            this.chartThroughputFail.Name = "chartThroughputFail";
-            this.chartThroughputFail.Size = new System.Drawing.Size(273, 1);
-            this.chartThroughputFail.TabIndex = 5;
             // 
             // tableLayoutPanel1
             // 
@@ -179,15 +124,14 @@ namespace ClienteHCS_2
             this.tableLayoutPanel1.Controls.Add(this.chartThroughputOk, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.lblTituloLatencia, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.chartLatencia, 0, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(17, 215);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(26, 331);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1104, 292);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1666, 464);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // lblTituloThroughputOk
@@ -195,40 +139,40 @@ namespace ClienteHCS_2
             this.lblTituloThroughputOk.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblTituloThroughputOk.AutoSize = true;
             this.lblTituloThroughputOk.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
-            this.lblTituloThroughputOk.Location = new System.Drawing.Point(552, 7);
+            this.lblTituloThroughputOk.Location = new System.Drawing.Point(833, 10);
             this.lblTituloThroughputOk.Margin = new System.Windows.Forms.Padding(0);
             this.lblTituloThroughputOk.Name = "lblTituloThroughputOk";
-            this.lblTituloThroughputOk.Size = new System.Drawing.Size(266, 17);
+            this.lblTituloThroughputOk.Size = new System.Drawing.Size(403, 28);
             this.lblTituloThroughputOk.TabIndex = 10;
             this.lblTituloThroughputOk.Text = "Histograma Throughput de hilos OK [tps]";
             // 
             // chartThroughputOk
             // 
             this.chartThroughputOk.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chartThroughputOk.Location = new System.Drawing.Point(552, 32);
-            this.chartThroughputOk.Margin = new System.Windows.Forms.Padding(0, 0, 4, 4);
+            this.chartThroughputOk.Location = new System.Drawing.Point(833, 49);
+            this.chartThroughputOk.Margin = new System.Windows.Forms.Padding(0, 0, 6, 6);
             this.chartThroughputOk.Name = "chartThroughputOk";
-            this.chartThroughputOk.Size = new System.Drawing.Size(548, 256);
+            this.chartThroughputOk.Size = new System.Drawing.Size(827, 409);
             this.chartThroughputOk.TabIndex = 9;
             // 
             // lblTituloLatencia
             // 
             this.lblTituloLatencia.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblTituloLatencia.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
-            this.lblTituloLatencia.Location = new System.Drawing.Point(0, 2);
+            this.lblTituloLatencia.Location = new System.Drawing.Point(0, 3);
             this.lblTituloLatencia.Margin = new System.Windows.Forms.Padding(0);
             this.lblTituloLatencia.Name = "lblTituloLatencia";
-            this.lblTituloLatencia.Size = new System.Drawing.Size(372, 27);
+            this.lblTituloLatencia.Size = new System.Drawing.Size(558, 42);
             this.lblTituloLatencia.TabIndex = 1;
             this.lblTituloLatencia.Text = "Histograma de Latencias de hilos [ms]";
             // 
             // chartLatencia
             // 
             this.chartLatencia.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chartLatencia.Location = new System.Drawing.Point(0, 32);
-            this.chartLatencia.Margin = new System.Windows.Forms.Padding(0, 0, 4, 4);
+            this.chartLatencia.Location = new System.Drawing.Point(0, 49);
+            this.chartLatencia.Margin = new System.Windows.Forms.Padding(0, 0, 6, 6);
             this.chartLatencia.Name = "chartLatencia";
-            this.chartLatencia.Size = new System.Drawing.Size(548, 256);
+            this.chartLatencia.Size = new System.Drawing.Size(827, 409);
             this.chartLatencia.TabIndex = 2;
             // 
             // toolStrip1
@@ -244,7 +188,8 @@ namespace ClienteHCS_2
             this.tsbInfo});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1136, 55);
+            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
+            this.toolStrip1.Size = new System.Drawing.Size(1704, 57);
             this.toolStrip1.TabIndex = 43;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -271,7 +216,7 @@ namespace ClienteHCS_2
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 55);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 57);
             // 
             // tsbMedidasRendimiento
             // 
@@ -286,7 +231,7 @@ namespace ClienteHCS_2
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 55);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 57);
             // 
             // tsbInfo
             // 
@@ -299,24 +244,20 @@ namespace ClienteHCS_2
             // 
             // FrmDetallesEnsayo
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1136, 525);
+            this.ClientSize = new System.Drawing.Size(1704, 823);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.tlpGraficos);
             this.Controls.Add(this.grpResumen);
-            this.Controls.Add(this.btnExportar);
-            this.MinimumSize = new System.Drawing.Size(598, 394);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.MinimumSize = new System.Drawing.Size(886, 576);
             this.Name = "FrmDetallesEnsayo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Detalles del ensayo";
             this.grpResumen.ResumeLayout(false);
             this.tlpResumen.ResumeLayout(false);
             this.tlpResumen.PerformLayout();
-            this.tlpGraficos.ResumeLayout(false);
-            this.tlpGraficos.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chartThroughputFail)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartThroughputOk)).EndInit();
@@ -334,16 +275,12 @@ namespace ClienteHCS_2
         private System.Windows.Forms.TableLayoutPanel tlpResumen;
         private System.Windows.Forms.Label lblConfig;
         private System.Windows.Forms.Label lblResultados1;
-        private System.Windows.Forms.TableLayoutPanel tlpGraficos;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chartThroughputFail;
-        private System.Windows.Forms.Label lblTituloThroughputFail;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label lblTituloLatencia;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartThroughputOk;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartLatencia;
         private System.Windows.Forms.Label lblTituloThroughputOk;
         private System.Windows.Forms.Label lblResultados2;
-        private System.Windows.Forms.Button btnExportar;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton tsbAbrirEnsayo;
         private System.Windows.Forms.ToolStripButton tsbGuardarEnsayo;
