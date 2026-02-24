@@ -81,12 +81,9 @@ namespace ClienteHCS_2
         {
             var valoresLatencia = _items.Where(i => i.LatAvg >= 0).Select(i => (double)i.LatAvg).ToList();
             var valoresThroughputOk = _items.Select(i => i.ThroughputOK).ToList();
-            double dur = _definition.DuracionSeg > 0 ? _definition.DuracionSeg : 1;
-            var valoresThroughputFail = _items.Select(i => i.TrxFail / dur).ToList();
 
             ConfigurarHistogramaChart(chartLatencia, valoresLatencia, "Latencia (ms)", "Hilos", decimalesEjeX: 1);
             ConfigurarHistogramaChart(chartThroughputOk, valoresThroughputOk, "Throughput OK [tps]", "Hilos", decimalesEjeX: 2);
-            ConfigurarHistogramaChart(chartThroughputFail, valoresThroughputFail, "Throughput Fail [tps]", "Hilos", decimalesEjeX: 2);
         }
 
         /// <summary>

@@ -26,7 +26,6 @@ namespace ClienteHCS_2
         private ConectorBrokerWCFClient _client;
         private readonly Encoding _hostEncoding;
 
-        private static object locker = new object();
         private static long _txCounter = 0;
 
         public HCSClient(string hcsServer, NetworkCredential networkCredentials)
@@ -57,7 +56,7 @@ namespace ClienteHCS_2
 
                 foreach (HCS.WCFMensaje mensaje in wcfresp)
                 {
-                    mensaje.Contenido = ReemplazarCaracteresNulos(mensaje.Contenido, 32); //Reemplazo los nulos por espacios para que no se corten los strings
+                    ReemplazarCaracteresNulosInPlace(mensaje.Contenido, 32);
 
                     if (transaccion.EsHexa)
                         respuesta.Add(_hostEncoding.GetString(mensaje.Contenido));
@@ -83,10 +82,7 @@ namespace ClienteHCS_2
 
         public static void ResetTxCounter()
         {
-            lock (locker)
-            {
-                _txCounter = 0;
-            }
+            Interlocked.Exchange(ref _txCounter, 0);
         }
 
 
@@ -106,7 +102,7 @@ namespace ClienteHCS_2
                 _client = null;
             }
         }
-        //Abort() cierra la conexion si estuviera abierta. Close la cierra, pero previamente hay que preguntar si esta abierta, si no lanza una Excepction
+        //Abort() cierra la conexion si estuviera abierta. Close la cierra, pero previamente hay que preguntar si esta abierta, si no lanza una Exception
 
 
         public void Dispose()
@@ -132,19 +128,15 @@ namespace ClienteHCS_2
         }
 
 
-        static byte[] ReemplazarCaracteresNulos(byte[] rawArray, byte reemplazo)
+        static void ReemplazarCaracteresNulosInPlace(byte[] rawArray, byte reemplazo)
         {
-            if (rawArray == null) return  null;
-
-            byte[] arrayRespuesta = new byte[rawArray.Length];
+            if (rawArray == null) return;
 
             for (int i = 0; i < rawArray.Length; i++)
             {
-                arrayRespuesta[i] = rawArray[i] == 0 ? reemplazo : rawArray[i];
+                if (rawArray[i] == 0)
+                    rawArray[i] = reemplazo;
             }
-
-            return arrayRespuesta;
         }
-
     }
 }

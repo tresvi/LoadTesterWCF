@@ -29,7 +29,7 @@ namespace ClienteHCS_2
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tlpParams = new System.Windows.Forms.TableLayoutPanel();
             this.btnIniciar = new System.Windows.Forms.Button();
@@ -300,15 +300,15 @@ namespace ClienteHCS_2
             this.dgvHilos.RowHeadersVisible = false;
             this.dgvHilos.RowHeadersWidth = 62;
             this.dgvHilos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvHilos.Size = new System.Drawing.Size(1836, 540);
+            this.dgvHilos.Size = new System.Drawing.Size(1836, 491);
             this.dgvHilos.TabIndex = 6;
             // 
             // colRowNum
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(245)))));
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(235)))));
-            this.colRowNum.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(245)))));
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(235)))));
+            this.colRowNum.DefaultCellStyle = dataGridViewCellStyle1;
             this.colRowNum.DividerWidth = 3;
             this.colRowNum.Frozen = true;
             this.colRowNum.HeaderText = "#";
@@ -431,7 +431,7 @@ namespace ClienteHCS_2
             this.tlpBottom.Controls.Add(this.lblSinRespuesta, 1, 1);
             this.tlpBottom.Controls.Add(this.btnVerDetalles, 5, 0);
             this.tlpBottom.Controls.Add(this.lblMetricasNuevas, 5, 2);
-            this.tlpBottom.Location = new System.Drawing.Point(18, 848);
+            this.tlpBottom.Location = new System.Drawing.Point(18, 799);
             this.tlpBottom.Margin = new System.Windows.Forms.Padding(0);
             this.tlpBottom.Name = "tlpBottom";
             this.tlpBottom.RowCount = 4;
@@ -453,8 +453,8 @@ namespace ClienteHCS_2
             this.btnVerDetalles.Location = new System.Drawing.Point(1617, 5);
             this.btnVerDetalles.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnVerDetalles.Name = "btnVerDetalles";
-            this.tlpBottom.SetRowSpan(this.btnVerDetalles, 2);
-            this.btnVerDetalles.Size = new System.Drawing.Size(215, 50);
+            this.tlpBottom.SetRowSpan(this.btnVerDetalles, 3);
+            this.btnVerDetalles.Size = new System.Drawing.Size(215, 68);
             this.btnVerDetalles.TabIndex = 21;
             this.btnVerDetalles.Text = "Ver detalles...";
             this.btnVerDetalles.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -550,7 +550,7 @@ namespace ClienteHCS_2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1872, 978);
+            this.ClientSize = new System.Drawing.Size(1872, 929);
             this.Controls.Add(this.gbConectividad);
             this.Controls.Add(this.lblCreandoHilos);
             this.Controls.Add(this.tlpBottom);
