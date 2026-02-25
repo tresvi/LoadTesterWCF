@@ -95,6 +95,7 @@ namespace ClienteHCS_2
             chartThroughputTemporal.Series.Clear();
             chartThroughputTemporal.ChartAreas.Clear();
             chartThroughputTemporal.Legends.Clear();
+            chartThroughputTemporal.Titles.Clear();
 
             var timestamps = _report?.Timestamps;
             if (timestamps == null || timestamps.Count == 0)
