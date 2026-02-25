@@ -145,6 +145,7 @@ namespace ClienteHCS_2
         {
             chart.Series.Clear();
             chart.ChartAreas.Clear();
+            chart.Titles.Clear();
 
             chart.ChartAreas.Add(new ChartArea("Default"));
             var area = chart.ChartAreas[0];
