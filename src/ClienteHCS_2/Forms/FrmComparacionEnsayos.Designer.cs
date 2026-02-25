@@ -66,12 +66,12 @@ namespace ClienteHCS_2
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(15, 15, 15, 15);
+            this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(15);
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1353, 850);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1257, 850);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // lblTitulo
@@ -83,7 +83,7 @@ namespace ClienteHCS_2
             this.lblTitulo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTitulo.Name = "lblTitulo";
             this.lblTitulo.Padding = new System.Windows.Forms.Padding(0, 0, 0, 9);
-            this.lblTitulo.Size = new System.Drawing.Size(1315, 54);
+            this.lblTitulo.Size = new System.Drawing.Size(1219, 54);
             this.lblTitulo.TabIndex = 0;
             this.lblTitulo.Text = "Comparación de ensayos";
             this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -97,7 +97,7 @@ namespace ClienteHCS_2
             this.lblAdvertencias.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblAdvertencias.Name = "lblAdvertencias";
             this.lblAdvertencias.Padding = new System.Windows.Forms.Padding(0, 0, 0, 12);
-            this.lblAdvertencias.Size = new System.Drawing.Size(1315, 54);
+            this.lblAdvertencias.Size = new System.Drawing.Size(1219, 54);
             this.lblAdvertencias.TabIndex = 1;
             this.lblAdvertencias.Text = "Advertencias";
             this.lblAdvertencias.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -118,8 +118,8 @@ namespace ClienteHCS_2
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.dgvMetricas);
-            this.splitContainer1.Size = new System.Drawing.Size(1315, 702);
-            this.splitContainer1.SplitterDistance = 512;
+            this.splitContainer1.Size = new System.Drawing.Size(1219, 702);
+            this.splitContainer1.SplitterDistance = 510;
             this.splitContainer1.SplitterWidth = 6;
             this.splitContainer1.TabIndex = 2;
             // 
@@ -142,7 +142,7 @@ namespace ClienteHCS_2
             this.chartRadar.Location = new System.Drawing.Point(0, 0);
             this.chartRadar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chartRadar.Name = "chartRadar";
-            this.chartRadar.Size = new System.Drawing.Size(1315, 512);
+            this.chartRadar.Size = new System.Drawing.Size(1219, 510);
             this.chartRadar.TabIndex = 0;
             this.chartRadar.Text = "chart1";
             // 
@@ -168,7 +168,7 @@ namespace ClienteHCS_2
             this.dgvMetricas.RowHeadersVisible = false;
             this.dgvMetricas.RowHeadersWidth = 62;
             this.dgvMetricas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMetricas.Size = new System.Drawing.Size(1315, 184);
+            this.dgvMetricas.Size = new System.Drawing.Size(1219, 186);
             this.dgvMetricas.TabIndex = 0;
             // 
             // colMetrica
@@ -210,7 +210,7 @@ namespace ClienteHCS_2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1353, 850);
+            this.ClientSize = new System.Drawing.Size(1257, 850);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MinimumSize = new System.Drawing.Size(1279, 862);
