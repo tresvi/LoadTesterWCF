@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace ClienteHCS_2
 {
-    internal sealed class EnsayoGuardado
+    internal sealed class LoadTestFile
     {
         public LoadTestReport Reporte { get; set; }
         public List<LoadTestThreadItem> Hilos { get; set; }
