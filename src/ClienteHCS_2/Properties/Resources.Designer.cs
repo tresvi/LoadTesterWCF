@@ -73,9 +73,9 @@ namespace ClienteHCS_2.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap abrir_loadTest {
+        internal static System.Drawing.Bitmap abrir_loadtest2 {
             get {
-                object obj = ResourceManager.GetObject("abrir-loadTest", resourceCulture);
+                object obj = ResourceManager.GetObject("abrir-loadtest2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +123,9 @@ namespace ClienteHCS_2.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap GuardarLoadTest {
+        internal static System.Drawing.Bitmap GuardarComoLoadTest {
             get {
-                object obj = ResourceManager.GetObject("GuardarLoadTest", resourceCulture);
+                object obj = ResourceManager.GetObject("GuardarComoLoadTest", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

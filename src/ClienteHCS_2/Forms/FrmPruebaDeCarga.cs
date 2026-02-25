@@ -100,7 +100,7 @@ namespace ClienteHCS_2
                 $"cada respuesta antes de la siguiente), con la pausa configurada en \"Pausa entre envíos (ms)\" entre cada envío " +
                 $"(0 = sin pausa).\nCada hilo abrirá su propia conexión hacia el servidor, a menos que se habilite " +
                 $"\"{cbUsarUnicaConexion.Text}\", en cuyo caso todas compartirán la misma conexión (puede producir cuellos de botella).\n" +
-                $"Al finalizar se muestran throughput, latencias (min/max/prom/percentiles) y se pueden exportar los resultados a CSV o JSON."
+                $"Al finalizar se muestran throughput, latencias (min/max/prom/percentiles)."
                 , "Ayuda", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 

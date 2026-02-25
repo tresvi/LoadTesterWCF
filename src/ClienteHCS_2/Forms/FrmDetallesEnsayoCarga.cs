@@ -153,6 +153,8 @@ namespace ClienteHCS_2
             area.AxisX.MajorGrid.LineColor = System.Drawing.Color.LightGray;
             area.AxisY.MajorGrid.LineColor = System.Drawing.Color.LightGray;
             area.BackColor = System.Drawing.Color.White;
+            area.AxisX.Interval = 1;
+            area.AxisX.LabelStyle.Angle = -45;
 
             var series = new Series("Histograma")
             {
