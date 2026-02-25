@@ -218,7 +218,12 @@ namespace ClienteHCS_2
             {
                 dlg.Filter = "Ensayo de carga (*.ltst)|*.ltst";
                 dlg.DefaultExt = "ltst";
-                dlg.FileName = $"PruebaCarga_{_report.Fecha:yyyyMMdd_HHmmss}";
+                string servidor = (_definition?.Server ?? "");
+                int hilos = _definition?.NroHilos ?? 0;
+                double duracion = _definition?.DuracionSeg ?? 0;
+                int pausa = _definition?.PausaMs ?? 0;
+                string hora = _report.Fecha.ToString("HHmmss");
+                dlg.FileName = $"{servidor}-{hilos}-{duracion}-{pausa}-{hora}";
                 if (dlg.ShowDialog() != DialogResult.OK) return;
 
                 try
@@ -254,7 +259,7 @@ namespace ClienteHCS_2
             }
         }
 
-        private void tsbMedidasRendimiento_Click(object sender, EventArgs e)
+        private void tsbCompararEnsayosCarga_Click(object sender, EventArgs e)
         {
             if (_report == null || _esVacio)
             {
