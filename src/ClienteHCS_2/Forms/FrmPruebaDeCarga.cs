@@ -105,7 +105,7 @@ namespace ClienteHCS_2
         }
 
 
-        private void btnIniciar_Click(object sender, System.EventArgs e)
+        private async void btnIniciar_Click(object sender, System.EventArgs e)
         {
             lblCreandoHilos.Visible = true;
             btnIniciar.Enabled = cbUsarUnicaConexion.Enabled = false;
@@ -120,6 +120,26 @@ namespace ClienteHCS_2
                 PausaMs = (int)nudPausaMs.Value,
                 UsarUnicaConexion = cbUsarUnicaConexion.Checked
             };
+
+            // Warm-up: una transmisión previa para validar parámetros y calentar la conexión
+            try
+            {
+                using (var warmUpClient = new HCSClient(_loadTestDefinition.Server, _networkCredential))
+                {
+                    await warmUpClient.EnviarYRecibir(_transaccion, cerrarConexionAlTerminar: true);
+                }
+            }
+            catch (Exception ex)
+            {
+                lblCreandoHilos.Visible = false;
+                MessageBox.Show(
+                    $"Error en la transmisión de warm-up. Verifique los parámetros de conexión.\n\nDetalles: {ex.Message}",
+                    "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                btnIniciar.Enabled = cbUsarUnicaConexion.Enabled = true;
+                nudDuracion.Enabled = nudHilosParalelos.Enabled = nudPausaMs.Enabled = true;
+                return;
+            }
+
             _contador = _contadorOK = _contadorFAIL = 0;
             _contadorSinRespuesta = 0;
             _listaHilos.Clear();
