@@ -123,7 +123,7 @@
     <Compile Include="Models\LoadTest\LoadTestThreadItem.cs" />
     <Compile Include="Models\LoadTest\LoadTestDefinition.cs" />
     <Compile Include="Models\LoadTest\LoadTestReport.cs" />
-    <Compile Include="Models\LoadTest\EnsayoGuardado.cs" />
+    <Compile Include="Models\LoadTest\LoadTestFile.cs" />
     <Compile Include="Helpers\SortableBindingList.cs" />
     <EmbeddedResource Include="Forms\FrmComparacionEnsayos.resx">
       <DependentUpon>FrmComparacionEnsayos.cs</DependentUpon>

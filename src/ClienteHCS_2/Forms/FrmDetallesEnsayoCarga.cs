@@ -293,7 +293,7 @@ namespace ClienteHCS_2
 
         private void GuardarEnsayoCompleto(string path)
         {
-            var ensayo = new EnsayoGuardado
+            var ensayo = new LoadTestFile
             {
                 Reporte = _report,
                 Hilos = _items != null ? _items.ToList() : new List<LoadTestThreadItem>(),
@@ -316,14 +316,14 @@ namespace ClienteHCS_2
             ConfigurarCharts();
         }
 
-        internal static EnsayoGuardado LeerEnsayoGuardado(string path)
+        internal static LoadTestFile LeerEnsayoGuardado(string path)
         {
             string json = File.ReadAllText(path);
 
-            EnsayoGuardado ensayo = null;
+            LoadTestFile ensayo = null;
             try
             {
-                ensayo = JsonConvert.DeserializeObject<EnsayoGuardado>(json);
+                ensayo = JsonConvert.DeserializeObject<LoadTestFile>(json);
             }
             catch
             {
@@ -332,7 +332,7 @@ namespace ClienteHCS_2
 
             if (ensayo != null && ensayo.Reporte != null)
             {
-                return new EnsayoGuardado
+                return new LoadTestFile
                 {
                     Reporte = ensayo.Reporte,
                     Hilos = ensayo.Hilos ?? new List<LoadTestThreadItem>(),
@@ -345,7 +345,7 @@ namespace ClienteHCS_2
             if (reporte == null)
                 throw new InvalidOperationException("El archivo no tiene un formato de ensayo válido.");
 
-            return new EnsayoGuardado
+            return new LoadTestFile
             {
                 Reporte = reporte,
                 Hilos = new List<LoadTestThreadItem>(),
