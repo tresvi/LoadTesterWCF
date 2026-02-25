@@ -73,6 +73,16 @@ namespace ClienteHCS_2.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap abrir_loadTest {
+            get {
+                object obj = ResourceManager.GetObject("abrir-loadTest", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap boton_de_play {
             get {
                 object obj = ResourceManager.GetObject("boton-de-play", resourceCulture);
@@ -106,6 +116,16 @@ namespace ClienteHCS_2.Properties {
         internal static System.Drawing.Bitmap evaluacion_comparativa {
             get {
                 object obj = ResourceManager.GetObject("evaluacion-comparativa", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GuardarLoadTest {
+            get {
+                object obj = ResourceManager.GetObject("GuardarLoadTest", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

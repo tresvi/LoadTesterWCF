@@ -367,7 +367,7 @@ namespace ClienteHCS_2
         private void btnVerDetalles_Click(object sender, EventArgs e)
         {
             if (_lastReport == null) return;
-            using (var frm = new FrmDetallesEnsayo(
+            using (var frm = new FrmDetallesEnsayoCarga(
                 _lastReport,
                 _listaHilos.ToList(),
                 _loadTestDefinition))

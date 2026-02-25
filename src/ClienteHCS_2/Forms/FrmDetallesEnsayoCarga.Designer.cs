@@ -1,6 +1,6 @@
 namespace ClienteHCS_2
 {
-    partial class FrmDetallesEnsayo
+    partial class FrmDetallesEnsayoCarga
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -51,11 +51,11 @@ namespace ClienteHCS_2
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpResumen.Controls.Add(this.tlpResumen);
             this.grpResumen.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpResumen.Location = new System.Drawing.Point(26, 10);
+            this.grpResumen.Location = new System.Drawing.Point(31, 12);
             this.grpResumen.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpResumen.Name = "grpResumen";
             this.grpResumen.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.grpResumen.Size = new System.Drawing.Size(1193, 215);
+            this.grpResumen.Size = new System.Drawing.Size(1985, 258);
             this.grpResumen.TabIndex = 0;
             this.grpResumen.TabStop = false;
             this.grpResumen.Text = "Configuración y resultados del ensayo";
@@ -76,7 +76,7 @@ namespace ClienteHCS_2
             this.tlpResumen.Padding = new System.Windows.Forms.Padding(6);
             this.tlpResumen.RowCount = 1;
             this.tlpResumen.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpResumen.Size = new System.Drawing.Size(1185, 184);
+            this.tlpResumen.Size = new System.Drawing.Size(1977, 227);
             this.tlpResumen.TabIndex = 0;
             // 
             // lblResultados2
@@ -88,7 +88,7 @@ namespace ClienteHCS_2
             this.lblResultados2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblResultados2.Name = "lblResultados2";
             this.lblResultados2.Padding = new System.Windows.Forms.Padding(6);
-            this.lblResultados2.Size = new System.Drawing.Size(623, 172);
+            this.lblResultados2.Size = new System.Drawing.Size(1415, 215);
             this.lblResultados2.TabIndex = 2;
             this.lblResultados2.Text = "Resultados...";
             // 
@@ -100,7 +100,7 @@ namespace ClienteHCS_2
             this.lblConfig.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblConfig.Name = "lblConfig";
             this.lblConfig.Padding = new System.Windows.Forms.Padding(6);
-            this.lblConfig.Size = new System.Drawing.Size(396, 172);
+            this.lblConfig.Size = new System.Drawing.Size(396, 215);
             this.lblConfig.TabIndex = 0;
             this.lblConfig.Text = "Configuración...";
             // 
@@ -113,7 +113,7 @@ namespace ClienteHCS_2
             this.lblResultados1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblResultados1.Name = "lblResultados1";
             this.lblResultados1.Padding = new System.Windows.Forms.Padding(6);
-            this.lblResultados1.Size = new System.Drawing.Size(130, 172);
+            this.lblResultados1.Size = new System.Drawing.Size(130, 215);
             this.lblResultados1.TabIndex = 1;
             this.lblResultados1.Text = "Resultados...";
             // 
@@ -130,14 +130,14 @@ namespace ClienteHCS_2
             this.tableLayoutPanel1.Controls.Add(this.chartLatencia, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.lblTituloThroughputTemporal, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.chartThroughputTemporal, 0, 3);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(26, 233);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(31, 280);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 350F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 350F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1193, 770);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1985, 924);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // lblTituloThroughputOk
@@ -145,7 +145,7 @@ namespace ClienteHCS_2
             this.lblTituloThroughputOk.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblTituloThroughputOk.AutoSize = true;
             this.lblTituloThroughputOk.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
-            this.lblTituloThroughputOk.Location = new System.Drawing.Point(596, 3);
+            this.lblTituloThroughputOk.Location = new System.Drawing.Point(992, 3);
             this.lblTituloThroughputOk.Margin = new System.Windows.Forms.Padding(0);
             this.lblTituloThroughputOk.Name = "lblTituloThroughputOk";
             this.lblTituloThroughputOk.Size = new System.Drawing.Size(403, 28);
@@ -155,10 +155,10 @@ namespace ClienteHCS_2
             // chartThroughputOk
             // 
             this.chartThroughputOk.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chartThroughputOk.Location = new System.Drawing.Point(596, 35);
+            this.chartThroughputOk.Location = new System.Drawing.Point(992, 35);
             this.chartThroughputOk.Margin = new System.Windows.Forms.Padding(0, 0, 6, 6);
             this.chartThroughputOk.Name = "chartThroughputOk";
-            this.chartThroughputOk.Size = new System.Drawing.Size(591, 344);
+            this.chartThroughputOk.Size = new System.Drawing.Size(987, 344);
             this.chartThroughputOk.TabIndex = 9;
             // 
             // lblTituloLatencia
@@ -178,7 +178,7 @@ namespace ClienteHCS_2
             this.chartLatencia.Location = new System.Drawing.Point(0, 35);
             this.chartLatencia.Margin = new System.Windows.Forms.Padding(0, 0, 6, 6);
             this.chartLatencia.Name = "chartLatencia";
-            this.chartLatencia.Size = new System.Drawing.Size(590, 344);
+            this.chartLatencia.Size = new System.Drawing.Size(986, 344);
             this.chartLatencia.TabIndex = 2;
             // 
             // lblTituloThroughputTemporal
@@ -201,7 +201,7 @@ namespace ClienteHCS_2
             this.chartThroughputTemporal.Location = new System.Drawing.Point(0, 420);
             this.chartThroughputTemporal.Margin = new System.Windows.Forms.Padding(0, 0, 6, 6);
             this.chartThroughputTemporal.Name = "chartThroughputTemporal";
-            this.chartThroughputTemporal.Size = new System.Drawing.Size(1187, 344);
+            this.chartThroughputTemporal.Size = new System.Drawing.Size(1979, 498);
             this.chartThroughputTemporal.TabIndex = 12;
             // 
             // toolStrip1
@@ -218,14 +218,14 @@ namespace ClienteHCS_2
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
-            this.toolStrip1.Size = new System.Drawing.Size(1309, 57);
+            this.toolStrip1.Size = new System.Drawing.Size(1894, 57);
             this.toolStrip1.TabIndex = 43;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // tsbAbrirEnsayo
             // 
             this.tsbAbrirEnsayo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbAbrirEnsayo.Image = global::ClienteHCS_2.Properties.Resources.abrir_documento;
+            this.tsbAbrirEnsayo.Image = global::ClienteHCS_2.Properties.Resources.abrir_loadTest;
             this.tsbAbrirEnsayo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbAbrirEnsayo.Name = "tsbAbrirEnsayo";
             this.tsbAbrirEnsayo.Size = new System.Drawing.Size(52, 52);
@@ -235,7 +235,7 @@ namespace ClienteHCS_2
             // tsbGuardarEnsayo
             // 
             this.tsbGuardarEnsayo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbGuardarEnsayo.Image = global::ClienteHCS_2.Properties.Resources.Save_as_80_icon_icons_com_57275;
+            this.tsbGuardarEnsayo.Image = global::ClienteHCS_2.Properties.Resources.GuardarLoadTest;
             this.tsbGuardarEnsayo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbGuardarEnsayo.Name = "tsbGuardarEnsayo";
             this.tsbGuardarEnsayo.Size = new System.Drawing.Size(52, 52);
@@ -280,21 +280,21 @@ namespace ClienteHCS_2
             this.pnlContenido.Location = new System.Drawing.Point(0, 57);
             this.pnlContenido.Margin = new System.Windows.Forms.Padding(0);
             this.pnlContenido.Name = "pnlContenido";
-            this.pnlContenido.Size = new System.Drawing.Size(1309, 701);
+            this.pnlContenido.Size = new System.Drawing.Size(1894, 1059);
             this.pnlContenido.TabIndex = 44;
             // 
-            // FrmDetallesEnsayo
+            // FrmDetallesEnsayoCarga
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1309, 758);
+            this.ClientSize = new System.Drawing.Size(1894, 1116);
             this.Controls.Add(this.pnlContenido);
             this.Controls.Add(this.toolStrip1);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MinimumSize = new System.Drawing.Size(886, 576);
-            this.Name = "FrmDetallesEnsayo";
+            this.Name = "FrmDetallesEnsayoCarga";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Detalles del ensayo";
+            this.Text = "Detalles del ensayo de carga";
             this.grpResumen.ResumeLayout(false);
             this.tlpResumen.ResumeLayout(false);
             this.tlpResumen.PerformLayout();

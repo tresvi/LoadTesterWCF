@@ -4,13 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using ClienteHCS_2.Helpers;
 using Newtonsoft.Json;
 
 namespace ClienteHCS_2
 {
 
-    public partial class FrmDetallesEnsayo : Form
+    public partial class FrmDetallesEnsayoCarga : Form
     {
         private LoadTestReport _report;
         private IList<LoadTestThreadItem> _items;
@@ -18,7 +17,7 @@ namespace ClienteHCS_2
         private bool _esVacio;
 
         // Constructor para permitir abrir el Diseñador de WinForms.
-        public FrmDetallesEnsayo()
+        public FrmDetallesEnsayoCarga()
         {
             _report = new LoadTestReport();
             _items = new List<LoadTestThreadItem>();
@@ -30,7 +29,7 @@ namespace ClienteHCS_2
             ConfigurarCharts();
         }
 
-        public FrmDetallesEnsayo(
+        public FrmDetallesEnsayoCarga(
             LoadTestReport report,
             IList<LoadTestThreadItem> items,
             LoadTestDefinition definition)
@@ -214,32 +213,19 @@ namespace ClienteHCS_2
         {
             using (var dlg = new SaveFileDialog())
             {
-                dlg.Filter = "Ensayo de carga (*.ltst)|*.ltst|CSV (*.csv)|*.csv|JSON reporte (*.json)|*.json";
+                dlg.Filter = "Ensayo de carga (*.ltst)|*.ltst";
                 dlg.DefaultExt = "ltst";
                 dlg.FileName = $"PruebaCarga_{_report.Fecha:yyyyMMdd_HHmmss}";
                 if (dlg.ShowDialog() != DialogResult.OK) return;
 
                 try
                 {
-                    if (dlg.FileName.EndsWith(".ltst", StringComparison.OrdinalIgnoreCase))
-                    {
-                        GuardarEnsayoCompleto(dlg.FileName);
-                        MessageBox.Show("Ensayo guardado correctamente.", "Guardar ensayo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else if (dlg.FileName.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
-                    {
-                        LoadTestReportExporter.ExportarJson(_report, dlg.FileName);
-                        MessageBox.Show("Reporte exportado correctamente.", "Exportar", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        LoadTestReportExporter.ExportarCsv(_report, dlg.FileName);
-                        MessageBox.Show("Reporte exportado correctamente.", "Exportar", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
+                    GuardarEnsayoCompleto(dlg.FileName);
+                    MessageBox.Show("Ensayo guardado correctamente.", "Guardar ensayo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al guardar/exportar: {ex.Message}", "Guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Error al guardar: {ex.Message}", "Guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
