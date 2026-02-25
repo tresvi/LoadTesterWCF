@@ -84,6 +84,58 @@ namespace ClienteHCS_2
 
             ConfigurarHistogramaChart(chartLatencia, valoresLatencia, "Latencia (ms)", "Hilos", decimalesEjeX: 1);
             ConfigurarHistogramaChart(chartThroughputOk, valoresThroughputOk, "Throughput OK [tps]", "Hilos", decimalesEjeX: 2);
+            ConfigurarThroughputTemporalChart();
+        }
+
+        /// <summary>
+        /// Configura el chart de throughput en función del tiempo.
+        /// Muestra una línea de throughput total (trx/seg por segundo) y una línea por cada hilo.
+        /// </summary>
+        private void ConfigurarThroughputTemporalChart()
+        {
+            chartThroughputTemporal.Series.Clear();
+            chartThroughputTemporal.ChartAreas.Clear();
+            chartThroughputTemporal.Legends.Clear();
+
+            var timestamps = _report?.Timestamps;
+            if (timestamps == null || timestamps.Count == 0)
+            {
+                chartThroughputTemporal.ChartAreas.Add(new ChartArea("Default"));
+                chartThroughputTemporal.Titles.Clear();
+                chartThroughputTemporal.Titles.Add(new Title("Sin datos de throughput temporal")
+                {
+                    Font = new System.Drawing.Font("Segoe UI", 10f),
+                    ForeColor = System.Drawing.Color.Gray
+                });
+                return;
+            }
+
+            var area = new ChartArea("Default");
+            area.AxisX.Title = "Tiempo (seg)";
+            area.AxisY.Title = "Trx/seg";
+            area.AxisX.MajorGrid.LineColor = System.Drawing.Color.LightGray;
+            area.AxisY.MajorGrid.LineColor = System.Drawing.Color.LightGray;
+            area.BackColor = System.Drawing.Color.White;
+            area.AxisX.Interval = 1;
+            chartThroughputTemporal.ChartAreas.Add(area);
+
+            int maxSeg = timestamps.Max(t => t.SegundoRelativo);
+
+            // Serie: throughput total por segundo
+            var totalPorSegundo = new int[maxSeg + 1];
+            foreach (var ts in timestamps)
+                totalPorSegundo[ts.SegundoRelativo]++;
+
+            var serieTotal = new Series("Total")
+            {
+                ChartType = SeriesChartType.Line,
+                Color = System.Drawing.Color.Black,
+                BorderWidth = 3,
+                IsVisibleInLegend = false
+            };
+            for (int s = 0; s <= maxSeg; s++)
+                serieTotal.Points.AddXY(s, totalPorSegundo[s]);
+            chartThroughputTemporal.Series.Add(serieTotal);
         }
 
         /// <summary>

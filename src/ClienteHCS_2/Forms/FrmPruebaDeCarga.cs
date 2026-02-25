@@ -34,6 +34,7 @@ namespace ClienteHCS_2
         bool _abortImmediatly = false;
         HCSClient _hcsClient;
         ConcurrentBag<long> _latencies = new ConcurrentBag<long>();
+        ConcurrentBag<TrxTimestamp> _timestamps = new ConcurrentBag<TrxTimestamp>();
         SortableBindingList<LoadTestThreadItem> _listaHilos = new SortableBindingList<LoadTestThreadItem>();
         string _correlationIDBase;
 
@@ -128,6 +129,7 @@ namespace ClienteHCS_2
             this.Invalidate();
             this.Update();
             _latencies = new ConcurrentBag<long>();
+            _timestamps = new ConcurrentBag<TrxTimestamp>();
             _tasks = new Task[_loadTestDefinition.NroHilos];
             _countArranque = _loadTestDefinition.NroHilos;
             _tcsArranque = new TaskCompletionSource<bool>();
@@ -208,6 +210,11 @@ namespace ClienteHCS_2
                         long ms = reqSw.ElapsedMilliseconds;
                         latenciasHilo.Add(ms);
                         _latencies.Add(ms);
+                        _timestamps.Add(new TrxTimestamp
+                        {
+                            SegundoRelativo = (int)(sw.ElapsedMilliseconds / 1000),
+                            NroHilo = nroTarea
+                        });
                         trxOk++;
                     }
                     catch
@@ -339,7 +346,9 @@ namespace ClienteHCS_2
                 transmisionesSinRespuesta: _contadorSinRespuesta,
                 transmisionesCompletadas: transmisiones,
                 tiempoMs: tiempoMs,
-                correlationIDBase: _correlationIDBase);
+                correlationIDBase: _correlationIDBase,
+                timestamps: _timestamps);
+
             btnVerDetalles.Enabled = true;
 
             MessageBox.Show("Prueba finalizada." + _lastReport.ToString());

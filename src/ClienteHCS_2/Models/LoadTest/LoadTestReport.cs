@@ -53,6 +53,12 @@ namespace ClienteHCS_2
         /// <summary>Base del Correlation ID (primeros 2 segmentos sin el número de hilo).</summary>
         public string CorrelationIDBase { get; set; } = "";
 
+        /// <summary>
+        /// Timestamps de transacciones exitosas (segundo relativo + nro de hilo).
+        /// Se usa para graficar throughput en función del tiempo.
+        /// </summary>
+        public List<TrxTimestamp> Timestamps { get; set; } = new List<TrxTimestamp>();
+
 
         /// <summary>
         /// Crea y calcula un reporte a partir de los datos de la prueba.
@@ -69,7 +75,8 @@ namespace ClienteHCS_2
             long transmisionesCompletadas,
             long tiempoMs,
             DateTime? fecha = null,
-            string correlationIDBase = null)
+            string correlationIDBase = null,
+            IEnumerable<TrxTimestamp> timestamps = null)
         {
             if (loadTestDefinition == null) throw new ArgumentNullException(nameof(loadTestDefinition));
             var def = loadTestDefinition;
@@ -142,7 +149,8 @@ namespace ClienteHCS_2
                 EstabilidadLatencia = estabilidadLatencia,
                 TasaExitoTransacciones = tasaExitoTransacciones,
                 ConsistenciaRendimiento = consistenciaRendimiento,
-                CorrelationIDBase = correlationIDBase ?? ""
+                CorrelationIDBase = correlationIDBase ?? "",
+                Timestamps = timestamps != null ? timestamps.ToList() : new List<TrxTimestamp>()
             };
         }
 
