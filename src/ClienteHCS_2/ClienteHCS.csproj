@@ -249,6 +249,8 @@
     <None Include="Recursos\GuardarLoadTest.png" />
     <None Include="Recursos\GuardarComoLoadTest.png" />
     <None Include="Recursos\abrir-loadtest2.png" />
+    <None Include="Recursos\boton-de-play_64x64.png" />
+    <None Include="Recursos\boton-de-play_48x48.png" />
     <Content Include="TextFile1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

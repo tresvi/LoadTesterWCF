@@ -83,9 +83,9 @@ namespace ClienteHCS_2.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap boton_de_play {
+        internal static System.Drawing.Bitmap boton_de_play_48x48 {
             get {
-                object obj = ResourceManager.GetObject("boton-de-play", resourceCulture);
+                object obj = ResourceManager.GetObject("boton-de-play_48x48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
