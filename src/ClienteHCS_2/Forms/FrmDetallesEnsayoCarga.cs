@@ -4,13 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using ClienteHCS_2.Helpers;
 using Newtonsoft.Json;
 
 namespace ClienteHCS_2
 {
 
-    public partial class FrmDetallesEnsayo : Form
+    public partial class FrmDetallesEnsayoCarga : Form
     {
         private LoadTestReport _report;
         private IList<LoadTestThreadItem> _items;
@@ -18,7 +17,7 @@ namespace ClienteHCS_2
         private bool _esVacio;
 
         // Constructor para permitir abrir el Diseñador de WinForms.
-        public FrmDetallesEnsayo()
+        public FrmDetallesEnsayoCarga()
         {
             _report = new LoadTestReport();
             _items = new List<LoadTestThreadItem>();
@@ -30,7 +29,7 @@ namespace ClienteHCS_2
             ConfigurarCharts();
         }
 
-        public FrmDetallesEnsayo(
+        public FrmDetallesEnsayoCarga(
             LoadTestReport report,
             IList<LoadTestThreadItem> items,
             LoadTestDefinition definition)
@@ -81,12 +80,61 @@ namespace ClienteHCS_2
         {
             var valoresLatencia = _items.Where(i => i.LatAvg >= 0).Select(i => (double)i.LatAvg).ToList();
             var valoresThroughputOk = _items.Select(i => i.ThroughputOK).ToList();
-            double dur = _definition.DuracionSeg > 0 ? _definition.DuracionSeg : 1;
-            var valoresThroughputFail = _items.Select(i => i.TrxFail / dur).ToList();
 
             ConfigurarHistogramaChart(chartLatencia, valoresLatencia, "Latencia (ms)", "Hilos", decimalesEjeX: 1);
             ConfigurarHistogramaChart(chartThroughputOk, valoresThroughputOk, "Throughput OK [tps]", "Hilos", decimalesEjeX: 2);
-            ConfigurarHistogramaChart(chartThroughputFail, valoresThroughputFail, "Throughput Fail [tps]", "Hilos", decimalesEjeX: 2);
+            ConfigurarThroughputTemporalChart();
+        }
+
+        /// <summary>
+        /// Configura el chart de throughput en función del tiempo.
+        /// Muestra una línea de throughput total (trx/seg por segundo) y una línea por cada hilo.
+        /// </summary>
+        private void ConfigurarThroughputTemporalChart()
+        {
+            chartThroughputTemporal.Series.Clear();
+            chartThroughputTemporal.ChartAreas.Clear();
+            chartThroughputTemporal.Legends.Clear();
+
+            var timestamps = _report?.Timestamps;
+            if (timestamps == null || timestamps.Count == 0)
+            {
+                chartThroughputTemporal.ChartAreas.Add(new ChartArea("Default"));
+                chartThroughputTemporal.Titles.Clear();
+                chartThroughputTemporal.Titles.Add(new Title("Sin datos de throughput temporal")
+                {
+                    Font = new System.Drawing.Font("Segoe UI", 10f),
+                    ForeColor = System.Drawing.Color.Gray
+                });
+                return;
+            }
+
+            var area = new ChartArea("Default");
+            area.AxisX.Title = "Tiempo (seg)";
+            area.AxisY.Title = "Trx/seg";
+            area.AxisX.MajorGrid.LineColor = System.Drawing.Color.LightGray;
+            area.AxisY.MajorGrid.LineColor = System.Drawing.Color.LightGray;
+            area.BackColor = System.Drawing.Color.White;
+            area.AxisX.Interval = 1;
+            chartThroughputTemporal.ChartAreas.Add(area);
+
+            int maxSeg = timestamps.Max(t => t.SegundoRelativo);
+
+            // Serie: throughput total por segundo
+            var totalPorSegundo = new int[maxSeg + 1];
+            foreach (var ts in timestamps)
+                totalPorSegundo[ts.SegundoRelativo]++;
+
+            var serieTotal = new Series("Total")
+            {
+                ChartType = SeriesChartType.Line,
+                Color = System.Drawing.Color.Black,
+                BorderWidth = 3,
+                IsVisibleInLegend = false
+            };
+            for (int s = 0; s <= maxSeg; s++)
+                serieTotal.Points.AddXY(s, totalPorSegundo[s]);
+            chartThroughputTemporal.Series.Add(serieTotal);
         }
 
         /// <summary>
@@ -97,6 +145,7 @@ namespace ClienteHCS_2
         {
             chart.Series.Clear();
             chart.ChartAreas.Clear();
+            chart.Titles.Clear();
 
             chart.ChartAreas.Add(new ChartArea("Default"));
             var area = chart.ChartAreas[0];
@@ -105,6 +154,8 @@ namespace ClienteHCS_2
             area.AxisX.MajorGrid.LineColor = System.Drawing.Color.LightGray;
             area.AxisY.MajorGrid.LineColor = System.Drawing.Color.LightGray;
             area.BackColor = System.Drawing.Color.White;
+            area.AxisX.Interval = 1;
+            area.AxisX.LabelStyle.Angle = -45;
 
             var series = new Series("Histograma")
             {
@@ -165,32 +216,19 @@ namespace ClienteHCS_2
         {
             using (var dlg = new SaveFileDialog())
             {
-                dlg.Filter = "Ensayo de carga (*.ltst)|*.ltst|CSV (*.csv)|*.csv|JSON reporte (*.json)|*.json";
+                dlg.Filter = "Ensayo de carga (*.ltst)|*.ltst";
                 dlg.DefaultExt = "ltst";
                 dlg.FileName = $"PruebaCarga_{_report.Fecha:yyyyMMdd_HHmmss}";
                 if (dlg.ShowDialog() != DialogResult.OK) return;
 
                 try
                 {
-                    if (dlg.FileName.EndsWith(".ltst", StringComparison.OrdinalIgnoreCase))
-                    {
-                        GuardarEnsayoCompleto(dlg.FileName);
-                        MessageBox.Show("Ensayo guardado correctamente.", "Guardar ensayo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else if (dlg.FileName.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
-                    {
-                        LoadTestReportExporter.ExportarJson(_report, dlg.FileName);
-                        MessageBox.Show("Reporte exportado correctamente.", "Exportar", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        LoadTestReportExporter.ExportarCsv(_report, dlg.FileName);
-                        MessageBox.Show("Reporte exportado correctamente.", "Exportar", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
+                    GuardarEnsayoCompleto(dlg.FileName);
+                    MessageBox.Show("Ensayo guardado correctamente.", "Guardar ensayo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al guardar/exportar: {ex.Message}", "Guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Error al guardar: {ex.Message}", "Guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

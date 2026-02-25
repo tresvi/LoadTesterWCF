@@ -341,7 +341,7 @@ namespace ClienteHCS_2
 
         private void tsbDetallesLoadTest_Click(object sender, EventArgs e)
         {
-            using (FrmDetallesEnsayo frm = new FrmDetallesEnsayo())
+            using (FrmDetallesEnsayoCarga frm = new FrmDetallesEnsayoCarga())
             {
                 frm.ShowDialog(this);
             }
@@ -368,8 +368,8 @@ namespace ClienteHCS_2
 
             try
             {
-                var ensayo1 = FrmDetallesEnsayo.LeerEnsayoGuardado(ofdEnsayo1.FileName);
-                var ensayo2 = FrmDetallesEnsayo.LeerEnsayoGuardado(ofdEnsayo2.FileName);
+                var ensayo1 = FrmDetallesEnsayoCarga.LeerEnsayoGuardado(ofdEnsayo1.FileName);
+                var ensayo2 = FrmDetallesEnsayoCarga.LeerEnsayoGuardado(ofdEnsayo2.FileName);
 
                 string nombre1 = Path.GetFileNameWithoutExtension(ofdEnsayo1.FileName);
                 string nombre2 = Path.GetFileNameWithoutExtension(ofdEnsayo2.FileName);

@@ -1,6 +1,6 @@
 namespace ClienteHCS_2
 {
-    partial class FrmDetallesEnsayo
+    partial class FrmDetallesEnsayoCarga
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -25,19 +25,23 @@ namespace ClienteHCS_2
             this.chartThroughputOk = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.lblTituloLatencia = new System.Windows.Forms.Label();
             this.chartLatencia = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.lblTituloThroughputTemporal = new System.Windows.Forms.Label();
+            this.chartThroughputTemporal = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsbAbrirEnsayo = new System.Windows.Forms.ToolStripButton();
             this.tsbGuardarEnsayo = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbMedidasRendimiento = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsbInfo = new System.Windows.Forms.ToolStripButton();
+            this.pnlContenido = new System.Windows.Forms.Panel();
             this.grpResumen.SuspendLayout();
             this.tlpResumen.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartThroughputOk)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartLatencia)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartThroughputTemporal)).BeginInit();
             this.toolStrip1.SuspendLayout();
+            this.pnlContenido.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpResumen
@@ -46,11 +50,11 @@ namespace ClienteHCS_2
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpResumen.Controls.Add(this.tlpResumen);
             this.grpResumen.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpResumen.Location = new System.Drawing.Point(26, 108);
+            this.grpResumen.Location = new System.Drawing.Point(13, 17);
             this.grpResumen.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpResumen.Name = "grpResumen";
             this.grpResumen.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.grpResumen.Size = new System.Drawing.Size(1668, 215);
+            this.grpResumen.Size = new System.Drawing.Size(1026, 278);
             this.grpResumen.TabIndex = 0;
             this.grpResumen.TabStop = false;
             this.grpResumen.Text = "Configuración y resultados del ensayo";
@@ -68,10 +72,10 @@ namespace ClienteHCS_2
             this.tlpResumen.Location = new System.Drawing.Point(4, 26);
             this.tlpResumen.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tlpResumen.Name = "tlpResumen";
-            this.tlpResumen.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tlpResumen.Padding = new System.Windows.Forms.Padding(6);
             this.tlpResumen.RowCount = 1;
             this.tlpResumen.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpResumen.Size = new System.Drawing.Size(1660, 184);
+            this.tlpResumen.Size = new System.Drawing.Size(1018, 247);
             this.tlpResumen.TabIndex = 0;
             // 
             // lblResultados2
@@ -82,8 +86,8 @@ namespace ClienteHCS_2
             this.lblResultados2.Location = new System.Drawing.Point(552, 6);
             this.lblResultados2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblResultados2.Name = "lblResultados2";
-            this.lblResultados2.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.lblResultados2.Size = new System.Drawing.Size(1098, 172);
+            this.lblResultados2.Padding = new System.Windows.Forms.Padding(6);
+            this.lblResultados2.Size = new System.Drawing.Size(456, 235);
             this.lblResultados2.TabIndex = 2;
             this.lblResultados2.Text = "Resultados...";
             // 
@@ -94,8 +98,8 @@ namespace ClienteHCS_2
             this.lblConfig.Location = new System.Drawing.Point(10, 6);
             this.lblConfig.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblConfig.Name = "lblConfig";
-            this.lblConfig.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.lblConfig.Size = new System.Drawing.Size(396, 172);
+            this.lblConfig.Padding = new System.Windows.Forms.Padding(6);
+            this.lblConfig.Size = new System.Drawing.Size(396, 235);
             this.lblConfig.TabIndex = 0;
             this.lblConfig.Text = "Configuración...";
             // 
@@ -107,15 +111,14 @@ namespace ClienteHCS_2
             this.lblResultados1.Location = new System.Drawing.Point(414, 6);
             this.lblResultados1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblResultados1.Name = "lblResultados1";
-            this.lblResultados1.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.lblResultados1.Size = new System.Drawing.Size(130, 172);
+            this.lblResultados1.Padding = new System.Windows.Forms.Padding(6);
+            this.lblResultados1.Size = new System.Drawing.Size(130, 235);
             this.lblResultados1.TabIndex = 1;
             this.lblResultados1.Text = "Resultados...";
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -124,14 +127,16 @@ namespace ClienteHCS_2
             this.tableLayoutPanel1.Controls.Add(this.chartThroughputOk, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.lblTituloLatencia, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.chartLatencia, 0, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(26, 331);
+            this.tableLayoutPanel1.Controls.Add(this.lblTituloThroughputTemporal, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.chartThroughputTemporal, 0, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(14, 303);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1666, 464);
+            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 350F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 350F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1017, 901);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // lblTituloThroughputOk
@@ -139,7 +144,7 @@ namespace ClienteHCS_2
             this.lblTituloThroughputOk.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblTituloThroughputOk.AutoSize = true;
             this.lblTituloThroughputOk.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
-            this.lblTituloThroughputOk.Location = new System.Drawing.Point(833, 10);
+            this.lblTituloThroughputOk.Location = new System.Drawing.Point(508, 3);
             this.lblTituloThroughputOk.Margin = new System.Windows.Forms.Padding(0);
             this.lblTituloThroughputOk.Name = "lblTituloThroughputOk";
             this.lblTituloThroughputOk.Size = new System.Drawing.Size(403, 28);
@@ -149,31 +154,54 @@ namespace ClienteHCS_2
             // chartThroughputOk
             // 
             this.chartThroughputOk.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chartThroughputOk.Location = new System.Drawing.Point(833, 49);
+            this.chartThroughputOk.Location = new System.Drawing.Point(508, 35);
             this.chartThroughputOk.Margin = new System.Windows.Forms.Padding(0, 0, 6, 6);
             this.chartThroughputOk.Name = "chartThroughputOk";
-            this.chartThroughputOk.Size = new System.Drawing.Size(827, 409);
+            this.chartThroughputOk.Size = new System.Drawing.Size(503, 344);
             this.chartThroughputOk.TabIndex = 9;
             // 
             // lblTituloLatencia
             // 
             this.lblTituloLatencia.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblTituloLatencia.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
-            this.lblTituloLatencia.Location = new System.Drawing.Point(0, 3);
+            this.lblTituloLatencia.Location = new System.Drawing.Point(0, 0);
             this.lblTituloLatencia.Margin = new System.Windows.Forms.Padding(0);
             this.lblTituloLatencia.Name = "lblTituloLatencia";
-            this.lblTituloLatencia.Size = new System.Drawing.Size(558, 42);
+            this.lblTituloLatencia.Size = new System.Drawing.Size(469, 35);
             this.lblTituloLatencia.TabIndex = 1;
             this.lblTituloLatencia.Text = "Histograma de Latencias de hilos [ms]";
             // 
             // chartLatencia
             // 
-            this.chartLatencia.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chartLatencia.Location = new System.Drawing.Point(0, 49);
+            this.chartLatencia.Dock = System.Windows.Forms.DockStyle.Top;
+            this.chartLatencia.Location = new System.Drawing.Point(0, 35);
             this.chartLatencia.Margin = new System.Windows.Forms.Padding(0, 0, 6, 6);
             this.chartLatencia.Name = "chartLatencia";
-            this.chartLatencia.Size = new System.Drawing.Size(827, 409);
+            this.chartLatencia.Size = new System.Drawing.Size(502, 340);
             this.chartLatencia.TabIndex = 2;
+            // 
+            // lblTituloThroughputTemporal
+            // 
+            this.lblTituloThroughputTemporal.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblTituloThroughputTemporal.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.lblTituloThroughputTemporal, 2);
+            this.lblTituloThroughputTemporal.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
+            this.lblTituloThroughputTemporal.Location = new System.Drawing.Point(0, 388);
+            this.lblTituloThroughputTemporal.Margin = new System.Windows.Forms.Padding(0);
+            this.lblTituloThroughputTemporal.Name = "lblTituloThroughputTemporal";
+            this.lblTituloThroughputTemporal.Size = new System.Drawing.Size(428, 28);
+            this.lblTituloThroughputTemporal.TabIndex = 11;
+            this.lblTituloThroughputTemporal.Text = "Throughput en función del tiempo [trx/seg]";
+            // 
+            // chartThroughputTemporal
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.chartThroughputTemporal, 2);
+            this.chartThroughputTemporal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chartThroughputTemporal.Location = new System.Drawing.Point(0, 420);
+            this.chartThroughputTemporal.Margin = new System.Windows.Forms.Padding(0, 0, 6, 6);
+            this.chartThroughputTemporal.Name = "chartThroughputTemporal";
+            this.chartThroughputTemporal.Size = new System.Drawing.Size(1011, 475);
+            this.chartThroughputTemporal.TabIndex = 12;
             // 
             // toolStrip1
             // 
@@ -184,19 +212,18 @@ namespace ClienteHCS_2
             this.tsbGuardarEnsayo,
             this.toolStripSeparator2,
             this.tsbMedidasRendimiento,
-            this.toolStripSeparator4,
-            this.tsbInfo});
+            this.toolStripSeparator4});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
-            this.toolStrip1.Size = new System.Drawing.Size(1704, 57);
+            this.toolStrip1.Size = new System.Drawing.Size(1069, 57);
             this.toolStrip1.TabIndex = 43;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // tsbAbrirEnsayo
             // 
             this.tsbAbrirEnsayo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbAbrirEnsayo.Image = global::ClienteHCS_2.Properties.Resources.abrir_documento;
+            this.tsbAbrirEnsayo.Image = global::ClienteHCS_2.Properties.Resources.abrir_loadtest2;
             this.tsbAbrirEnsayo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbAbrirEnsayo.Name = "tsbAbrirEnsayo";
             this.tsbAbrirEnsayo.Size = new System.Drawing.Size(52, 52);
@@ -206,7 +233,7 @@ namespace ClienteHCS_2
             // tsbGuardarEnsayo
             // 
             this.tsbGuardarEnsayo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbGuardarEnsayo.Image = global::ClienteHCS_2.Properties.Resources.Save_as_80_icon_icons_com_57275;
+            this.tsbGuardarEnsayo.Image = global::ClienteHCS_2.Properties.Resources.GuardarComoLoadTest;
             this.tsbGuardarEnsayo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbGuardarEnsayo.Name = "tsbGuardarEnsayo";
             this.tsbGuardarEnsayo.Size = new System.Drawing.Size(52, 52);
@@ -233,28 +260,30 @@ namespace ClienteHCS_2
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 57);
             // 
-            // tsbInfo
+            // pnlContenido
             // 
-            this.tsbInfo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbInfo.Image = global::ClienteHCS_2.Properties.Resources.information;
-            this.tsbInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbInfo.Name = "tsbInfo";
-            this.tsbInfo.Size = new System.Drawing.Size(52, 52);
-            this.tsbInfo.Text = "Info";
+            this.pnlContenido.AutoScroll = true;
+            this.pnlContenido.Controls.Add(this.tableLayoutPanel1);
+            this.pnlContenido.Controls.Add(this.grpResumen);
+            this.pnlContenido.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlContenido.Location = new System.Drawing.Point(0, 57);
+            this.pnlContenido.Margin = new System.Windows.Forms.Padding(0);
+            this.pnlContenido.Name = "pnlContenido";
+            this.pnlContenido.Size = new System.Drawing.Size(1069, 753);
+            this.pnlContenido.TabIndex = 44;
             // 
-            // FrmDetallesEnsayo
+            // FrmDetallesEnsayoCarga
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1704, 823);
+            this.ClientSize = new System.Drawing.Size(1069, 810);
+            this.Controls.Add(this.pnlContenido);
             this.Controls.Add(this.toolStrip1);
-            this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.grpResumen);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MinimumSize = new System.Drawing.Size(886, 576);
-            this.Name = "FrmDetallesEnsayo";
+            this.Name = "FrmDetallesEnsayoCarga";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Detalles del ensayo";
+            this.Text = "Detalles del ensayo de carga";
             this.grpResumen.ResumeLayout(false);
             this.tlpResumen.ResumeLayout(false);
             this.tlpResumen.PerformLayout();
@@ -262,8 +291,10 @@ namespace ClienteHCS_2
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartThroughputOk)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartLatencia)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartThroughputTemporal)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.pnlContenido.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -286,7 +317,9 @@ namespace ClienteHCS_2
         private System.Windows.Forms.ToolStripButton tsbGuardarEnsayo;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripButton tsbInfo;
         private System.Windows.Forms.ToolStripButton tsbMedidasRendimiento;
+        private System.Windows.Forms.Label lblTituloThroughputTemporal;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartThroughputTemporal;
+        private System.Windows.Forms.Panel pnlContenido;
     }
 }

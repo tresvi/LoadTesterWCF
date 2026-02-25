@@ -34,6 +34,7 @@ namespace ClienteHCS_2
         bool _abortImmediatly = false;
         HCSClient _hcsClient;
         ConcurrentBag<long> _latencies = new ConcurrentBag<long>();
+        ConcurrentBag<TrxTimestamp> _timestamps = new ConcurrentBag<TrxTimestamp>();
         SortableBindingList<LoadTestThreadItem> _listaHilos = new SortableBindingList<LoadTestThreadItem>();
         string _correlationIDBase;
 
@@ -99,7 +100,7 @@ namespace ClienteHCS_2
                 $"cada respuesta antes de la siguiente), con la pausa configurada en \"Pausa entre envíos (ms)\" entre cada envío " +
                 $"(0 = sin pausa).\nCada hilo abrirá su propia conexión hacia el servidor, a menos que se habilite " +
                 $"\"{cbUsarUnicaConexion.Text}\", en cuyo caso todas compartirán la misma conexión (puede producir cuellos de botella).\n" +
-                $"Al finalizar se muestran throughput, latencias (min/max/prom/percentiles) y se pueden exportar los resultados a CSV o JSON."
+                $"Al finalizar se muestran throughput, latencias (min/max/prom/percentiles)."
                 , "Ayuda", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -128,6 +129,7 @@ namespace ClienteHCS_2
             this.Invalidate();
             this.Update();
             _latencies = new ConcurrentBag<long>();
+            _timestamps = new ConcurrentBag<TrxTimestamp>();
             _tasks = new Task[_loadTestDefinition.NroHilos];
             _countArranque = _loadTestDefinition.NroHilos;
             _tcsArranque = new TaskCompletionSource<bool>();
@@ -170,6 +172,8 @@ namespace ClienteHCS_2
 
         private async Task RunUserAsync(int nroTarea, string correlationIDBase)
         {
+            await Task.Yield();     // Saltar al ThreadPool inmediatamente para no bloquear el hilo de UI
+
             string corrId = correlationIDBase + nroTarea.ToString("D3");
 
             UpdateGridRowStart(nroTarea - 1, nroTarea, corrId);
@@ -206,6 +210,11 @@ namespace ClienteHCS_2
                         long ms = reqSw.ElapsedMilliseconds;
                         latenciasHilo.Add(ms);
                         _latencies.Add(ms);
+                        _timestamps.Add(new TrxTimestamp
+                        {
+                            SegundoRelativo = (int)(sw.ElapsedMilliseconds / 1000),
+                            NroHilo = nroTarea
+                        });
                         trxOk++;
                     }
                     catch
@@ -337,7 +346,9 @@ namespace ClienteHCS_2
                 transmisionesSinRespuesta: _contadorSinRespuesta,
                 transmisionesCompletadas: transmisiones,
                 tiempoMs: tiempoMs,
-                correlationIDBase: _correlationIDBase);
+                correlationIDBase: _correlationIDBase,
+                timestamps: _timestamps);
+
             btnVerDetalles.Enabled = true;
 
             MessageBox.Show("Prueba finalizada." + _lastReport.ToString());
@@ -356,7 +367,7 @@ namespace ClienteHCS_2
         private void btnVerDetalles_Click(object sender, EventArgs e)
         {
             if (_lastReport == null) return;
-            using (var frm = new FrmDetallesEnsayo(
+            using (var frm = new FrmDetallesEnsayoCarga(
                 _lastReport,
                 _listaHilos.ToList(),
                 _loadTestDefinition))
