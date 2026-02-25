@@ -40,6 +40,7 @@ namespace ClienteHCS_2
             _esVacio = false;
 
             InitializeComponent();
+            tsbAbrirEnsayo.Enabled = false;
             CargarResumen();
             ConfigurarCharts();
         }
@@ -137,7 +138,7 @@ namespace ClienteHCS_2
                 serieTotal.Points.AddXY(s, totalPorSegundo[s]);
             chartThroughputTemporal.Series.Add(serieTotal);
         }
-
+         
         /// <summary>
         /// Configura un Chart con datos de histograma (mismo algoritmo que el original: buckets con paso redondo, Y = cantidad de hilos).
         /// </summary>
