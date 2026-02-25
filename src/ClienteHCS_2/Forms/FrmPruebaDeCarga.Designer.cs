@@ -29,7 +29,7 @@ namespace ClienteHCS_2
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tlpParams = new System.Windows.Forms.TableLayoutPanel();
             this.btnIniciar = new System.Windows.Forms.Button();
@@ -126,13 +126,15 @@ namespace ClienteHCS_2
             // 
             this.btnIniciar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.btnIniciar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnIniciar.Image = global::ClienteHCS_2.Properties.Resources.boton_de_play_48x48;
+            this.btnIniciar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnIniciar.Location = new System.Drawing.Point(1075, 12);
             this.btnIniciar.Margin = new System.Windows.Forms.Padding(6);
             this.btnIniciar.Name = "btnIniciar";
             this.tlpParams.SetRowSpan(this.btnIniciar, 2);
             this.btnIniciar.Size = new System.Drawing.Size(222, 88);
             this.btnIniciar.TabIndex = 8;
-            this.btnIniciar.Text = "&Iniciar";
+            this.btnIniciar.Text = "     &Iniciar";
             this.btnIniciar.UseVisualStyleBackColor = true;
             this.btnIniciar.Click += new System.EventHandler(this.btnIniciar_Click);
             // 
@@ -305,10 +307,10 @@ namespace ClienteHCS_2
             // 
             // colRowNum
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(245)))));
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(235)))));
-            this.colRowNum.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(245)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(235)))));
+            this.colRowNum.DefaultCellStyle = dataGridViewCellStyle2;
             this.colRowNum.DividerWidth = 3;
             this.colRowNum.Frozen = true;
             this.colRowNum.HeaderText = "#";

@@ -218,7 +218,12 @@ namespace ClienteHCS_2
             {
                 dlg.Filter = "Ensayo de carga (*.ltst)|*.ltst";
                 dlg.DefaultExt = "ltst";
-                dlg.FileName = $"PruebaCarga_{_report.Fecha:yyyyMMdd_HHmmss}";
+                string servidor = (_definition?.Server ?? "");
+                int hilos = _definition?.NroHilos ?? 0;
+                double duracion = _definition?.DuracionSeg ?? 0;
+                int pausa = _definition?.PausaMs ?? 0;
+                string hora = _report.Fecha.ToString("HHmmss");
+                dlg.FileName = $"{servidor}-{hilos}-{duracion}-{pausa}-{hora}";
                 if (dlg.ShowDialog() != DialogResult.OK) return;
 
                 try
@@ -254,7 +259,7 @@ namespace ClienteHCS_2
             }
         }
 
-        private void tsbMedidasRendimiento_Click(object sender, EventArgs e)
+        private void tsbCompararEnsayosCarga_Click(object sender, EventArgs e)
         {
             if (_report == null || _esVacio)
             {
@@ -293,7 +298,7 @@ namespace ClienteHCS_2
 
         private void GuardarEnsayoCompleto(string path)
         {
-            var ensayo = new EnsayoGuardado
+            var ensayo = new LoadTestFile
             {
                 Reporte = _report,
                 Hilos = _items != null ? _items.ToList() : new List<LoadTestThreadItem>(),
@@ -316,14 +321,14 @@ namespace ClienteHCS_2
             ConfigurarCharts();
         }
 
-        internal static EnsayoGuardado LeerEnsayoGuardado(string path)
+        internal static LoadTestFile LeerEnsayoGuardado(string path)
         {
             string json = File.ReadAllText(path);
 
-            EnsayoGuardado ensayo = null;
+            LoadTestFile ensayo = null;
             try
             {
-                ensayo = JsonConvert.DeserializeObject<EnsayoGuardado>(json);
+                ensayo = JsonConvert.DeserializeObject<LoadTestFile>(json);
             }
             catch
             {
@@ -332,7 +337,7 @@ namespace ClienteHCS_2
 
             if (ensayo != null && ensayo.Reporte != null)
             {
-                return new EnsayoGuardado
+                return new LoadTestFile
                 {
                     Reporte = ensayo.Reporte,
                     Hilos = ensayo.Hilos ?? new List<LoadTestThreadItem>(),
@@ -345,7 +350,7 @@ namespace ClienteHCS_2
             if (reporte == null)
                 throw new InvalidOperationException("El archivo no tiene un formato de ensayo válido.");
 
-            return new EnsayoGuardado
+            return new LoadTestFile
             {
                 Reporte = reporte,
                 Hilos = new List<LoadTestThreadItem>(),
