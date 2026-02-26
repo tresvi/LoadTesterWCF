@@ -1,17 +1,10 @@
+using ClienteHCS_2.Models.LoadTest;
 using System;
-using System.Collections.Concurrent;
-using ClienteHCS_2.Helpers;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ClienteHCS_2
@@ -22,25 +15,9 @@ namespace ClienteHCS_2
         private readonly Transaction _transaccion;
         private readonly NetworkCredential _networkCredential;
 
-        /// <summary>Definición del ensayo (se crea al iniciar).</summary>
+        LoadTestRunner _runner;
         LoadTestDefinition _loadTestDefinition;
-        int _contador, _contadorOK, _contadorFAIL = 0;
-        long _contadorSinRespuesta = 0;  // transmisiones que no recibieron respuesta (excepción)
-        Task[] _tasks;
-        Stopwatch _timerEnsayo;
-        int _countArranque;
-        TaskCompletionSource<bool> _tcsArranque;
-        bool _useASingleConnection = false;
-        bool _abortImmediatly = false;
-        HCSClient _hcsClient;
-        ConcurrentBag<long> _latencies = new ConcurrentBag<long>();
-        ConcurrentBag<TrxTimestamp> _timestamps = new ConcurrentBag<TrxTimestamp>();
         SortableBindingList<LoadTestThreadItem> _listaHilos = new SortableBindingList<LoadTestThreadItem>();
-        string _correlationIDBase;
-
-        /// <summary>
-        /// Último reporte generado (para exportar y mostrar en UI).
-        /// </summary>
         LoadTestReport _lastReport;
 
 
@@ -111,6 +88,7 @@ namespace ClienteHCS_2
             btnIniciar.Enabled = cbUsarUnicaConexion.Enabled = false;
             nudDuracion.Enabled = nudHilosParalelos.Enabled = nudPausaMs.Enabled = false;
             btnVerDetalles.Enabled = false;
+
             _loadTestDefinition = new LoadTestDefinition
             {
                 Server = _server,
@@ -121,13 +99,12 @@ namespace ClienteHCS_2
                 UsarUnicaConexion = cbUsarUnicaConexion.Checked
             };
 
+            _runner = new LoadTestRunner(_loadTestDefinition, _transaccion, _networkCredential);
+
             // Warm-up: una transmisión previa para validar parámetros y calentar la conexión
             try
             {
-                using (var warmUpClient = new HCSClient(_loadTestDefinition.Server, _networkCredential))
-                {
-                    await warmUpClient.EnviarYRecibir(_transaccion, cerrarConexionAlTerminar: true);
-                }
+                await _runner.WarmUpAsync();
             }
             catch (Exception ex)
             {
@@ -135,48 +112,24 @@ namespace ClienteHCS_2
                 MessageBox.Show(
                     $"Error en la transmisión de warm-up. Verifique los parámetros de conexión.\n\nDetalles: {ex.Message}",
                     "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                btnIniciar.Enabled = cbUsarUnicaConexion.Enabled = true;
-                nudDuracion.Enabled = nudHilosParalelos.Enabled = nudPausaMs.Enabled = true;
+                HabilitarControles();
                 return;
             }
 
-            _contador = _contadorOK = _contadorFAIL = 0;
-            _contadorSinRespuesta = 0;
-            _listaHilos.Clear();
-            for (int i = 0; i < _loadTestDefinition.NroHilos; i++)
-                _listaHilos.Add(new LoadTestThreadItem { ThreadNum = i + 1 });
-
-            this.Invalidate();
-            this.Update();
-            _latencies = new ConcurrentBag<long>();
-            _timestamps = new ConcurrentBag<TrxTimestamp>();
-            _tasks = new Task[_loadTestDefinition.NroHilos];
-            _countArranque = _loadTestDefinition.NroHilos;
-            _tcsArranque = new TaskCompletionSource<bool>();
-            HCSClient.ResetTxCounter();
+            // Suscribir eventos del runner
+            _runner.OnHiloIniciado += Runner_OnHiloIniciado;
+            _runner.OnHiloFinalizado += Runner_OnHiloFinalizado;
 
             try
             {
-                if (cbUsarUnicaConexion.Checked)
-                {
-                    _hcsClient = new HCSClient(_loadTestDefinition.Server, _networkCredential);
-                    _useASingleConnection = true;
-                }
-                else
-                {
-                    _useASingleConnection = false;
-                }
+                var items = _runner.Iniciar();
 
-                string correlationIDBase = DateTime.Now.ToString("HHmmss-ffff") + "-";
-                _correlationIDBase = DateTime.Now.ToString("HHmmss-ffff");
-                _timerEnsayo = new Stopwatch();
-                _timerEnsayo.Start();
-                for (int i = 0; i < _loadTestDefinition.NroHilos; i++)
-                {
-                    int nroTarea = i + 1;
-                    _tasks[i] = RunUserAsync(nroTarea, correlationIDBase);
-                }
+                _listaHilos.Clear();
+                foreach (var item in items)
+                    _listaHilos.Add(item);
 
+                this.Invalidate();
+                this.Update();
                 lblCreandoHilos.Visible = false;
                 tmrFinalizacion.Start();
             }
@@ -184,101 +137,16 @@ namespace ClienteHCS_2
             {
                 MessageBox.Show($"Error al iniciar el ensayo. Detalles {ex.Message}"
                     , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                btnIniciar.Enabled = cbUsarUnicaConexion.Enabled = true;
-                nudDuracion.Enabled = nudHilosParalelos.Enabled = nudPausaMs.Enabled = true;
+                HabilitarControles();
             }
         }
 
 
-        private async Task RunUserAsync(int nroTarea, string correlationIDBase)
-        {
-            await Task.Yield();     // Saltar al ThreadPool inmediatamente para no bloquear el hilo de UI
-
-            string corrId = correlationIDBase + nroTarea.ToString("D3");
-
-            UpdateGridRowStart(nroTarea - 1, nroTarea, corrId);
-
-            var latenciasHilo = new List<long>();
-            int trxOk = 0, trxFail = 0;
-            Stopwatch sw = Stopwatch.StartNew();
-            HCSClient client = null;
-            DateTime startTime = DateTime.Now;
-            DateTime endTime = startTime;
-            bool ok = false;
-            string failureReason = "";
-
-            try
-            {
-                client = (_useASingleConnection ? _hcsClient : new HCSClient(_loadTestDefinition.Server, _networkCredential));
-
-                // Barrera async: todas las tareas esperan aquí hasta que las N hayan llegado; luego arrancan juntas
-                if (Interlocked.Decrement(ref _countArranque) == 0)
-                    _tcsArranque.TrySetResult(true);
-
-                await _tcsArranque.Task;
-
-                startTime = DateTime.Now;
-
-                sw.Restart();
-                while ((sw.ElapsedMilliseconds / 1000 < _loadTestDefinition.DuracionSeg) && !_abortImmediatly)
-                {
-                    Stopwatch reqSw = Stopwatch.StartNew();
-                    try
-                    {
-                        await client.EnviarYRecibir(_transaccion, false, corrId);
-                        reqSw.Stop();
-                        long ms = reqSw.ElapsedMilliseconds;
-                        latenciasHilo.Add(ms);
-                        _latencies.Add(ms);
-                        _timestamps.Add(new TrxTimestamp
-                        {
-                            SegundoRelativo = (int)(sw.ElapsedMilliseconds / 1000),
-                            NroHilo = nroTarea
-                        });
-                        trxOk++;
-                    }
-                    catch
-                    {
-                        reqSw.Stop();
-                        trxFail++;
-                        Interlocked.Increment(ref _contadorSinRespuesta);
-                        throw;
-                    }
-                    if (_loadTestDefinition.PausaMs > 0)
-                        await Task.Delay(_loadTestDefinition.PausaMs);
-                }
-                endTime = DateTime.Now;
-                ok = true;
-                Interlocked.Increment(ref _contadorOK);
-            }
-            catch (Exception ex)
-            {
-                endTime = DateTime.Now;
-                Interlocked.Increment(ref _contadorFAIL);
-                failureReason = ex.Message ?? ex.ToString();
-                if (failureReason.Length > 500)
-                    failureReason = failureReason.Substring(0, 497) + "...";
-            }
-            finally
-            {
-                if (!_useASingleConnection) client?.Cerrar();
-            }
-
-            double durationSec = (endTime - startTime).TotalSeconds;
-            long latMin = latenciasHilo.Count > 0 ? latenciasHilo.Min() : 0;
-            long latMax = latenciasHilo.Count > 0 ? latenciasHilo.Max() : 0;
-            long latAvg = latenciasHilo.Count > 0 ? (long)latenciasHilo.Average() : 0;
-            double thrOk = durationSec > 0 ? trxOk / durationSec : 0;
-            double thrTotal = durationSec > 0 ? (trxOk + trxFail) / durationSec : 0;
-
-            UpdateGridRowFinish(nroTarea - 1, startTime, endTime, ok, failureReason, latAvg, latMin, latMax, trxOk, trxFail, thrOk, thrTotal);
-        }
-
-        private void UpdateGridRowStart(int rowIndex, int threadNum, string corrId)
+        private void Runner_OnHiloIniciado(int rowIndex, int threadNum, string corrId)
         {
             if (dgvHilos.InvokeRequired)
             {
-                dgvHilos.BeginInvoke(new Action<int, int, string>(UpdateGridRowStart), rowIndex, threadNum, corrId);
+                dgvHilos.BeginInvoke(new Action<int, int, string>(Runner_OnHiloIniciado), rowIndex, threadNum, corrId);
                 return;
             }
             if (rowIndex < 0 || rowIndex >= _listaHilos.Count) return;
@@ -286,28 +154,29 @@ namespace ClienteHCS_2
             _listaHilos[rowIndex].CorrID = corrId;
         }
 
-        private void UpdateGridRowFinish(int rowIndex, DateTime startTime, DateTime endTime, bool statusOk, string failureReason, long latAvg, long latMin, long latMax, int trxOk, int trxFail, double throughputOk, double throughputTotal)
+        private void Runner_OnHiloFinalizado(LoadTestThreadResult r)
         {
             if (dgvHilos.InvokeRequired)
             {
-                dgvHilos.BeginInvoke(new Action<int, DateTime, DateTime, bool, string, long, long, long, int, int, double, double>(UpdateGridRowFinish), rowIndex, startTime, endTime, statusOk, failureReason, latAvg, latMin, latMax, trxOk, trxFail, throughputOk, throughputTotal);
+                dgvHilos.BeginInvoke(new Action<LoadTestThreadResult>(Runner_OnHiloFinalizado), r);
                 return;
             }
-            if (rowIndex < 0 || rowIndex >= _listaHilos.Count) return;
-            var item = _listaHilos[rowIndex];
-            item.StartTime = startTime.ToString("HH:mm:ss.fff");
-            item.EndTime = endTime.ToString("HH:mm:ss.fff");
-            item.Status = statusOk ? "OK" : "FAIL";
-            item.StatusOk = statusOk;
-            item.FailureReason = failureReason ?? "";
-            item.LatAvg = latAvg;
-            item.LatMin = latMin;
-            item.LatMax = latMax;
-            item.TrxOK = trxOk;
-            item.TrxFail = trxFail;
-            item.ThroughputOK = throughputOk;
-            item.ThroughputTotal = throughputTotal;
+            if (r.RowIndex < 0 || r.RowIndex >= _listaHilos.Count) return;
+            var item = _listaHilos[r.RowIndex];
+            item.StartTime = r.StartTime.ToString("HH:mm:ss.fff");
+            item.EndTime = r.EndTime.ToString("HH:mm:ss.fff");
+            item.Status = r.StatusOk ? "OK" : "FAIL";
+            item.StatusOk = r.StatusOk;
+            item.FailureReason = r.FailureReason ?? "";
+            item.LatAvg = r.LatAvg;
+            item.LatMin = r.LatMin;
+            item.LatMax = r.LatMax;
+            item.TrxOK = r.TrxOK;
+            item.TrxFail = r.TrxFail;
+            item.ThroughputOK = r.ThroughputOK;
+            item.ThroughputTotal = r.ThroughputTotal;
         }
+
 
         private void dgvHilos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
@@ -334,41 +203,23 @@ namespace ClienteHCS_2
 
         private void tmrFinalizacion_Tick(object sender, EventArgs e)
         {
-            decimal elapsedSeconds = (decimal)_timerEnsayo.ElapsedMilliseconds / 1000;
-            int porcentajeAvance = (int) (elapsedSeconds / nudDuracion.Value * 100);
+            decimal elapsedSeconds = (decimal)_runner.ElapsedMs / 1000;
+            int porcentajeAvance = (int)(elapsedSeconds / nudDuracion.Value * 100);
             porcentajeAvance = porcentajeAvance > 100 ? 100 : porcentajeAvance;
             prgbarHilos.Value = porcentajeAvance;
             prgbarHilos.Visible = true;
 
-            // Si alguna tarea aún no terminó, me voy
-            int pendientes = _tasks.Count(t => !t.IsCompleted);
+            int pendientes = _runner.TareasPendientes;
             Debug.WriteLine($"Pendientes: {pendientes}");
-            Debug.WriteLine($"Faltan llegar a barrera: {_countArranque}");
-            
-            if (!_tasks.All(t => t.IsCompleted)) return;
+
+            if (!_runner.TodasFinalizadas) return;
 
             tmrFinalizacion.Stop();
-            _timerEnsayo.Stop();
-            if (_useASingleConnection) _hcsClient.Cerrar();
-            btnIniciar.Enabled = cbUsarUnicaConexion.Enabled = true;
-            nudDuracion.Enabled = nudHilosParalelos.Enabled = nudPausaMs.Enabled = true;
             prgbarHilos.Visible = false;
 
-            long transmisiones = HCSClient.GetTransmisiones();
-            long tiempoMs = _timerEnsayo.ElapsedMilliseconds;
+            _lastReport = _runner.Finalizar(_listaHilos.ToList());
 
-            _lastReport = LoadTestReport.Create(
-                latencias: _latencies,
-                hilos: _listaHilos,
-                loadTestDefinition: _loadTestDefinition,
-                finalizadosOK: _contadorOK,
-                finalizadosFAIL: _contadorFAIL,
-                transmisionesSinRespuesta: _contadorSinRespuesta,
-                transmisionesCompletadas: transmisiones,
-                tiempoMs: tiempoMs,
-                correlationIDBase: _correlationIDBase,
-                timestamps: _timestamps);
-
+            HabilitarControles();
             btnVerDetalles.Enabled = true;
 
             MessageBox.Show("Prueba finalizada." + _lastReport.ToString());
@@ -398,7 +249,7 @@ namespace ClienteHCS_2
 
         private void FrmPruebaDeCarga_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (btnIniciar.Enabled) return;
+            if (_runner == null || !_runner.EnCurso) return;
 
             DialogResult dialogResult = MessageBox.Show(
                 "Hay un ensayo en curso, se recomienda que espere que finalice para cerrar la ventana. Desea cerrar la ventana de todos modos?"
@@ -409,9 +260,13 @@ namespace ClienteHCS_2
             if (dialogResult == DialogResult.No)
                 e.Cancel = true;
             else
-                _abortImmediatly = true;
+                _runner.Abortar();
         }
 
-
+        private void HabilitarControles()
+        {
+            btnIniciar.Enabled = cbUsarUnicaConexion.Enabled = true;
+            nudDuracion.Enabled = nudHilosParalelos.Enabled = nudPausaMs.Enabled = true;
+        }
     }
 }
