@@ -5,26 +5,26 @@ Herramienta para diagnosticar HCS
 
 Este documento explica todas las métricas que se calculan y registran durante las pruebas de carga del sistema HCS.
 
-### Métricas Básicas del Ensayo
+## Parámetros del Ensayo
 
-#### **Total Hilos**
+### **Total Hilos (clientes virtuales)**
 - **Descripción**: Número total de hilos (threads) configurados para ejecutarse en paralelo durante la prueba.
 - **Unidad**: Cantidad (adimensional)
 - **Interpretación**: Indica el nivel de concurrencia de la prueba.
 
-#### **Pausa entre transmisiones (ms)**
+### **Duración (seg)**
+- **Descripción**: Duración total del ensayo desde el inicio hasta la finalización.
+- **Unidad**: Segundos (seg)
+- **Interpretación**: Tiempo de duarción del ensayo.
+
+### **Pausa entre transmisiones (ms)**
 - **Descripción**: Tiempo de espera configurado entre cada transmisión dentro de un mismo hilo.
 - **Unidad**: Milisegundos (ms)
 - **Interpretación**: Controla la velocidad de envío de transacciones por hilo. Un valor de 0 significa sin pausa.
 
-#### **Tiempo (ms)**
-- **Descripción**: Duración total del ensayo desde el inicio hasta la finalización.
-- **Unidad**: Milisegundos (ms)
-- **Interpretación**: Tiempo real que tomó completar la prueba de carga.
-
 ---
 
-### Métricas de Finalización de Hilos
+## Métricas de Finalización de Hilos
 
 #### **Finalizados OK**
 - **Descripción**: Cantidad de hilos que completaron su ejecución exitosamente sin errores.
