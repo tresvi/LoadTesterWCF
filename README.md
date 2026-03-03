@@ -22,6 +22,8 @@ Este documento explica todas las métricas que se calculan y registran durante l
 - **Unidad**: Milisegundos (ms)
 - **Interpretación**: Controla la velocidad de envío de transacciones por hilo. Un valor de 0 significa sin pausa.
 
+### **Usar conexion unica para todos los hilos**
+- **Descripción**: Establece si todos los hilos (clientes virtuales) compartiran una única conexion. Si se activa produce encolaminento de las transmisiones. Serviría solo para el caso donde se quiere probar una conexion singleton (normalmente no se utiliza asi en la práctica).
 ---
 
 ## Métricas de Finalización de Hilos
