@@ -30,13 +30,9 @@ namespace ClienteHCS_2
             
             // Cargar la última opción de credenciales seleccionada
             if (Properties.Settings.Default.UsarCredencialesInteractivas)
-            {
                 optInteractivo.Checked = true;
-            }
             else
-            {
                 optOtrasCredenciales.Checked = true;
-            }
 
             // Cargar el último mensaje (decodificar de Base64)
             if (!string.IsNullOrEmpty(Properties.Settings.Default.MensajeBase64))
@@ -62,10 +58,15 @@ namespace ClienteHCS_2
                 return;
             }
 
+            NetworkCredential networkCredential = GetNetworkCredentials();
+            if (networkCredential == null)
+            {
+                MessageBox.Show($@"Debe especificar nombre de Usuario (Domain\User) y Password", "Enviar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             try
             {
-                NetworkCredential networkCredential = GetNetworkCredentials();
-
                 //Ejecución y medicion de tiempo de respuesta.
                 HCSClient cliente = new HCSClient(tstHCSServer.Text, networkCredential);
 
@@ -111,7 +112,6 @@ namespace ClienteHCS_2
                 lblResumenRespuesta.Text = sw.ElapsedMilliseconds.ToString();
                 MessageBox.Show("ERROR: " + ex.Message + " \n\n STACKTRACE:" + ex.StackTrace + "\n\n SOURCE:" + ex.Source, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
 
@@ -120,13 +120,15 @@ namespace ClienteHCS_2
             if (optInteractivo.Checked) return CredentialCache.DefaultNetworkCredentials;
 
             if (txtPassword.Text.Trim() == "" || txtUsuario.Text.Trim() == "")
-                throw new Exception(@"Debe especificar nombre de Usuario (Domain\User) y Password");
+                return null;
 
             int posicionBarra = txtUsuario.Text.IndexOf(@"\");
-            if (posicionBarra == 0) throw new Exception(@"Debe especificar nombre de Usuario (Domain\User) y Password");
+            if (posicionBarra <= 0) return null;
 
             string userDomain = txtUsuario.Text.Substring(0, posicionBarra);
             string userName = txtUsuario.Text.Substring(posicionBarra + 1);
+
+            if (userName.Trim() == "") return null;
 
             return new NetworkCredential(userName, txtPassword.Text, userDomain);
         }
@@ -274,21 +276,29 @@ namespace ClienteHCS_2
                 return;
             }
 
-            FrmPruebaDeCarga frmLoadTest = new FrmPruebaDeCarga(tstHCSServer.Text, transaccion, GetNetworkCredentials());
+            NetworkCredential networkCredential = GetNetworkCredentials();
+            if (networkCredential == null)
+            {
+                MessageBox.Show($@"Debe especificar nombre de Usuario (Domain\User) y Password", "Enviar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            FrmPruebaDeCarga frmLoadTest = new FrmPruebaDeCarga(tstHCSServer.Text, transaccion, networkCredential);
             frmLoadTest.ShowDialog();
         }
 
 
         private void tsbLoadTestMultiTrx_Click(object sender, EventArgs e)
         {
-            FrmPruebaDeCargaMultiTrx frmLoadTest = new FrmPruebaDeCargaMultiTrx(tstHCSServer.Text, GetNetworkCredentials());
+            NetworkCredential networkCredential = GetNetworkCredentials();
+            if (networkCredential == null)
+            {
+                MessageBox.Show($@"Debe especificar nombre de Usuario (Domain\User) y Password", "Enviar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            FrmPruebaDeCargaMultiTrx frmLoadTest = new FrmPruebaDeCargaMultiTrx(tstHCSServer.Text, networkCredential);
             frmLoadTest.ShowDialog();
-        }
-
-
-        private void btnBorrar_Click(object sender, EventArgs e)
-        {
-            txtRespuesta.Text = "";
         }
 
 
@@ -301,7 +311,14 @@ namespace ClienteHCS_2
                 return;
             }
 
-            FrmPruebaDeContinuidad frmContinuityTest = new FrmPruebaDeContinuidad(tstHCSServer.Text, transaccion, GetNetworkCredentials());
+            NetworkCredential networkCredential = GetNetworkCredentials();
+            if (networkCredential == null)
+            {
+                MessageBox.Show($@"Debe especificar nombre de Usuario (Domain\User) y Password", "Enviar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            FrmPruebaDeContinuidad frmContinuityTest = new FrmPruebaDeContinuidad(tstHCSServer.Text, transaccion, networkCredential);
             frmContinuityTest.ShowDialog();
         }
 
@@ -389,6 +406,12 @@ namespace ClienteHCS_2
             {
                 MessageBox.Show($"No se pudieron cargar los ensayos: {ex.Message}", "Comparar ensayos", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+
+        private void btnBorrar_Click(object sender, EventArgs e)
+        {
+            txtRespuesta.Text = "";
         }
 
     }

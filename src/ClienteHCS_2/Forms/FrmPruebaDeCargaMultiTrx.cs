@@ -159,7 +159,7 @@ namespace ClienteHCS_2.Forms
 
                     using (HCSClient hcsClient = new HCSClient(_server, _networkCredential))
                     {
-                        hcsClient.EnviarYRecibir(transaccion, true);
+                        hcsClient.EnviarYRecibir(transaccion, true).GetAwaiter().GetResult();
                         WriteOutput($"Cliente #{nroCliente} nroEnvio {nroEnvio}. Envio OK en {sw.ElapsedMilliseconds} ms");
                     }
                 }

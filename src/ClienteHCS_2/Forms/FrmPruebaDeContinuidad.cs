@@ -96,7 +96,7 @@ namespace ClienteHCS_2
                     sw.Start();
                     while (sw.ElapsedMilliseconds / 1000 < _duration && _ensayoEnCurso)
                     {
-                        _hcsClient.EnviarYRecibir(_transaccion, false);
+                        _hcsClient.EnviarYRecibir(_transaccion, false).GetAwaiter().GetResult();
                         Thread.Sleep(_periodoEnvioDatosmSeg);
                         if (esPrimerEnvio)
                         {
