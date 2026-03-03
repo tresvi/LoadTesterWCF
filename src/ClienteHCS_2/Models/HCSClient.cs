@@ -65,7 +65,7 @@ namespace ClienteHCS_2
                 }
                 return respuesta;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //Para cuando hay fallas que no deben cerrar la conexion porque 
                 //no se deben al falla del canal, como por ejemplo MQRC_NO_MSGE_AVAILABLE

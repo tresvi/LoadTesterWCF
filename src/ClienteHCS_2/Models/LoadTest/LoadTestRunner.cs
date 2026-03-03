@@ -128,7 +128,7 @@ namespace ClienteHCS_2
             for (int i = 0; i < _definition.NroHilos; i++)
             {
                 int nroTarea = i + 1;
-                _tasks[i] = RunUserAsync(nroTarea, correlationIDBase, items[nroTarea - 1]);
+                _tasks[i] = RunVirtualUserAsync(nroTarea, correlationIDBase, items[nroTarea - 1]);
             }
 
             return items;
@@ -174,7 +174,7 @@ namespace ClienteHCS_2
             return report;
         }
 
-        private async Task RunUserAsync(int nroTarea, string correlationIDBase, LoadTestThreadItem item)
+        private async Task RunVirtualUserAsync(int nroTarea, string correlationIDBase, LoadTestThreadItem item)
         {
             await Task.Yield();
 
