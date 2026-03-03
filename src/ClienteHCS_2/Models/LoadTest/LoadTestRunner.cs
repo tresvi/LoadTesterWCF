@@ -118,7 +118,6 @@ namespace ClienteHCS_2
             if (_useASingleConnection)
                 _sharedClient = new HCSClient(_definition.Server, _credential);
 
-            string correlationIDBase = DateTime.Now.ToString("HHmmss-ffff") + "-";
             _correlationIDBase = DateTime.Now.ToString("HHmmss-ffff");
 
             _timerEnsayo = new Stopwatch();
@@ -128,7 +127,7 @@ namespace ClienteHCS_2
             for (int i = 0; i < _definition.NroHilos; i++)
             {
                 int nroTarea = i + 1;
-                _tasks[i] = RunUserAsync(nroTarea, correlationIDBase, items[nroTarea - 1]);
+                _tasks[i] = RunVirtualUserAsync(nroTarea, _correlationIDBase, items[nroTarea - 1]);
             }
 
             return items;
@@ -174,12 +173,12 @@ namespace ClienteHCS_2
             return report;
         }
 
-        private async Task RunUserAsync(int nroTarea, string correlationIDBase, LoadTestThreadItem item)
+        private async Task RunVirtualUserAsync(int nroTarea, string correlationIDBase, LoadTestThreadItem item)
         {
             await Task.Yield();
 
-            string corrId = correlationIDBase + nroTarea.ToString("D3");
-            OnHiloIniciado?.Invoke(nroTarea - 1, nroTarea, corrId);
+            string correlationIdTarea = correlationIDBase + "-" + nroTarea.ToString("D4");
+            OnHiloIniciado?.Invoke(nroTarea - 1, nroTarea, correlationIdTarea);
 
             var latenciasHilo = new List<long>();
             int trxOk = 0, trxFail = 0;
@@ -189,12 +188,11 @@ namespace ClienteHCS_2
             DateTime endTime = startTime;
             bool ok = false;
             string failureReason = "";
+            int nroTransmision = 0;
 
             try
             {
-                client = _useASingleConnection
-                    ? _sharedClient
-                    : new HCSClient(_definition.Server, _credential);
+                client = _useASingleConnection ? _sharedClient : new HCSClient(_definition.Server, _credential);
 
                 if (Interlocked.Decrement(ref _countArranque) == 0)
                     _tcsArranque.TrySetResult(true);
@@ -206,10 +204,11 @@ namespace ClienteHCS_2
                 sw.Restart();
                 while ((sw.ElapsedMilliseconds / 1000 < _definition.DuracionSeg) && !_abortRequested)
                 {
+                    string correlationId = $"{correlationIdTarea}-{nroTransmision++}";
                     Stopwatch reqSw = Stopwatch.StartNew();
                     try
                     {
-                        await client.EnviarYRecibir(_transaccion, false, corrId);
+                        await client.EnviarYRecibir(_transaccion, false, correlationId);
                         reqSw.Stop();
                         long ms = reqSw.ElapsedMilliseconds;
                         latenciasHilo.Add(ms);

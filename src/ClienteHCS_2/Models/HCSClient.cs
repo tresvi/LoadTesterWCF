@@ -47,9 +47,10 @@ namespace ClienteHCS_2
             try
             {
                 wcfmsg = new HCS.WCFMensaje();
+
+                wcfmsg.ID = messageId ?? "";
                 wcfmsg.Contenido = transaccion.EsHexa ? ConvertHexStringToBytes(transaccion.Mensaje) : _windowsEncoding.GetBytes(transaccion.Mensaje);
-                if (!string.IsNullOrEmpty(messageId))
-                    wcfmsg.ID = messageId;
+
                 wcfresp = await _client.EnviarRecibirAsync(wcfmsg, transaccion.TXFile);
                 Interlocked.Increment(ref _txCounter);
                 if (cerrarConexionAlTerminar) _client.Close();
@@ -65,7 +66,7 @@ namespace ClienteHCS_2
                 }
                 return respuesta;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //Para cuando hay fallas que no deben cerrar la conexion porque 
                 //no se deben al falla del canal, como por ejemplo MQRC_NO_MSGE_AVAILABLE

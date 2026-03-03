@@ -247,8 +247,6 @@
     <None Include="Recursos\kpi_48x48.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Recursos\abrir-loadTest.png" />
-    <None Include="Recursos\GuardarLoadTest.png" />
     <None Include="Recursos\GuardarComoLoadTest.png" />
     <None Include="Recursos\abrir-loadtest2.png" />
     <None Include="Recursos\boton-de-play_64x64.png" />
