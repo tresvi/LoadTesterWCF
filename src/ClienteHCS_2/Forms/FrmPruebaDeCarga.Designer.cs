@@ -589,18 +589,6 @@ namespace ClienteHCS_2
         private System.Windows.Forms.TableLayoutPanel tlpBottom;
         private System.Windows.Forms.DataGridView dgvHilos;
         private System.Windows.Forms.DataGridViewTextBoxColumn colRowNum;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colThreadNum;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colCorrID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colStartTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colEndTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colLatAvg;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colLatMin;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colLatMax;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colTrxOK;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colTrxFail;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colThroughputOK;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colThroughputTotal;
         private System.Windows.Forms.Button btnIniciar;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
