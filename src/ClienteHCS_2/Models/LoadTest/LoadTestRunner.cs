@@ -35,6 +35,7 @@ namespace ClienteHCS_2
         private ConcurrentBag<long> _latencies;
         private ConcurrentBag<TrxTimestamp> _timestamps;
         private string _correlationIDBase;
+        private ClientHealthMonitor _healthMonitor;
 
         /// <summary>Indica si el ensayo está en curso.</summary>
         public bool EnCurso { get; private set; }
@@ -57,6 +58,9 @@ namespace ClienteHCS_2
 
         /// <summary>True cuando todas las tareas finalizaron.</summary>
         public bool TodasFinalizadas => _tasks != null && TareasPendientes == 0;
+
+        /// <summary>Última muestra de salud del cliente (para mostrar en tiempo real desde la UI).</summary>
+        public ClientHealthSnapshot UltimaSnapshotSalud => _healthMonitor?.UltimaSnapshot;
 
         #region Eventos
 
@@ -120,6 +124,9 @@ namespace ClienteHCS_2
 
             _correlationIDBase = DateTime.Now.ToString("HHmmss-ffff");
 
+            _healthMonitor = new ClientHealthMonitor();
+            _healthMonitor.Iniciar();
+
             _timerEnsayo = new Stopwatch();
             _timerEnsayo.Start();
             EnCurso = true;
@@ -151,6 +158,10 @@ namespace ClienteHCS_2
             if (_useASingleConnection)
                 _sharedClient?.Cerrar();
 
+            ClientHealthReport healthReport = _healthMonitor?.Detener();
+            _healthMonitor?.Dispose();
+            _healthMonitor = null;
+
             EnCurso = false;
 
             long transmisiones = HCSClient.GetTransmisiones();
@@ -166,7 +177,8 @@ namespace ClienteHCS_2
                 transmisionesCompletadas: transmisiones,
                 tiempoMs: tiempoMs,
                 correlationIDBase: _correlationIDBase,
-                timestamps: _timestamps);
+                timestamps: _timestamps,
+                clientHealth: healthReport);
 
             OnEnsayoFinalizado?.Invoke(report, items);
 

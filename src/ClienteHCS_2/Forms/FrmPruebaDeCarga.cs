@@ -20,6 +20,8 @@ namespace ClienteHCS_2
         SortableBindingList<LoadTestThreadItem> _listaHilos = new SortableBindingList<LoadTestThreadItem>();
         LoadTestReport _lastReport;
 
+        Label _lblHealthRealtime;
+
 
         public FrmPruebaDeCarga(string server, Transaction transaccion, NetworkCredential networkCredential)
         {
@@ -27,6 +29,19 @@ namespace ClienteHCS_2
             _server = server;
             _networkCredential = networkCredential;
             InitializeComponent();
+
+            // Label de salud del cliente en tiempo real (creado por código, sobre la barra de progreso)
+            _lblHealthRealtime = new Label
+            {
+                AutoSize = true,
+                Font = new Font("Consolas", 8.25F, FontStyle.Regular),
+                ForeColor = Color.DarkSlateGray,
+                Text = "",
+                Visible = false,
+                BackColor = Color.Transparent
+            };
+            tlpParams.Controls.Add(_lblHealthRealtime, 3, 1);
+            tlpParams.SetColumnSpan(_lblHealthRealtime, 5);
 
             // Doble búfer para que el DataGridView se dibuje más fluido al hacer scroll
             var prop = typeof(Control).GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -209,6 +224,17 @@ namespace ClienteHCS_2
             prgbarHilos.Value = porcentajeAvance;
             prgbarHilos.Visible = true;
 
+            // Mostrar salud del cliente en tiempo real
+            var snap = _runner.UltimaSnapshotSalud;
+            if (snap != null)
+            {
+                _lblHealthRealtime.Text = $"CPU: {snap.CpuPercent:F0}%  |  RAM: {snap.MemoryMB:F0} MB  |  Threads busy: {snap.ThreadPoolWorkersBusy}  |  GC Gen2: {snap.GcGen2}";
+                _lblHealthRealtime.ForeColor = snap.CpuPercent >= ClientHealthMonitor.CPU_AVG_THRESHOLD
+                    ? Color.Red
+                    : Color.DarkSlateGray;
+                _lblHealthRealtime.Visible = true;
+            }
+
             int pendientes = _runner.TareasPendientes;
             Debug.WriteLine($"Pendientes: {pendientes}");
 
@@ -216,11 +242,26 @@ namespace ClienteHCS_2
 
             tmrFinalizacion.Stop();
             prgbarHilos.Visible = false;
+            _lblHealthRealtime.Visible = false;
 
             _lastReport = _runner.Finalizar(_listaHilos.ToList());
 
             HabilitarControles();
             btnVerDetalles.Enabled = true;
+
+            // Advertencia de saturación prominente
+            if (_lastReport.SaludCliente != null && _lastReport.SaludCliente.Saturado)
+            {
+                MessageBox.Show(
+                    "⚠ Se detectó saturación del cliente durante el ensayo.\n\n" +
+                    _lastReport.SaludCliente.DetalleSaturacion + "\n\n" +
+                    "Los resultados de throughput y latencia pueden no reflejar el rendimiento real del servicio, " +
+                    "sino la limitación del equipo que ejecutó el ensayo.\n" +
+                    "Se recomienda repetir el ensayo con menos hilos o en un equipo con más recursos.",
+                    "Cliente saturado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
 
             MessageBox.Show("Prueba finalizada." + _lastReport.ToString());
 

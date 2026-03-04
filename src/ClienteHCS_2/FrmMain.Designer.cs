@@ -109,7 +109,7 @@ namespace ClienteHCS_2
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(166, 33);
-            this.txtPassword.TabIndex = 5;
+            this.txtPassword.TabIndex = 4;
             // 
             // lblContrasenia
             // 
@@ -132,7 +132,7 @@ namespace ClienteHCS_2
             this.txtUsuario.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(168, 33);
-            this.txtUsuario.TabIndex = 4;
+            this.txtUsuario.TabIndex = 3;
             this.txtUsuario.Text = global::ClienteHCS_2.Properties.Settings.Default.Usuario;
             // 
             // lblUsuario
@@ -379,6 +379,7 @@ namespace ClienteHCS_2
             this.tstHCSServer.AutoSize = false;
             this.tstHCSServer.BackColor = System.Drawing.SystemColors.Info;
             this.tstHCSServer.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold);
+            this.tstHCSServer.MergeIndex = 1;
             this.tstHCSServer.Name = "tstHCSServer";
             this.tstHCSServer.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.tstHCSServer.Size = new System.Drawing.Size(300, 57);
@@ -410,7 +411,7 @@ namespace ClienteHCS_2
             this.btnCopiar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnCopiar.Name = "btnCopiar";
             this.btnCopiar.Size = new System.Drawing.Size(122, 57);
-            this.btnCopiar.TabIndex = 48;
+            this.btnCopiar.TabIndex = 10;
             this.btnCopiar.Text = "&Copiar";
             this.btnCopiar.UseVisualStyleBackColor = true;
             this.btnCopiar.Click += new System.EventHandler(this.btnCopiar_Click);
@@ -423,7 +424,7 @@ namespace ClienteHCS_2
             this.btnBorrar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnBorrar.Name = "btnBorrar";
             this.btnBorrar.Size = new System.Drawing.Size(122, 57);
-            this.btnBorrar.TabIndex = 45;
+            this.btnBorrar.TabIndex = 11;
             this.btnBorrar.Text = "&Borrar";
             this.btnBorrar.UseVisualStyleBackColor = true;
             this.btnBorrar.Click += new System.EventHandler(this.btnBorrar_Click);
@@ -454,7 +455,7 @@ namespace ClienteHCS_2
             this.txtRespuesta.ReadOnly = true;
             this.txtRespuesta.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtRespuesta.Size = new System.Drawing.Size(1297, 182);
-            this.txtRespuesta.TabIndex = 23;
+            this.txtRespuesta.TabIndex = 9;
             // 
             // groupBox2
             // 
@@ -483,7 +484,7 @@ namespace ClienteHCS_2
             this.txtMensaje.Name = "txtMensaje";
             this.txtMensaje.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtMensaje.Size = new System.Drawing.Size(1061, 122);
-            this.txtMensaje.TabIndex = 8;
+            this.txtMensaje.TabIndex = 7;
             // 
             // btnEnviar
             // 
@@ -493,7 +494,7 @@ namespace ClienteHCS_2
             this.btnEnviar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnEnviar.Name = "btnEnviar";
             this.btnEnviar.Size = new System.Drawing.Size(214, 125);
-            this.btnEnviar.TabIndex = 7;
+            this.btnEnviar.TabIndex = 8;
             this.btnEnviar.Text = "&Enviar>>";
             this.btnEnviar.UseVisualStyleBackColor = true;
             this.btnEnviar.Click += new System.EventHandler(this.btnEnviar_Click);
@@ -508,7 +509,7 @@ namespace ClienteHCS_2
             this.cbEsHexa.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cbEsHexa.Name = "cbEsHexa";
             this.cbEsHexa.Size = new System.Drawing.Size(220, 33);
-            this.cbEsHexa.TabIndex = 43;
+            this.cbEsHexa.TabIndex = 6;
             this.cbEsHexa.Text = "Msjes en HEXA";
             this.cbEsHexa.UseVisualStyleBackColor = true;
             // 
@@ -520,7 +521,7 @@ namespace ClienteHCS_2
             this.txtTXFile.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtTXFile.Name = "txtTXFile";
             this.txtTXFile.Size = new System.Drawing.Size(200, 33);
-            this.txtTXFile.TabIndex = 7;
+            this.txtTXFile.TabIndex = 5;
             this.txtTXFile.Text = global::ClienteHCS_2.Properties.Settings.Default.TXFile;
             // 
             // pbLoadingGif

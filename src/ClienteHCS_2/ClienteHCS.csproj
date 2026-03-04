@@ -116,6 +116,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Models\HCSClient.cs" />
+    <Compile Include="Models\LoadTest\ClientHealthMonitor.cs" />
     <Compile Include="Models\LoadTest\LoadTestRunner.cs" />
     <Compile Include="Models\LoadTest\LoadTestThreadResult.cs" />
     <Compile Include="Models\LoadTest\TrxTimestamp.cs" />

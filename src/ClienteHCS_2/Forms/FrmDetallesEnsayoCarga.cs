@@ -74,6 +74,19 @@ namespace ClienteHCS_2
                 $"Estabilidad de latencia: {_report.EstabilidadLatencia:F4}\r\n" +
                 $"Tasa éxito transacciones: {_report.TasaExitoTransacciones:F1}%\r\n" +
                 $"Consistencia rendimiento: {_report.ConsistenciaRendimiento:F4}";
+
+            if (_report.SaludCliente != null)
+            {
+                var h = _report.SaludCliente;
+                lblResultados2.Text +=
+                    $"\r\n\r\n--- Salud del cliente ---\r\n" +
+                    $"CPU: avg {h.CpuAvgPercent:F1}% | max {h.CpuMaxPercent:F1}%\r\n" +
+                    $"Memoria: avg {h.MemoryAvgMB:F0} MB | max {h.MemoryMaxMB:F0} MB\r\n" +
+                    $"GC: Gen0={h.GcGen0Total} Gen1={h.GcGen1Total} Gen2={h.GcGen2Total}\r\n" +
+                    $"ThreadPool pending: avg {h.ThreadPoolPendingAvg} | max {h.ThreadPoolPendingMax}";
+                if (h.Saturado)
+                    lblResultados2.Text += $"\r\n⚠ CLIENTE SATURADO\r\n{h.DetalleSaturacion}";
+            }
         }
 
 

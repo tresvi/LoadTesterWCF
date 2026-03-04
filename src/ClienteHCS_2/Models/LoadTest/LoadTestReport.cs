@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ClienteHCS_2.Helpers;
+using ClienteHCS_2.Models.LoadTest;
 
 namespace ClienteHCS_2
 {
@@ -59,6 +60,11 @@ namespace ClienteHCS_2
         /// </summary>
         public List<TrxTimestamp> Timestamps { get; set; } = new List<TrxTimestamp>();
 
+        /// <summary>
+        /// Reporte de salud del cliente durante el ensayo (CPU, memoria, ThreadPool, GC).
+        /// Null si no se capturó (ej. ensayos antiguos cargados desde archivo).
+        /// </summary>
+        public ClientHealthReport SaludCliente { get; set; }
 
         /// <summary>
         /// Crea y calcula un reporte a partir de los datos de la prueba.
@@ -76,7 +82,8 @@ namespace ClienteHCS_2
             long tiempoMs,
             DateTime? fecha = null,
             string correlationIDBase = null,
-            IEnumerable<TrxTimestamp> timestamps = null)
+            IEnumerable<TrxTimestamp> timestamps = null,
+            ClientHealthReport clientHealth = null)
         {
             if (loadTestDefinition == null) throw new ArgumentNullException(nameof(loadTestDefinition));
             var def = loadTestDefinition;
@@ -150,7 +157,8 @@ namespace ClienteHCS_2
                 TasaExitoTransacciones = tasaExitoTransacciones,
                 ConsistenciaRendimiento = consistenciaRendimiento,
                 CorrelationIDBase = correlationIDBase ?? "",
-                Timestamps = timestamps != null ? timestamps.ToList() : new List<TrxTimestamp>()
+                Timestamps = timestamps != null ? timestamps.ToList() : new List<TrxTimestamp>(),
+                SaludCliente = clientHealth
             };
         }
 
@@ -161,6 +169,18 @@ namespace ClienteHCS_2
             string msgLat = LatenciasOrdenadas != null && LatenciasOrdenadas.Length > 0
                 ? $"Latencia (ms): min {LatenciaMinMs} | max {LatenciaMaxMs} | prom {LatenciaPromMs} | p50 {LatenciaP50Ms} | p90 {LatenciaP90Ms} | p95 {LatenciaP95Ms} | p99 {LatenciaP99Ms}"
                 : "Latencia: sin datos (no hubo respuestas exitosas)";
+
+            string health = "";
+            if (SaludCliente != null)
+            {
+                health = $"\n--- Salud del cliente ---" +
+                    $"\nCPU: avg {SaludCliente.CpuAvgPercent:F1}% | max {SaludCliente.CpuMaxPercent:F1}%" +
+                    $"\nMemoria: avg {SaludCliente.MemoryAvgMB:F0} MB | max {SaludCliente.MemoryMaxMB:F0} MB" +
+                    $"\nGC: Gen0={SaludCliente.GcGen0Total} | Gen1={SaludCliente.GcGen1Total} | Gen2={SaludCliente.GcGen2Total}";
+                if (SaludCliente.Saturado)
+                    health += $"\n⚠ CLIENTE SATURADO: los resultados pueden no ser confiables." +
+                              $"\n{SaludCliente.DetalleSaturacion}";
+            }
 
             return
                 $"\nTotal Hilos: {TotalHilos}" +
@@ -175,7 +195,8 @@ namespace ClienteHCS_2
                 $"\nTasa éxito hilos: {TasaExitoHilos:F1}%" +
                 $"\nEstabilidad latencia: {EstabilidadLatencia:F4}" +
                 $"\nTasa éxito transacciones: {TasaExitoTransacciones:F1}%" +
-                $"\nConsistencia rendimiento: {ConsistenciaRendimiento:F4}";
+                $"\nConsistencia rendimiento: {ConsistenciaRendimiento:F4}" +
+                health;
         }
     }
 }
