@@ -77,21 +77,36 @@ namespace ClienteHCS_2
             };
 
             chartRadar.Series.Clear();
+
+            // Colores con alpha bajo para relleno transparente del área
+            Color colorActualRelleno = Color.FromArgb(60, 52, 152, 219);
+            Color colorComparadoRelleno = Color.FromArgb(60, 46, 204, 113);
+
+            // Colores opacos para las líneas del borde y los marcadores
+            Color colorActualLinea = Color.FromArgb(220, 52, 152, 219);
+            Color colorComparadoLinea = Color.FromArgb(220, 46, 204, 113);
+
             var serieActual = new Series(_nombreActual)
             {
                 ChartType = SeriesChartType.Radar,
-                BorderWidth = 2,
-                Color = Color.FromArgb(220, 52, 152, 219),
+                BorderWidth = 3,
+                BorderColor = colorActualLinea,
+                Color = colorActualRelleno,
                 MarkerStyle = MarkerStyle.Circle,
-                MarkerSize = 6
+                MarkerSize = 7,
+                MarkerColor = colorActualLinea,
+                MarkerBorderColor = colorActualLinea
             };
             var serieComparado = new Series(_nombreComparado)
             {
                 ChartType = SeriesChartType.Radar,
-                BorderWidth = 2,
-                Color = Color.FromArgb(220, 46, 204, 113),
+                BorderWidth = 3,
+                BorderColor = colorComparadoLinea,
+                Color = colorComparadoRelleno,
                 MarkerStyle = MarkerStyle.Diamond,
-                MarkerSize = 6
+                MarkerSize = 7,
+                MarkerColor = colorComparadoLinea,
+                MarkerBorderColor = colorComparadoLinea
             };
 
             chartRadar.Series.Add(serieActual);
