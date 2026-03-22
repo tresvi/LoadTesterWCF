@@ -11,8 +11,8 @@ using ClienteHCS_2.Models.LoadTest;
 namespace ClienteHCS_2
 {
     /// <summary>
-    /// Orquesta la ejecuciÛn de un ensayo de carga: warm-up, lanzamiento de hilos,
-    /// recolecciÛn de latencias/timestamps y generaciÛn del reporte final.
+    /// Orquesta la ejecuciùn de un ensayo de carga: warm-up, lanzamiento de hilos,
+    /// recolecciùn de latencias/timestamps y generaciùn del reporte final.
     /// Reporta progreso y resultados por hilo mediante eventos, sin depender de la UI.
     /// </summary>
     internal sealed class LoadTestRunner
@@ -28,6 +28,9 @@ namespace ClienteHCS_2
         private bool _useASingleConnection;
         private HCSClient _sharedClient;
         private volatile bool _abortRequested;
+        private volatile bool _rampaCompleta;
+        private volatile int _hilosLanzados;
+        private long _finGlobalMs;
 
         private int _contadorOK;
         private int _contadorFAIL;
@@ -36,13 +39,16 @@ namespace ClienteHCS_2
         private ConcurrentBag<TrxTimestamp> _timestamps;
         private string _correlationIDBase;
 
-        /// <summary>Indica si el ensayo est· en curso.</summary>
+        /// <summary>Indica si el ensayo estù en curso.</summary>
         public bool EnCurso { get; private set; }
 
         /// <summary>Milisegundos transcurridos desde el inicio del ensayo.</summary>
         public long ElapsedMs => _timerEnsayo?.ElapsedMilliseconds ?? 0;
 
-        /// <summary>Cantidad de tareas que a˙n no finalizaron.</summary>
+        /// <summary>Cantidad de hilos lanzados hasta el momento (relevante en modo rampa).</summary>
+        public int HilosLanzados => _hilosLanzados;
+
+        /// <summary>Cantidad de tareas que aùn no finalizaron.</summary>
         public int TareasPendientes
         {
             get
@@ -50,13 +56,23 @@ namespace ClienteHCS_2
                 if (_tasks == null) return 0;
                 int count = 0;
                 for (int i = 0; i < _tasks.Length; i++)
-                    if (!_tasks[i].IsCompleted) count++;
+                    if (_tasks[i] != null && !_tasks[i].IsCompleted) count++;
                 return count;
             }
         }
 
-        /// <summary>True cuando todas las tareas finalizaron.</summary>
-        public bool TodasFinalizadas => _tasks != null && TareasPendientes == 0;
+        /// <summary>True cuando todas las tareas finalizaron (y la rampa terminù de lanzar).</summary>
+        public bool TodasFinalizadas
+        {
+            get
+            {
+                if (_tasks == null) return false;
+                if (!_rampaCompleta) return false;
+                for (int i = 0; i < _tasks.Length; i++)
+                    if (_tasks[i] != null && !_tasks[i].IsCompleted) return false;
+                return true;
+            }
+        }
 
         #region Eventos
 
@@ -79,8 +95,8 @@ namespace ClienteHCS_2
         }
 
         /// <summary>
-        /// Ejecuta una transmisiÛn de prueba para validar par·metros y calentar la conexiÛn.
-        /// Lanza excepciÛn si falla.
+        /// Ejecuta una transmisiùn de prueba para validar parùmetros y calentar la conexiùn.
+        /// Lanza excepciùn si falla.
         /// </summary>
         public async Task WarmUpAsync()
         {
@@ -110,8 +126,6 @@ namespace ClienteHCS_2
                 items.Add(new LoadTestThreadItem { ThreadNum = i + 1 });
 
             _tasks = new Task[_definition.NroHilos];
-            _countArranque = _definition.NroHilos;
-            _tcsArranque = new TaskCompletionSource<bool>();
             HCSClient.ResetTxCounter();
 
             _useASingleConnection = _definition.UsarUnicaConexion;
@@ -124,17 +138,66 @@ namespace ClienteHCS_2
             _timerEnsayo.Start();
             EnCurso = true;
 
-            for (int i = 0; i < _definition.NroHilos; i++)
+            if (_definition.UsarRampa && _definition.IncrementoHilos > 0)
             {
-                int nroTarea = i + 1;
-                _tasks[i] = RunVirtualUserAsync(nroTarea, _correlationIDBase, items[nroTarea - 1]);
+                _rampaCompleta = false;
+                _hilosLanzados = 0;
+                _finGlobalMs = (long)(_definition.CalcularDuracionEstimadaSeg() * 1000);
+                _countArranque = 0;
+                _tcsArranque = new TaskCompletionSource<bool>();
+                _tcsArranque.TrySetResult(true);
+                _ = LanzarHilosEnRampaAsync(items);
+            }
+            else
+            {
+                _rampaCompleta = true;
+                _hilosLanzados = _definition.NroHilos;
+                _finGlobalMs = (long)(_definition.DuracionSeg * 1000);
+                _countArranque = _definition.NroHilos;
+                _tcsArranque = new TaskCompletionSource<bool>();
+                for (int i = 0; i < _definition.NroHilos; i++)
+                {
+                    int nroTarea = i + 1;
+                    _tasks[i] = RunVirtualUserAsync(nroTarea, _correlationIDBase, items[nroTarea - 1]);
+                }
             }
 
             return items;
         }
 
+        private async Task LanzarHilosEnRampaAsync(IList<LoadTestThreadItem> items)
+        {
+            int total = _definition.NroHilos;
+            int incremento = _definition.IncrementoHilos;
+            int intervaloMs = (int)(_definition.IntervaloRampaSeg * 1000);
+            int lanzados = 0;
+
+            try
+            {
+                while (lanzados < total && !_abortRequested)
+                {
+                    int batch = Math.Min(incremento, total - lanzados);
+                    for (int j = 0; j < batch; j++)
+                    {
+                        int i = lanzados + j;
+                        int nroTarea = i + 1;
+                        _tasks[i] = RunVirtualUserAsync(nroTarea, _correlationIDBase, items[i]);
+                    }
+                    lanzados += batch;
+                    _hilosLanzados = lanzados;
+
+                    if (lanzados < total && !_abortRequested)
+                        await Task.Delay(intervaloMs);
+                }
+            }
+            finally
+            {
+                _rampaCompleta = true;
+            }
+        }
+
         /// <summary>
-        /// Solicita la cancelaciÛn del ensayo. Los hilos finalizar·n en cuanto puedan.
+        /// Solicita la cancelaciùn del ensayo. Los hilos finalizarùn en cuanto puedan.
         /// </summary>
         public void Abortar()
         {
@@ -202,7 +265,10 @@ namespace ClienteHCS_2
                 startTime = DateTime.Now;
 
                 sw.Restart();
-                while ((sw.ElapsedMilliseconds / 1000 < _definition.DuracionSeg) && !_abortRequested)
+                while (!_abortRequested &&
+                       (_definition.UsarRampa
+                           ? _timerEnsayo.ElapsedMilliseconds < _finGlobalMs
+                           : sw.ElapsedMilliseconds / 1000 < _definition.DuracionSeg))
                 {
                     string correlationId = $"{correlationIdTarea}-{nroTransmision++}";
                     Stopwatch reqSw = Stopwatch.StartNew();
@@ -211,14 +277,17 @@ namespace ClienteHCS_2
                         await client.EnviarYRecibir(_transaccion, false, correlationId);
                         reqSw.Stop();
                         long ms = reqSw.ElapsedMilliseconds;
-                        latenciasHilo.Add(ms);
-                        _latencies.Add(ms);
-                        _timestamps.Add(new TrxTimestamp
+                        if (_timerEnsayo.ElapsedMilliseconds <= _finGlobalMs)
                         {
-                            SegundoRelativo = (int)(sw.ElapsedMilliseconds / 1000),
-                            NroHilo = nroTarea,
-                            LatenciaMs = ms
-                        });
+                            latenciasHilo.Add(ms);
+                            _latencies.Add(ms);
+                            _timestamps.Add(new TrxTimestamp
+                            {
+                                SegundoRelativo = (int)(_timerEnsayo.ElapsedMilliseconds / 1000),
+                                NroHilo = nroTarea,
+                                LatenciaMs = ms
+                            });
+                        }
                         trxOk++;
                     }
                     catch

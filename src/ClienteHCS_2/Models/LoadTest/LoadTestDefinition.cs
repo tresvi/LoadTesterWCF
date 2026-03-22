@@ -1,3 +1,5 @@
+using System;
+
 namespace ClienteHCS_2
 {
     /// <summary>
@@ -12,9 +14,31 @@ namespace ClienteHCS_2
         public int PausaMs { get; set; }
         public bool UsarUnicaConexion { get; set; }
 
+        public bool UsarRampa { get; set; }
+        public int IncrementoHilos { get; set; }
+        public double IntervaloRampaSeg { get; set; }
+
         /// <summary>Texto de configuración para mostrar en resúmenes (Servidor, TxFile, Nro hilos, etc.).</summary>
-        public string ToConfigString() =>
-            $"Servidor: {Server}\r\nTxFile: {TxFile}\r\nNro hilos: {NroHilos}\r\nDuración (seg): {DuracionSeg}\r\nPausa entre envíos (ms): {PausaMs}\r\nÚnica conexión para todos los hilos: {(UsarUnicaConexion ? "Sí" : "No")}";
+        public string ToConfigString()
+        {
+            var s = $"Servidor: {Server}\r\nTxFile: {TxFile}\r\nNro hilos: {NroHilos}\r\nDuración (seg): {DuracionSeg}\r\nPausa entre envíos (ms): {PausaMs}\r\nÚnica conexión para todos los hilos: {(UsarUnicaConexion ? "Sí" : "No")}";
+            if (UsarRampa)
+                s += $"\r\nRampa: de {IncrementoHilos} hilos cada {IntervaloRampaSeg} seg";
+            return s;
+        }
+
+        /// <summary>
+        /// Duración estimada del ensayo completo (rampa + duración por hilo).
+        /// En modo sin rampa, coincide con <see cref="DuracionSeg"/>.
+        /// </summary>
+        public double CalcularDuracionEstimadaSeg()
+        {
+            if (!UsarRampa || IncrementoHilos <= 0 || IntervaloRampaSeg <= 0)
+                return DuracionSeg;
+            int pasos = (int)Math.Ceiling((double)NroHilos / IncrementoHilos);
+            double tiempoRampa = (pasos - 1) * IntervaloRampaSeg;
+            return tiempoRampa + DuracionSeg;
+        }
 
         /// <summary>Crea una copia de esta definición.</summary>
         public LoadTestDefinition Copy() => new LoadTestDefinition
@@ -24,7 +48,10 @@ namespace ClienteHCS_2
             NroHilos = NroHilos,
             DuracionSeg = DuracionSeg,
             PausaMs = PausaMs,
-            UsarUnicaConexion = UsarUnicaConexion
+            UsarUnicaConexion = UsarUnicaConexion,
+            UsarRampa = UsarRampa,
+            IncrementoHilos = IncrementoHilos,
+            IntervaloRampaSeg = IntervaloRampaSeg
         };
     }
 }
