@@ -209,9 +209,6 @@ namespace ClienteHCS_2
             prgbarHilos.Value = porcentajeAvance;
             prgbarHilos.Visible = true;
 
-            int pendientes = _runner.TareasPendientes;
-            Debug.WriteLine($"Pendientes: {pendientes}");
-
             if (!_runner.TodasFinalizadas) return;
 
             tmrFinalizacion.Stop();

@@ -129,21 +129,26 @@
     <Compile Include="Helpers\SortableBindingList.cs" />
     <EmbeddedResource Include="Forms\FrmComparacionEnsayos.resx">
       <DependentUpon>FrmComparacionEnsayos.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmDetallesEnsayoCarga.resx">
       <DependentUpon>FrmDetallesEnsayoCarga.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmPruebaDeCargaMultiTrx.resx">
       <DependentUpon>FrmPruebaDeCargaMultiTrx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmPruebaDeContinuidad.resx">
       <DependentUpon>FrmPruebaDeContinuidad.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmPruebaDeCarga.resx">
       <DependentUpon>FrmPruebaDeCarga.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
