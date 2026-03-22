@@ -191,7 +191,7 @@ namespace ClienteHCS_2
             this.lblTituloThroughputTemporal.Name = "lblTituloThroughputTemporal";
             this.lblTituloThroughputTemporal.Size = new System.Drawing.Size(428, 28);
             this.lblTituloThroughputTemporal.TabIndex = 11;
-            this.lblTituloThroughputTemporal.Text = "Throughput en función del tiempo [trx/seg]";
+            this.lblTituloThroughputTemporal.Text = "Throughput y Latencia en función del tiempo";
             // 
             // chartThroughputTemporal
             // 

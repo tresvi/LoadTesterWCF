@@ -88,8 +88,8 @@ namespace ClienteHCS_2
         }
 
         /// <summary>
-        /// Configura el chart de throughput en función del tiempo.
-        /// Muestra una línea de throughput total (trx/seg por segundo) y una línea por cada hilo.
+        /// Configura el chart de throughput y latencia en función del tiempo.
+        /// Eje Y izquierdo: throughput (trx/seg). Eje Y derecho: latencia promedio (ms).
         /// </summary>
         private void ConfigurarThroughputTemporalChart()
         {
@@ -102,7 +102,6 @@ namespace ClienteHCS_2
             if (timestamps == null || timestamps.Count == 0)
             {
                 chartThroughputTemporal.ChartAreas.Add(new ChartArea("Default"));
-                chartThroughputTemporal.Titles.Clear();
                 chartThroughputTemporal.Titles.Add(new Title("Sin datos de throughput temporal")
                 {
                     Font = new System.Drawing.Font("Segoe UI", 10f),
@@ -113,30 +112,79 @@ namespace ClienteHCS_2
 
             var area = new ChartArea("Default");
             area.AxisX.Title = "Tiempo (seg)";
-            area.AxisY.Title = "Trx/seg";
             area.AxisX.MajorGrid.LineColor = System.Drawing.Color.LightGray;
-            area.AxisY.MajorGrid.LineColor = System.Drawing.Color.LightGray;
-            area.BackColor = System.Drawing.Color.White;
             area.AxisX.Interval = 1;
+            area.BackColor = System.Drawing.Color.White;
+
+            area.AxisY.Title = "Trx/seg";
+            area.AxisY.TitleForeColor = System.Drawing.Color.Black;
+            area.AxisY.MajorGrid.LineColor = System.Drawing.Color.LightGray;
+
+            area.AxisY2.Title = "Latencia Promedio (ms)";
+            area.AxisY2.TitleForeColor = System.Drawing.Color.OrangeRed;
+            area.AxisY2.LabelStyle.ForeColor = System.Drawing.Color.OrangeRed;
+            area.AxisY2.MajorGrid.Enabled = false;
+            area.AxisY2.Enabled = AxisEnabled.True;
+
             chartThroughputTemporal.ChartAreas.Add(area);
 
             int maxSeg = timestamps.Max(t => t.SegundoRelativo);
 
-            // Serie: throughput total por segundo
+            // Throughput total por segundo
             var totalPorSegundo = new int[maxSeg + 1];
-            foreach (var ts in timestamps)
-                totalPorSegundo[ts.SegundoRelativo]++;
+            // Acumuladores de latencia por segundo
+            var sumaLatenciaPorSegundo = new long[maxSeg + 1];
+            var countLatenciaPorSegundo = new int[maxSeg + 1];
 
-            var serieTotal = new Series("Total")
+            foreach (var ts in timestamps)
+            {
+                totalPorSegundo[ts.SegundoRelativo]++;
+                if (ts.LatenciaMs > 0)
+                {
+                    sumaLatenciaPorSegundo[ts.SegundoRelativo] += ts.LatenciaMs;
+                    countLatenciaPorSegundo[ts.SegundoRelativo]++;
+                }
+            }
+
+            var serieThroughput = new Series("Throughput")
             {
                 ChartType = SeriesChartType.Line,
                 Color = System.Drawing.Color.Black,
                 BorderWidth = 3,
-                IsVisibleInLegend = false
+                YAxisType = AxisType.Primary
             };
             for (int s = 0; s <= maxSeg; s++)
-                serieTotal.Points.AddXY(s, totalPorSegundo[s]);
-            chartThroughputTemporal.Series.Add(serieTotal);
+                serieThroughput.Points.AddXY(s, totalPorSegundo[s]);
+            chartThroughputTemporal.Series.Add(serieThroughput);
+
+            bool hayLatencia = countLatenciaPorSegundo.Any(c => c > 0);
+            if (hayLatencia)
+            {
+                var serieLatencia = new Series("Latencia Promedio (ms)")
+                {
+                    ChartType = SeriesChartType.Line,
+                    Color = System.Drawing.Color.OrangeRed,
+                    BorderWidth = 2,
+                    BorderDashStyle = ChartDashStyle.Dash,
+                    YAxisType = AxisType.Secondary
+                };
+                for (int s = 0; s <= maxSeg; s++)
+                {
+                    double latProm = countLatenciaPorSegundo[s] > 0
+                        ? (double)sumaLatenciaPorSegundo[s] / countLatenciaPorSegundo[s]
+                        : double.NaN;
+                    serieLatencia.Points.AddXY(s, latProm);
+                }
+                chartThroughputTemporal.Series.Add(serieLatencia);
+            }
+
+            var legend = new Legend("Default")
+            {
+                Docking = Docking.Top,
+                Alignment = System.Drawing.StringAlignment.Center,
+                Font = new System.Drawing.Font("Segoe UI", 9f)
+            };
+            chartThroughputTemporal.Legends.Add(legend);
         }
          
         /// <summary>
