@@ -1,4 +1,4 @@
-﻿using ClienteHCS_2.Forms;
+using ClienteHCS_2.Forms;
 using ClienteHCS_2.Properties;
 using System;
 using System.Collections.Generic;
@@ -27,6 +27,7 @@ namespace ClienteHCS_2
             
             // Sincronizar el ToolStripTextBox con la configuración guardada
             tstHCSServer.Text = Properties.Settings.Default.HCSServer;
+            tstHCSServer.Leave += (s, ev) => tstHCSServer.Text = tstHCSServer.Text.Trim();
             
             // Cargar la última opción de credenciales seleccionada
             if (Properties.Settings.Default.UsarCredencialesInteractivas)
