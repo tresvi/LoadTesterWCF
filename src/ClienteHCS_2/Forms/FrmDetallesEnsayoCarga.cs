@@ -101,7 +101,10 @@ namespace ClienteHCS_2
             var timestamps = _report?.Timestamps;
             if (timestamps == null || timestamps.Count == 0)
             {
-                chartThroughputTemporal.ChartAreas.Add(new ChartArea("Default"));
+                var areaVacio = new ChartArea("Default");
+                areaVacio.AxisX.Minimum = -1;
+                areaVacio.AxisX.IsMarginVisible = false;
+                chartThroughputTemporal.ChartAreas.Add(areaVacio);
                 chartThroughputTemporal.Titles.Add(new Title("Sin datos de throughput temporal")
                 {
                     Font = new System.Drawing.Font("Segoe UI", 10f),
@@ -114,6 +117,8 @@ namespace ClienteHCS_2
             area.AxisX.Title = "Tiempo (seg)";
             area.AxisX.MajorGrid.LineColor = System.Drawing.Color.LightGray;
             area.AxisX.Interval = 1;
+            area.AxisX.Minimum = -1;
+            area.AxisX.IsMarginVisible = false;
             area.BackColor = System.Drawing.Color.White;
 
             area.AxisY.Title = "Trx/seg";
