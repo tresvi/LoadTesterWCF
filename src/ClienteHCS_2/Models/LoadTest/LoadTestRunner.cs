@@ -11,8 +11,8 @@ using ClienteHCS_2.Models.LoadTest;
 namespace ClienteHCS_2
 {
     /// <summary>
-    /// Orquesta la ejecucin de un ensayo de carga: warm-up, lanzamiento de hilos,
-    /// recoleccin de latencias/timestamps y generacin del reporte final.
+    /// Orquesta la ejecuciï¿½n de un ensayo de carga: warm-up, lanzamiento de hilos,
+    /// recolecciï¿½n de latencias/timestamps y generaciï¿½n del reporte final.
     /// Reporta progreso y resultados por hilo mediante eventos, sin depender de la UI.
     /// </summary>
     internal sealed class LoadTestRunner
@@ -39,7 +39,7 @@ namespace ClienteHCS_2
         private ConcurrentBag<TrxTimestamp> _timestamps;
         private string _correlationIDBase;
 
-        /// <summary>Indica si el ensayo est en curso.</summary>
+        /// <summary>Indica si el ensayo estï¿½ en curso.</summary>
         public bool EnCurso { get; private set; }
 
         /// <summary>Milisegundos transcurridos desde el inicio del ensayo.</summary>
@@ -48,7 +48,7 @@ namespace ClienteHCS_2
         /// <summary>Cantidad de hilos lanzados hasta el momento (relevante en modo rampa).</summary>
         public int HilosLanzados => _hilosLanzados;
 
-        /// <summary>Cantidad de tareas que an no finalizaron.</summary>
+        /// <summary>Cantidad de tareas que aï¿½n no finalizaron.</summary>
         public int TareasPendientes
         {
             get
@@ -61,7 +61,7 @@ namespace ClienteHCS_2
             }
         }
 
-        /// <summary>True cuando todas las tareas finalizaron (y la rampa termin de lanzar).</summary>
+        /// <summary>True cuando todas las tareas finalizaron (y la rampa terminï¿½ de lanzar).</summary>
         public bool TodasFinalizadas
         {
             get
@@ -95,8 +95,8 @@ namespace ClienteHCS_2
         }
 
         /// <summary>
-        /// Ejecuta una transmisin de prueba para validar parmetros y calentar la conexin.
-        /// Lanza excepcin si falla.
+        /// Ejecuta una transmisiï¿½n de prueba para validar parï¿½metros y calentar la conexiï¿½n.
+        /// Lanza excepciï¿½n si falla.
         /// </summary>
         public async Task WarmUpAsync()
         {
@@ -197,7 +197,7 @@ namespace ClienteHCS_2
         }
 
         /// <summary>
-        /// Solicita la cancelacin del ensayo. Los hilos finalizarn en cuanto puedan.
+        /// Solicita la cancelaciï¿½n del ensayo. Los hilos finalizarï¿½n en cuanto puedan.
         /// </summary>
         public void Abortar()
         {

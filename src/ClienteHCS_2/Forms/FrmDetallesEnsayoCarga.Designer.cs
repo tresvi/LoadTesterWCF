@@ -26,7 +26,11 @@ namespace ClienteHCS_2
             this.lblTituloLatencia = new System.Windows.Forms.Label();
             this.chartLatencia = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.lblTituloThroughputTemporal = new System.Windows.Forms.Label();
+            this.tlpTemporalChart = new System.Windows.Forms.TableLayoutPanel();
             this.chartThroughputTemporal = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.flowTemporalBotones = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnMediaMovilTemporal = new System.Windows.Forms.Button();
+            this.btnResetGraficoTemporal = new System.Windows.Forms.Button();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsbAbrirEnsayo = new System.Windows.Forms.ToolStripButton();
             this.tsbGuardarEnsayo = new System.Windows.Forms.ToolStripButton();
@@ -37,6 +41,8 @@ namespace ClienteHCS_2
             this.grpResumen.SuspendLayout();
             this.tlpResumen.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tlpTemporalChart.SuspendLayout();
+            this.flowTemporalBotones.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartThroughputOk)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartLatencia)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartThroughputTemporal)).BeginInit();
@@ -128,7 +134,7 @@ namespace ClienteHCS_2
             this.tableLayoutPanel1.Controls.Add(this.lblTituloLatencia, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.chartLatencia, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.lblTituloThroughputTemporal, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.chartThroughputTemporal, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.tlpTemporalChart, 0, 3);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(14, 303);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
@@ -193,15 +199,69 @@ namespace ClienteHCS_2
             this.lblTituloThroughputTemporal.TabIndex = 11;
             this.lblTituloThroughputTemporal.Text = "Throughput y Latencia en función del tiempo";
             // 
+            // tlpTemporalChart
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.tlpTemporalChart, 2);
+            this.tlpTemporalChart.ColumnCount = 2;
+            this.tlpTemporalChart.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpTemporalChart.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 148F));
+            this.tlpTemporalChart.Controls.Add(this.chartThroughputTemporal, 0, 0);
+            this.tlpTemporalChart.Controls.Add(this.flowTemporalBotones, 1, 0);
+            this.tlpTemporalChart.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpTemporalChart.Location = new System.Drawing.Point(0, 420);
+            this.tlpTemporalChart.Margin = new System.Windows.Forms.Padding(0, 0, 6, 6);
+            this.tlpTemporalChart.Name = "tlpTemporalChart";
+            this.tlpTemporalChart.RowCount = 1;
+            this.tlpTemporalChart.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpTemporalChart.Size = new System.Drawing.Size(985, 475);
+            this.tlpTemporalChart.TabIndex = 12;
+            // 
             // chartThroughputTemporal
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.chartThroughputTemporal, 2);
             this.chartThroughputTemporal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chartThroughputTemporal.Location = new System.Drawing.Point(0, 420);
-            this.chartThroughputTemporal.Margin = new System.Windows.Forms.Padding(0, 0, 6, 6);
+            this.chartThroughputTemporal.Location = new System.Drawing.Point(0, 0);
+            this.chartThroughputTemporal.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
             this.chartThroughputTemporal.Name = "chartThroughputTemporal";
-            this.chartThroughputTemporal.Size = new System.Drawing.Size(985, 475);
-            this.chartThroughputTemporal.TabIndex = 12;
+            this.chartThroughputTemporal.Size = new System.Drawing.Size(837, 475);
+            this.chartThroughputTemporal.TabIndex = 0;
+            // 
+            // flowTemporalBotones
+            // 
+            this.flowTemporalBotones.Controls.Add(this.btnMediaMovilTemporal);
+            this.flowTemporalBotones.Controls.Add(this.btnResetGraficoTemporal);
+            this.flowTemporalBotones.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowTemporalBotones.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowTemporalBotones.Location = new System.Drawing.Point(837, 0);
+            this.flowTemporalBotones.Margin = new System.Windows.Forms.Padding(0);
+            this.flowTemporalBotones.Name = "flowTemporalBotones";
+            this.flowTemporalBotones.Padding = new System.Windows.Forms.Padding(4, 8, 4, 4);
+            this.flowTemporalBotones.Size = new System.Drawing.Size(148, 475);
+            this.flowTemporalBotones.TabIndex = 1;
+            this.flowTemporalBotones.WrapContents = false;
+            // 
+            // btnMediaMovilTemporal
+            // 
+            this.btnMediaMovilTemporal.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMediaMovilTemporal.Location = new System.Drawing.Point(7, 11);
+            this.btnMediaMovilTemporal.Margin = new System.Windows.Forms.Padding(3, 3, 3, 8);
+            this.btnMediaMovilTemporal.Name = "btnMediaMovilTemporal";
+            this.btnMediaMovilTemporal.Size = new System.Drawing.Size(130, 42);
+            this.btnMediaMovilTemporal.TabIndex = 0;
+            this.btnMediaMovilTemporal.Text = "Media móvil";
+            this.btnMediaMovilTemporal.UseVisualStyleBackColor = true;
+            this.btnMediaMovilTemporal.Click += new System.EventHandler(this.btnMediaMovilTemporal_Click);
+            // 
+            // btnResetGraficoTemporal
+            // 
+            this.btnResetGraficoTemporal.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnResetGraficoTemporal.Location = new System.Drawing.Point(7, 61);
+            this.btnResetGraficoTemporal.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.btnResetGraficoTemporal.Name = "btnResetGraficoTemporal";
+            this.btnResetGraficoTemporal.Size = new System.Drawing.Size(130, 42);
+            this.btnResetGraficoTemporal.TabIndex = 1;
+            this.btnResetGraficoTemporal.Text = "Restaurar";
+            this.btnResetGraficoTemporal.UseVisualStyleBackColor = true;
+            this.btnResetGraficoTemporal.Click += new System.EventHandler(this.btnResetGraficoTemporal_Click);
             // 
             // toolStrip1
             // 
@@ -289,6 +349,8 @@ namespace ClienteHCS_2
             this.tlpResumen.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.tlpTemporalChart.ResumeLayout(false);
+            this.flowTemporalBotones.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartThroughputOk)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartLatencia)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartThroughputTemporal)).EndInit();
@@ -319,6 +381,10 @@ namespace ClienteHCS_2
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripButton tsbCompararEnsayosCarga;
         private System.Windows.Forms.Label lblTituloThroughputTemporal;
+        private System.Windows.Forms.TableLayoutPanel tlpTemporalChart;
+        private System.Windows.Forms.FlowLayoutPanel flowTemporalBotones;
+        private System.Windows.Forms.Button btnMediaMovilTemporal;
+        private System.Windows.Forms.Button btnResetGraficoTemporal;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartThroughputTemporal;
         private System.Windows.Forms.Panel pnlContenido;
     }
