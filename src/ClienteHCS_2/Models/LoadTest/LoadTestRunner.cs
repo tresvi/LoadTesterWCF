@@ -216,7 +216,8 @@ namespace ClienteHCS_2
                         _timestamps.Add(new TrxTimestamp
                         {
                             SegundoRelativo = (int)(sw.ElapsedMilliseconds / 1000),
-                            NroHilo = nroTarea
+                            NroHilo = nroTarea,
+                            LatenciaMs = ms
                         });
                         trxOk++;
                     }

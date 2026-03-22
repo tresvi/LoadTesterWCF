@@ -11,5 +11,8 @@ namespace ClienteHCS_2
 
         /// <summary>Número de hilo que completó la transacción (1-based).</summary>
         public int NroHilo { get; set; }
+
+        /// <summary>Latencia de la transacción en milisegundos.</summary>
+        public long LatenciaMs { get; set; }
     }
 }
