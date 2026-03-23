@@ -109,7 +109,7 @@ namespace ClienteHCS_2
             if (timestamps == null || timestamps.Count == 0)
             {
                 var areaVacio = new ChartArea("Default");
-                areaVacio.AxisX.Minimum = -1;
+                areaVacio.AxisX.Minimum = 0;
                 areaVacio.AxisX.IsMarginVisible = false;
                 chartThroughputTemporal.ChartAreas.Add(areaVacio);
                 chartThroughputTemporal.Titles.Add(new Title("Sin datos de throughput temporal")
@@ -125,7 +125,7 @@ namespace ClienteHCS_2
             area.AxisX.Title = "Tiempo (seg)";
             area.AxisX.MajorGrid.LineColor = System.Drawing.Color.LightGray;
             area.AxisX.Interval = 1;
-            area.AxisX.Minimum = -1;
+            area.AxisX.Minimum = 0;
             area.AxisX.IsMarginVisible = false;
             area.BackColor = System.Drawing.Color.White;
 
@@ -198,6 +198,11 @@ namespace ClienteHCS_2
                 Font = new System.Drawing.Font("Segoe UI", 9f)
             };
             chartThroughputTemporal.Legends.Add(legend);
+
+            // Evitar que el autoscale muestre -1 en X: fijar rango tras cargar series
+            var ax = chartThroughputTemporal.ChartAreas["Default"].AxisX;
+            ax.Minimum = 0;
+            ax.Maximum = maxSeg;
 
             _temporalHayLatencia = hayLatencia;
             _temporalThroughputOriginal = new double[maxSeg + 1];
