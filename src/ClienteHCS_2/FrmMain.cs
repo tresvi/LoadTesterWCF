@@ -158,28 +158,30 @@ namespace ClienteHCS_2
 
         private void tsbAbrirTrx_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Title = "Abrir transaccion de HCS";
-            ofd.Filter = "Transacciones HCS|*.hcs";
-            ofd.ShowDialog();
-            if (ofd.FileName == "") return;
-
-            try
+            using (var ofd = new OpenFileDialog())
             {
-                Transaction transaccion = new Transaction();
-                transaccion.LoadFromFile(ofd.FileName);
+                ofd.Title = "Abrir transaccion de HCS";
+                ofd.Filter = "Transacciones HCS|*.hcs";
+                ofd.ShowDialog();
+                if (ofd.FileName == "") return;
 
-                txtTXFile.Text = transaccion.TXFile;
-                txtMensaje.Text = transaccion.Mensaje;
-                cbEsHexa.Checked = transaccion.EsHexa;
+                try
+                {
+                    Transaction transaccion = new Transaction();
+                    transaccion.LoadFromFile(ofd.FileName);
 
-                _archivoAbierto = ofd.FileName;
-                LoadTitleBar();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al abrir el archivo. Detalles: {ex.Message}", "Abrir archivo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                    txtTXFile.Text = transaccion.TXFile;
+                    txtMensaje.Text = transaccion.Mensaje;
+                    cbEsHexa.Checked = transaccion.EsHexa;
+
+                    _archivoAbierto = ofd.FileName;
+                    LoadTitleBar();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al abrir el archivo. Detalles: {ex.Message}", "Abrir archivo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
         }
 
@@ -230,24 +232,26 @@ namespace ClienteHCS_2
                     return;
                 }
 
-                SaveFileDialog sfd = new SaveFileDialog();
-                sfd.Title = "Guardar transaccion de HCS como...";
-                sfd.Filter = "Transacciones HCS|*.hcs";
-                sfd.ShowDialog();
-
-                if (string.IsNullOrWhiteSpace(sfd.FileName)) return;
-
-                if (File.Exists(sfd.FileName))
+                using (var sfd = new SaveFileDialog())
                 {
-                    DialogResult respuesta = MessageBox.Show($"Ya existe un archivo de nombre {sfd.FileName}, desea reemplazarlo"
-                        , "Guardar Como", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                    if (respuesta == DialogResult.No) return;
-                }
+                    sfd.Title = "Guardar transaccion de HCS como...";
+                    sfd.Filter = "Transacciones HCS|*.hcs";
+                    sfd.ShowDialog();
 
-                transaccion.SaveToFile(sfd.FileName);
-                MessageBox.Show("La transaccion se guardo correctamente", "Guardar Transaccion", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                _archivoAbierto = sfd.FileName;
-                LoadTitleBar();
+                    if (string.IsNullOrWhiteSpace(sfd.FileName)) return;
+
+                    if (File.Exists(sfd.FileName))
+                    {
+                        DialogResult respuesta = MessageBox.Show($"Ya existe un archivo de nombre {sfd.FileName}, desea reemplazarlo"
+                            , "Guardar Como", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        if (respuesta == DialogResult.No) return;
+                    }
+
+                    transaccion.SaveToFile(sfd.FileName);
+                    MessageBox.Show("La transaccion se guardo correctamente", "Guardar Transaccion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    _archivoAbierto = sfd.FileName;
+                    LoadTitleBar();
+                }
             }
             catch (Exception ex)
             {
@@ -260,9 +264,12 @@ namespace ClienteHCS_2
         {
             string serverName = "";
             try { serverName = Environment.MachineName; }
-            catch { } 
+            catch { }
 
-            this.Text = $"ClienteHCS | PID: {Process.GetCurrentProcess().Id} | Equipo: {serverName}";
+            using (Process proc = Process.GetCurrentProcess())
+            {
+                this.Text = $"ClienteHCS | PID: {proc.Id} | Equipo: {serverName}";
+            }
             if (_archivoAbierto != null)
                 this.Text += $" | Archivo: {_archivoAbierto}";
         }
@@ -370,28 +377,35 @@ namespace ClienteHCS_2
         private void tsbCompararEnsayosDeCarga_Click(object sender, EventArgs e)
         {
             string filtro = "Ensayo de carga (*.ltst)|*.ltst";
-            
-            OpenFileDialog ofdEnsayo1 = new OpenFileDialog();
-            ofdEnsayo1.Title = "Seleccionar el primer ensayo de carga";
-            ofdEnsayo1.Filter = filtro;
-            ofdEnsayo1.CheckFileExists = true;
-            ofdEnsayo1.Multiselect = false;
-            if (ofdEnsayo1.ShowDialog() != DialogResult.OK) return;
+            string pathEnsayo1, pathEnsayo2;
 
-            OpenFileDialog ofdEnsayo2 = new OpenFileDialog();
-            ofdEnsayo2.Title = "Seleccionar el segundo ensayo de carga";
-            ofdEnsayo2.Filter = filtro;
-            ofdEnsayo2.CheckFileExists = true;
-            ofdEnsayo2.Multiselect = false;
-            if (ofdEnsayo2.ShowDialog() != DialogResult.OK) return;
+            using (var ofdEnsayo1 = new OpenFileDialog())
+            {
+                ofdEnsayo1.Title = "Seleccionar el primer ensayo de carga";
+                ofdEnsayo1.Filter = filtro;
+                ofdEnsayo1.CheckFileExists = true;
+                ofdEnsayo1.Multiselect = false;
+                if (ofdEnsayo1.ShowDialog() != DialogResult.OK) return;
+                pathEnsayo1 = ofdEnsayo1.FileName;
+            }
+
+            using (var ofdEnsayo2 = new OpenFileDialog())
+            {
+                ofdEnsayo2.Title = "Seleccionar el segundo ensayo de carga";
+                ofdEnsayo2.Filter = filtro;
+                ofdEnsayo2.CheckFileExists = true;
+                ofdEnsayo2.Multiselect = false;
+                if (ofdEnsayo2.ShowDialog() != DialogResult.OK) return;
+                pathEnsayo2 = ofdEnsayo2.FileName;
+            }
 
             try
             {
-                var ensayo1 = FrmDetallesEnsayoCarga.LeerEnsayoGuardado(ofdEnsayo1.FileName);
-                var ensayo2 = FrmDetallesEnsayoCarga.LeerEnsayoGuardado(ofdEnsayo2.FileName);
+                var ensayo1 = FrmDetallesEnsayoCarga.LeerEnsayoGuardado(pathEnsayo1);
+                var ensayo2 = FrmDetallesEnsayoCarga.LeerEnsayoGuardado(pathEnsayo2);
 
-                string nombre1 = Path.GetFileNameWithoutExtension(ofdEnsayo1.FileName);
-                string nombre2 = Path.GetFileNameWithoutExtension(ofdEnsayo2.FileName);
+                string nombre1 = Path.GetFileNameWithoutExtension(pathEnsayo1);
+                string nombre2 = Path.GetFileNameWithoutExtension(pathEnsayo2);
 
                 using (var frmComparacion = new FrmComparacionEnsayos(
                     ensayo1.Reporte,
