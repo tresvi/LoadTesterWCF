@@ -264,7 +264,7 @@ namespace ClienteHCS_2
 
             this.Text = $"ClienteHCS | PID: {Process.GetCurrentProcess().Id} | Equipo: {serverName}";
             if (_archivoAbierto != null)
-                this.Text += this.Text = $" | Archivo: {_archivoAbierto}";
+                this.Text += $" | Archivo: {_archivoAbierto}";
         }
 
 
