@@ -111,6 +111,7 @@ namespace ClienteHCS_2
                 var areaVacio = new ChartArea("Default");
                 areaVacio.AxisX.Minimum = 0;
                 areaVacio.AxisX.IsMarginVisible = false;
+                areaVacio.AxisX.LabelStyle.Format = "0";
                 ConfigurarZoomTemporal(areaVacio, false);
                 chartThroughputTemporal.ChartAreas.Add(areaVacio);
                 chartThroughputTemporal.Titles.Add(new Title("Sin datos de throughput temporal")
@@ -133,6 +134,7 @@ namespace ClienteHCS_2
             area.AxisX.Interval = 1;
             area.AxisX.Minimum = 0;
             area.AxisX.IsMarginVisible = false;
+            area.AxisX.LabelStyle.Format = "0";
             area.BackColor = System.Drawing.Color.White;
 
             area.AxisY.Title = "Trx/seg";
