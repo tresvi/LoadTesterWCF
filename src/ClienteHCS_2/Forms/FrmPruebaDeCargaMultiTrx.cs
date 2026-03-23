@@ -17,7 +17,6 @@ namespace ClienteHCS_2.Forms
         OpenFileDialog _openFileDialog = new OpenFileDialog();
         List<Task> _tasks = new List<Task>();
         CancellationTokenSource _cancelationTokenSource;
-        Random _random = new Random(DateTime.Now.Millisecond);
         int _contadorClientes = 0;
         int _transmitirCadaMs;
         object _locker = new object();
@@ -121,12 +120,13 @@ namespace ClienteHCS_2.Forms
             CancellationToken token = _cancelationTokenSource.Token;
             _transmitirCadaMs = (int)nudTransmitirCada.Value;
 
-            //Por cada fila en el datagrid, creare un cliente con su hilo pegandole a su trx correspondiente
+            var rng = new Random();
             foreach (DataGridViewRow  row in dgvTransacciones.Rows)
             {
                 int nroCliente = (int)row.Cells["Cliente"].Value;
                 Transaction transaccion = (Transaction)row.Cells["ObjetoTransaccion"].Value;
-                _tasks.Add(Task.Run(() => TaskEnviarRecibirAsync(nroCliente, transaccion, token), token));
+                int initialDelay = rng.Next(0, 1200);
+                _tasks.Add(Task.Run(() => TaskEnviarRecibirAsync(nroCliente, transaccion, token, initialDelay), token));
             }
 
             btnAgregarCliente.Enabled = false;
@@ -136,12 +136,12 @@ namespace ClienteHCS_2.Forms
             lblInicio.Text = $"Inicio: {DateTime.Now:yyyy/MM/dd hh:mm:ss}";
         }
 
-        private async Task TaskEnviarRecibirAsync(int nroCliente, Transaction transaccion, CancellationToken token)
+        private async Task TaskEnviarRecibirAsync(int nroCliente, Transaction transaccion, CancellationToken token, int initialDelayMs)
         {
             WriteOutput($"Cliente #{nroCliente} Iniciando. Se escribirá en TxFile {transaccion.TXFile}");
             int nroEnvio = 0;
 
-            await Task.Delay(_random.Next(0, 1200));
+            await Task.Delay(initialDelayMs);
 
             while (!token.IsCancellationRequested)
             {

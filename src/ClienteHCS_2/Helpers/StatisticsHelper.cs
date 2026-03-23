@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ClienteHCS_2.Helpers
 {
@@ -12,14 +11,21 @@ namespace ClienteHCS_2.Helpers
         /// <summary>Escala por defecto (ms) para que la estabilidad quede en rango 0-1.</summary>
         public const double K_ESTABILIDAD_MS_DEFAULT = 100.0;
 
-        /// <summary>Desvío estándar muestral de una secuencia de valores.</summary>
+        /// <summary>Desvío estándar muestral de una secuencia de valores (una sola pasada).</summary>
         public static double DesvioEstandar(IEnumerable<double> valores)
         {
-            var list = valores.ToList();
-            if (list.Count < 2) return 0;
-            double media = list.Average();
-            double sumSq = list.Sum(x => (x - media) * (x - media));
-            return Math.Sqrt(sumSq / (list.Count - 1));
+            int count = 0;
+            double sum = 0, sumSq = 0;
+            foreach (double v in valores)
+            {
+                count++;
+                sum += v;
+                sumSq += v * v;
+            }
+            if (count < 2) return 0;
+            double mean = sum / count;
+            double variance = (sumSq - count * mean * mean) / (count - 1);
+            return Math.Sqrt(Math.Max(0, variance));
         }
 
         /// <summary>Percentil interpolado de un array ya ordenado (0-100).</summary>

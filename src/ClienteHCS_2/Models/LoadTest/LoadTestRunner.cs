@@ -29,6 +29,7 @@ namespace ClienteHCS_2
         private volatile bool _abortRequested;
         private volatile bool _rampaCompleta;
         private volatile int _hilosLanzados;
+        private int _tareasFinalizadas;
         private long _finGlobalMs;
 
         private int _contadorOK;
@@ -48,30 +49,10 @@ namespace ClienteHCS_2
         public int HilosLanzados => _hilosLanzados;
 
         /// <summary>Cantidad de tareas que a�n no finalizaron.</summary>
-        public int TareasPendientes
-        {
-            get
-            {
-                if (_tasks == null) return 0;
-                int count = 0;
-                for (int i = 0; i < _tasks.Length; i++)
-                    if (_tasks[i] != null && !_tasks[i].IsCompleted) count++;
-                return count;
-            }
-        }
+        public int TareasPendientes => Math.Max(0, _hilosLanzados - _tareasFinalizadas);
 
         /// <summary>True cuando todas las tareas finalizaron (y la rampa termin� de lanzar).</summary>
-        public bool TodasFinalizadas
-        {
-            get
-            {
-                if (_tasks == null) return false;
-                if (!_rampaCompleta) return false;
-                for (int i = 0; i < _tasks.Length; i++)
-                    if (_tasks[i] != null && !_tasks[i].IsCompleted) return false;
-                return true;
-            }
-        }
+        public bool TodasFinalizadas => _rampaCompleta && _tareasFinalizadas >= _definition.NroHilos;
 
         #region Eventos
 
@@ -117,6 +98,7 @@ namespace ClienteHCS_2
             _contadorOK = 0;
             _contadorFAIL = 0;
             _contadorSinRespuesta = 0;
+            _tareasFinalizadas = 0;
             _latencies = new ConcurrentBag<long>();
             _timestamps = new ConcurrentBag<TrxTimestamp>();
 
@@ -145,7 +127,7 @@ namespace ClienteHCS_2
                 _countArranque = 0;
                 _tcsArranque = new TaskCompletionSource<bool>();
                 _tcsArranque.TrySetResult(true);
-                _ = LanzarHilosEnRampaAsync(items);
+                LanzarHilosEnRampaSafe(items);
             }
             else
             {
@@ -164,7 +146,7 @@ namespace ClienteHCS_2
             return items;
         }
 
-        private async Task LanzarHilosEnRampaAsync(IList<LoadTestThreadItem> items)
+        private async void LanzarHilosEnRampaSafe(IList<LoadTestThreadItem> items)
         {
             int total = _definition.NroHilos;
             int incremento = _definition.IncrementoHilos;
@@ -188,6 +170,9 @@ namespace ClienteHCS_2
                     if (lanzados < total && !_abortRequested)
                         await Task.Delay(intervaloMs);
                 }
+            }
+            catch
+            {
             }
             finally
             {
@@ -257,8 +242,11 @@ namespace ClienteHCS_2
             {
                 client = _useASingleConnection ? _sharedClient : new HCSClient(_definition.Server, _credential);
 
-                if (Interlocked.Decrement(ref _countArranque) == 0)
-                    _tcsArranque.TrySetResult(true);
+                if (!_definition.UsarRampa)
+                {
+                    if (Interlocked.Decrement(ref _countArranque) == 0)
+                        _tcsArranque.TrySetResult(true);
+                }
 
                 await _tcsArranque.Task;
 
@@ -343,6 +331,7 @@ namespace ClienteHCS_2
                 ThroughputTotal = thrTotal
             };
 
+            Interlocked.Increment(ref _tareasFinalizadas);
             OnHiloFinalizado?.Invoke(result);
         }
     }
