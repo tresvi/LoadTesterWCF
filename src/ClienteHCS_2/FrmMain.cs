@@ -299,7 +299,8 @@ namespace ClienteHCS_2
             }
 
             FrmPruebaDeCargaMultiTrx frmLoadTest = new FrmPruebaDeCargaMultiTrx(tstHCSServer.Text, networkCredential);
-            frmLoadTest.ShowDialog();
+            try { frmLoadTest.ShowDialog(); }
+            catch { }
         }
 
 
