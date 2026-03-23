@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -19,6 +19,7 @@ namespace ClienteHCS_2.Forms
         CancellationTokenSource _cancelationTokenSource;
         Random _random = new Random(DateTime.Now.Millisecond);
         int _contadorClientes = 0;
+        int _transmitirCadaMs;
         object _locker = new object();
         StreamWriter _outputFile = null;
 
@@ -118,13 +119,14 @@ namespace ClienteHCS_2.Forms
 
             _cancelationTokenSource = new CancellationTokenSource();
             CancellationToken token = _cancelationTokenSource.Token;
+            _transmitirCadaMs = (int)nudTransmitirCada.Value;
 
             //Por cada fila en el datagrid, creare un cliente con su hilo pegandole a su trx correspondiente
             foreach (DataGridViewRow  row in dgvTransacciones.Rows)
             {
                 int nroCliente = (int)row.Cells["Cliente"].Value;
                 Transaction transaccion = (Transaction)row.Cells["ObjetoTransaccion"].Value;
-                _tasks.Add(Task.Run(() => TaskEnviarRecibir(nroCliente, transaccion, token), token));
+                _tasks.Add(Task.Run(() => TaskEnviarRecibirAsync(nroCliente, transaccion, token), token));
             }
 
             btnAgregarCliente.Enabled = false;
@@ -134,32 +136,32 @@ namespace ClienteHCS_2.Forms
             lblInicio.Text = $"Inicio: {DateTime.Now:yyyy/MM/dd hh:mm:ss}";
         }
 
-        public void TaskEnviarRecibir(int nroCliente, Transaction transaccion, CancellationToken token)
+        private async Task TaskEnviarRecibirAsync(int nroCliente, Transaction transaccion, CancellationToken token)
         {
             WriteOutput($"Cliente #{nroCliente} Iniciando. Se escribirá en TxFile {transaccion.TXFile}");
             int nroEnvio = 0;
 
-            Thread.Sleep(_random.Next(0, 1200)); //Solo para que no arranquen al mismo tiempo
-            DataGridViewRow rowCliente = dgvTransacciones.Rows[nroCliente - 1];
+            await Task.Delay(_random.Next(0, 1200));
 
             while (!token.IsCancellationRequested)
             {
-                if ((bool)rowCliente.Cells["Habilitado"].Value == false)
+                if (!LeerHabilitado(nroCliente))
                 {
-                    Thread.Sleep(250);
+                    await Task.Delay(250);
                     continue;
                 }
 
                 try
                 {
-                    Thread.Sleep((int)nudTransmitirCada.Value);
-                    Stopwatch sw = new Stopwatch();
-                    sw.Start();
+                    await Task.Delay(_transmitirCadaMs);
+                    if (token.IsCancellationRequested) break;
+
+                    Stopwatch sw = Stopwatch.StartNew();
                     nroEnvio++;
 
                     using (HCSClient hcsClient = new HCSClient(_server, _networkCredential))
                     {
-                        hcsClient.EnviarYRecibir(transaccion, true).GetAwaiter().GetResult();
+                        await hcsClient.EnviarYRecibir(transaccion, true);
                         WriteOutput($"Cliente #{nroCliente} nroEnvio {nroEnvio}. Envio OK en {sw.ElapsedMilliseconds} ms");
                     }
                 }
@@ -169,6 +171,12 @@ namespace ClienteHCS_2.Forms
                 }
             }
             WriteOutput($"**FIN** Cliente #{nroCliente} Finalizó con un total de {nroEnvio} envíos");
+        }
+
+        private bool LeerHabilitado(int nroCliente)
+        {
+            return (bool)dgvTransacciones.Invoke(
+                new Func<bool>(() => (bool)dgvTransacciones.Rows[nroCliente - 1].Cells["Habilitado"].Value));
         }
 
 
@@ -206,14 +214,14 @@ namespace ClienteHCS_2.Forms
         }
 
 
-        private void btnFinalizar_Click(object sender, EventArgs e)
+        private async void btnFinalizar_Click(object sender, EventArgs e)
         {
             _cancelationTokenSource?.Cancel();
-            Task.WaitAll(_tasks.ToArray());
+            btnFinalizar.Enabled = false;
+            await Task.WhenAll(_tasks.ToArray());
             nudTransmitirCada.Enabled = true;
             btnAgregarCliente.Enabled = true;
             btnIniciar.Enabled = true;
-            btnFinalizar.Enabled = false;
             _outputFile?.Close();
         }
 
@@ -234,7 +242,7 @@ namespace ClienteHCS_2.Forms
                 $"(hasta {NRO_MAXIMO_CLIENTES} clientes) y envia las transacciones especificadas para cada uno. Los " +
                 $"envios se harán según los milisegundos configurados en el campo 'Transmitir cada'.\n" +
                 $"En otras palabras, simula la presencia de varios clientes consumiendo diferentes transacciones.\n\n" +
-                $"Los clientes mantienen cada uno su conexion abierta durante todo el ensayo."
+                $"Los clientes no mantienen su conexion abierta durante todo el ensayo, abren una por transmisión"
                 , "Ayuda", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
