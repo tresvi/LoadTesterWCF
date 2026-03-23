@@ -212,7 +212,7 @@ namespace ClienteHCS_2
             var ax = chartThroughputTemporal.ChartAreas["Default"].AxisX;
             ax.Minimum = 0;
             ax.Maximum = maxSeg;
-            int intervaloEtiquetasX = CalcularIntervaloEtiquetasX(maxSeg + 1, 18);
+            int intervaloEtiquetasX = 5;
             ax.Interval = intervaloEtiquetasX;
             ax.LabelStyle.Interval = intervaloEtiquetasX;
             ax.MajorGrid.Interval = intervaloEtiquetasX;
