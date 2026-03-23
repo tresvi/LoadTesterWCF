@@ -17,7 +17,7 @@ namespace ClienteHCS_2
         {
             this.lblTitulo = new System.Windows.Forms.Label();
             this.lblIncremento = new System.Windows.Forms.Label();
-            this.nudIncremento = new System.Windows.Forms.NumericUpDown();
+            this.nudIncrementoHilosPorPaso = new System.Windows.Forms.NumericUpDown();
             this.lblIncrementoAyuda = new System.Windows.Forms.Label();
             this.lblIntervalo = new System.Windows.Forms.Label();
             this.nudIntervaloSeg = new System.Windows.Forms.NumericUpDown();
@@ -26,7 +26,7 @@ namespace ClienteHCS_2
             this.btnCancelar = new System.Windows.Forms.Button();
             this.tlpPrincipal = new System.Windows.Forms.TableLayoutPanel();
             this.flpBotones = new System.Windows.Forms.FlowLayoutPanel();
-            ((System.ComponentModel.ISupportInitialize)(this.nudIncremento)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudIncrementoHilosPorPaso)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudIntervaloSeg)).BeginInit();
             this.tlpPrincipal.SuspendLayout();
             this.flpBotones.SuspendLayout();
@@ -55,25 +55,25 @@ namespace ClienteHCS_2
             this.lblIncremento.TabIndex = 1;
             this.lblIncremento.Text = "Hilos por paso (incremento)";
             // 
-            // nudIncremento
+            // nudIncrementoHilosPorPaso
             // 
-            this.nudIncremento.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.nudIncremento.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nudIncremento.Location = new System.Drawing.Point(3, 75);
-            this.nudIncremento.Maximum = new decimal(new int[] {
+            this.nudIncrementoHilosPorPaso.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.nudIncrementoHilosPorPaso.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nudIncrementoHilosPorPaso.Location = new System.Drawing.Point(3, 75);
+            this.nudIncrementoHilosPorPaso.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.nudIncremento.Minimum = new decimal(new int[] {
+            this.nudIncrementoHilosPorPaso.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.nudIncremento.Name = "nudIncremento";
-            this.nudIncremento.Size = new System.Drawing.Size(86, 27);
-            this.nudIncremento.TabIndex = 2;
-            this.nudIncremento.Value = new decimal(new int[] {
+            this.nudIncrementoHilosPorPaso.Name = "nudIncrementoHilosPorPaso";
+            this.nudIncrementoHilosPorPaso.Size = new System.Drawing.Size(86, 27);
+            this.nudIncrementoHilosPorPaso.TabIndex = 2;
+            this.nudIncrementoHilosPorPaso.Value = new decimal(new int[] {
             10,
             0,
             0,
@@ -167,7 +167,7 @@ namespace ClienteHCS_2
             this.tlpPrincipal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpPrincipal.Controls.Add(this.lblTitulo, 0, 0);
             this.tlpPrincipal.Controls.Add(this.lblIncremento, 0, 1);
-            this.tlpPrincipal.Controls.Add(this.nudIncremento, 0, 2);
+            this.tlpPrincipal.Controls.Add(this.nudIncrementoHilosPorPaso, 0, 2);
             this.tlpPrincipal.Controls.Add(this.lblIncrementoAyuda, 0, 3);
             this.tlpPrincipal.Controls.Add(this.lblIntervalo, 0, 4);
             this.tlpPrincipal.Controls.Add(this.nudIntervaloSeg, 0, 5);
@@ -215,11 +215,11 @@ namespace ClienteHCS_2
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmConfiguracionRampa";
-            this.Padding = new System.Windows.Forms.Padding(10, 10, 10, 10);
+            this.Padding = new System.Windows.Forms.Padding(10);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Configuración de rampa";
             this.Load += new System.EventHandler(this.FrmConfiguracionRampa_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.nudIncremento)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudIncrementoHilosPorPaso)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudIntervaloSeg)).EndInit();
             this.tlpPrincipal.ResumeLayout(false);
             this.tlpPrincipal.PerformLayout();
@@ -232,7 +232,7 @@ namespace ClienteHCS_2
 
         private System.Windows.Forms.Label lblTitulo;
         private System.Windows.Forms.Label lblIncremento;
-        private System.Windows.Forms.NumericUpDown nudIncremento;
+        private System.Windows.Forms.NumericUpDown nudIncrementoHilosPorPaso;
         private System.Windows.Forms.Label lblIncrementoAyuda;
         private System.Windows.Forms.Label lblIntervalo;
         private System.Windows.Forms.NumericUpDown nudIntervaloSeg;

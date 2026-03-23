@@ -151,6 +151,7 @@ namespace ClienteHCS_2
             chartThroughputTemporal.ChartAreas.Add(area);
 
             int maxSeg = timestamps.Max(t => t.SegundoRelativo);
+            AgregarMarcadoresRampaTemporal(area, maxSeg);
 
             // Throughput total por segundo
             var totalPorSegundo = new int[maxSeg + 1];
@@ -212,7 +213,7 @@ namespace ClienteHCS_2
             var ax = chartThroughputTemporal.ChartAreas["Default"].AxisX;
             ax.Minimum = 0;
             ax.Maximum = maxSeg;
-            int intervaloEtiquetasX = CalcularIntervaloEtiquetasX(maxSeg + 1, 18);
+            int intervaloEtiquetasX = 5;
             ax.Interval = intervaloEtiquetasX;
             ax.LabelStyle.Interval = intervaloEtiquetasX;
             ax.MajorGrid.Interval = intervaloEtiquetasX;
@@ -236,6 +237,46 @@ namespace ClienteHCS_2
             _temporalThroughputActual = null;
             _temporalLatenciaActual = null;
             ActualizarEstadoBotonesGraficoTemporal();
+        }
+
+        /// <summary>
+        /// En modo rampa, marca cada inicio de paso con los hilos activos acumulados.
+        /// </summary>
+        private void AgregarMarcadoresRampaTemporal(ChartArea area, int maxSeg)
+        {
+            if (area == null || _definition == null) return;
+            if (!_definition.UsarRampa) return;
+            if (_definition.IncrementoHilos <= 0 || _definition.IntervaloRampaSeg <= 0) return;
+            if (_definition.NroHilos <= 0) return;
+
+            int incremento = _definition.IncrementoHilos;
+            int total = _definition.NroHilos;
+            int pasos = (int)Math.Ceiling((double)total / incremento);
+            int intervaloSeg = Math.Max(1, (int)Math.Round(_definition.IntervaloRampaSeg));
+
+            for (int i = 0; i < pasos; i++)
+            {
+                int segundoPaso = i * intervaloSeg;
+                if (segundoPaso > maxSeg) break;
+
+                int hilosActivos = Math.Min(total, (i + 1) * incremento);
+                // En X=0 el borde del eje puede tapar la línea: moverla mínimamente dentro del área.
+                double offsetMarca = (segundoPaso == 0) ? 0.001 : segundoPaso;
+                var marca = new StripLine
+                {
+                    IntervalOffset = offsetMarca,
+                    StripWidth = 0,
+                    BorderColor = System.Drawing.Color.DarkSlateGray,
+                    BorderDashStyle = ChartDashStyle.Dot,
+                    BorderWidth = 2,
+                    Text = $"{hilosActivos}h",
+                    TextAlignment = System.Drawing.StringAlignment.Near,
+                    TextLineAlignment = System.Drawing.StringAlignment.Far,
+                    Font = new System.Drawing.Font("Segoe UI", 9f, System.Drawing.FontStyle.Bold),
+                    ForeColor = System.Drawing.Color.DimGray
+                };
+                area.AxisX.StripLines.Add(marca);
+            }
         }
 
         private void LimpiarBuffersGraficoTemporal()
