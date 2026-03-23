@@ -119,6 +119,7 @@ namespace ClienteHCS_2.Forms
             _cancelationTokenSource = new CancellationTokenSource();
             CancellationToken token = _cancelationTokenSource.Token;
             _transmitirCadaMs = (int)nudTransmitirCada.Value;
+            _tasks.Clear();
 
             var rng = new Random();
             foreach (DataGridViewRow  row in dgvTransacciones.Rows)
@@ -133,7 +134,7 @@ namespace ClienteHCS_2.Forms
             nudTransmitirCada.Enabled = false;
             btnIniciar.Enabled = false;
             btnFinalizar.Enabled = true;
-            lblInicio.Text = $"Inicio: {DateTime.Now:yyyy/MM/dd hh:mm:ss}";
+            lblInicio.Text = $"Inicio: {DateTime.Now:yyyy/MM/dd HH:mm:ss}";
         }
 
         private async Task TaskEnviarRecibirAsync(int nroCliente, Transaction transaccion, CancellationToken token, int initialDelayMs)
@@ -180,21 +181,18 @@ namespace ClienteHCS_2.Forms
         }
 
 
-        //delegate void WriteOutputCallback(string msje);
         private void WriteOutput(string text)
         {
+            if (txtSalida.InvokeRequired)
+            {
+                txtSalida.BeginInvoke((MethodInvoker)(() => WriteOutput(text)));
+                return;
+            }
+
             string fechaHora = DateTime.Now.ToString("yy/MM/dd HH:mm:ss");
 
             if (chkLogText.Checked)
-            { 
-                if (txtSalida.InvokeRequired)
-                {
-                    // WriteOutputCallback writeCallback = new WriteOutputCallback(WriteOutput);
-                    // this.BeginInvoke(writeCallback, new object[] { text });
-                    txtSalida.BeginInvoke((MethodInvoker)(() => WriteOutput(text))); // Se evita la delegación explícita
-                    return;
-                }
-                
+            {
                 if (txtSalida.Text.Length > NRO_MAX_CARACTERES_SALIDA)
                     txtSalida.Text = txtSalida.Text.Substring(txtSalida.Text.Length - NRO_MAX_CARACTERES_SALIDA);
 
@@ -254,7 +252,7 @@ namespace ClienteHCS_2.Forms
 
         private void dgvTransacciones_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
-            if (!_cancelationTokenSource.IsCancellationRequested)
+            if (_cancelationTokenSource != null && !_cancelationTokenSource.IsCancellationRequested)
             {
                 MessageBox.Show("No puede eliminar un cliente durante un ensayo. En su lugar, deshabilitelo, o bien detenga el ensayo para eliminarlo.", "Salir", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 e.Cancel = true;
@@ -272,7 +270,7 @@ namespace ClienteHCS_2.Forms
             try
             {
                 _outputFile?.Close();
-                string fileName = $"CargaMultiTRX_{DateTime.Now:yyyMMdd_hhmmss_fff}.log";
+                string fileName = $"CargaMultiTRX_{DateTime.Now:yyyyMMdd_HHmmss_fff}.log";
                 _outputFile = new StreamWriter(fileName);
                 _outputFile.AutoFlush = true;
             }
