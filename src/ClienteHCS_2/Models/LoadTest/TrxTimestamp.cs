@@ -1,18 +1,18 @@
 namespace ClienteHCS_2
 {
     /// <summary>
-    /// Registro del instante (relativo al inicio del ensayo) en que se completó una transacción exitosa.
-    /// Se usa para construir la curva de throughput en función del tiempo.
+    /// Registro del instante (relativo al inicio del ensayo) en que se completï¿½ una transacciï¿½n exitosa.
+    /// Se usa para construir la curva de throughput en funciï¿½n del tiempo.
     /// </summary>
     public sealed class TrxTimestamp
     {
         /// <summary>Segundo relativo al inicio del ensayo (truncado a entero).</summary>
         public int SegundoRelativo { get; set; }
 
-        /// <summary>Número de hilo que completó la transacción (1-based).</summary>
+        /// <summary>Nï¿½mero de hilo que completï¿½ la transacciï¿½n (1-based).</summary>
         public int NroHilo { get; set; }
 
-        /// <summary>Latencia de la transacción en milisegundos.</summary>
+        /// <summary>Latencia de la transacciï¿½n en milisegundos.</summary>
         public long LatenciaMs { get; set; }
     }
 }

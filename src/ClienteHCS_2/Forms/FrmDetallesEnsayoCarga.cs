@@ -16,6 +16,13 @@ namespace ClienteHCS_2
         private LoadTestDefinition _definition;
         private bool _esVacio;
 
+        private const int VentanaMediaMovilTemporal = 3;
+        private double[] _temporalThroughputOriginal;
+        private double[] _temporalLatenciaOriginal;
+        private double[] _temporalThroughputActual;
+        private double[] _temporalLatenciaActual;
+        private bool _temporalHayLatencia;
+
         // Constructor para permitir abrir el Diseñador de WinForms.
         public FrmDetallesEnsayoCarga()
         {
@@ -101,12 +108,16 @@ namespace ClienteHCS_2
             var timestamps = _report?.Timestamps;
             if (timestamps == null || timestamps.Count == 0)
             {
-                chartThroughputTemporal.ChartAreas.Add(new ChartArea("Default"));
+                var areaVacio = new ChartArea("Default");
+                areaVacio.AxisX.Minimum = 0;
+                areaVacio.AxisX.IsMarginVisible = false;
+                chartThroughputTemporal.ChartAreas.Add(areaVacio);
                 chartThroughputTemporal.Titles.Add(new Title("Sin datos de throughput temporal")
                 {
                     Font = new System.Drawing.Font("Segoe UI", 10f),
                     ForeColor = System.Drawing.Color.Gray
                 });
+                LimpiarBuffersGraficoTemporal();
                 return;
             }
 
@@ -114,6 +125,8 @@ namespace ClienteHCS_2
             area.AxisX.Title = "Tiempo (seg)";
             area.AxisX.MajorGrid.LineColor = System.Drawing.Color.LightGray;
             area.AxisX.Interval = 1;
+            area.AxisX.Minimum = 0;
+            area.AxisX.IsMarginVisible = false;
             area.BackColor = System.Drawing.Color.White;
 
             area.AxisY.Title = "Trx/seg";
@@ -185,6 +198,113 @@ namespace ClienteHCS_2
                 Font = new System.Drawing.Font("Segoe UI", 9f)
             };
             chartThroughputTemporal.Legends.Add(legend);
+
+            // Evitar que el autoscale muestre -1 en X: fijar rango tras cargar series
+            var ax = chartThroughputTemporal.ChartAreas["Default"].AxisX;
+            ax.Minimum = 0;
+            ax.Maximum = maxSeg;
+
+            _temporalHayLatencia = hayLatencia;
+            _temporalThroughputOriginal = new double[maxSeg + 1];
+            for (int s = 0; s <= maxSeg; s++)
+                _temporalThroughputOriginal[s] = totalPorSegundo[s];
+            if (hayLatencia)
+            {
+                _temporalLatenciaOriginal = new double[maxSeg + 1];
+                for (int s = 0; s <= maxSeg; s++)
+                {
+                    _temporalLatenciaOriginal[s] = countLatenciaPorSegundo[s] > 0
+                        ? (double)sumaLatenciaPorSegundo[s] / countLatenciaPorSegundo[s]
+                        : double.NaN;
+                }
+            }
+            else
+                _temporalLatenciaOriginal = null;
+            _temporalThroughputActual = null;
+            _temporalLatenciaActual = null;
+            ActualizarEstadoBotonesGraficoTemporal();
+        }
+
+        private void LimpiarBuffersGraficoTemporal()
+        {
+            _temporalThroughputOriginal = null;
+            _temporalLatenciaOriginal = null;
+            _temporalThroughputActual = null;
+            _temporalLatenciaActual = null;
+            _temporalHayLatencia = false;
+            ActualizarEstadoBotonesGraficoTemporal();
+        }
+
+        private void ActualizarEstadoBotonesGraficoTemporal()
+        {
+            bool ok = _temporalThroughputOriginal != null && _temporalThroughputOriginal.Length > 0;
+            btnMediaMovilTemporal.Enabled = ok;
+            btnResetGraficoTemporal.Enabled = ok;
+        }
+
+        private void btnMediaMovilTemporal_Click(object sender, EventArgs e)
+        {
+            if (_temporalThroughputOriginal == null) return;
+            var srcTp = _temporalThroughputActual ?? _temporalThroughputOriginal;
+            _temporalThroughputActual = MediaMovilSimple(srcTp, VentanaMediaMovilTemporal);
+            if (_temporalHayLatencia && _temporalLatenciaOriginal != null)
+            {
+                var srcLat = _temporalLatenciaActual ?? _temporalLatenciaOriginal;
+                _temporalLatenciaActual = MediaMovilSimple(srcLat, VentanaMediaMovilTemporal);
+            }
+            RefrescarPuntosGraficoTemporal();
+        }
+
+        private void btnResetGraficoTemporal_Click(object sender, EventArgs e)
+        {
+            if (_temporalThroughputOriginal == null) return;
+            _temporalThroughputActual = null;
+            _temporalLatenciaActual = null;
+            RefrescarPuntosGraficoTemporal();
+        }
+
+        private void RefrescarPuntosGraficoTemporal()
+        {
+            var tp = _temporalThroughputActual ?? _temporalThroughputOriginal;
+            var lat = _temporalLatenciaOriginal != null
+                ? (_temporalLatenciaActual ?? _temporalLatenciaOriginal)
+                : null;
+            var serieTp = chartThroughputTemporal.Series["Throughput"];
+            serieTp.Points.Clear();
+            for (int s = 0; s < tp.Length; s++)
+                serieTp.Points.AddXY(s, tp[s]);
+            if (_temporalHayLatencia && lat != null)
+            {
+                var serieLat = chartThroughputTemporal.Series["Latencia Promedio (ms)"];
+                serieLat.Points.Clear();
+                for (int s = 0; s < lat.Length; s++)
+                    serieLat.Points.AddXY(s, lat[s]);
+            }
+        }
+
+        /// <summary>Media móvil centrada; en huecos (NaN) promedia solo los valores válidos de la ventana.</summary>
+        private static double[] MediaMovilSimple(double[] datos, int ventana)
+        {
+            if (datos == null || datos.Length == 0 || ventana < 1) return datos;
+            int half = ventana / 2;
+            var salida = new double[datos.Length];
+            for (int i = 0; i < datos.Length; i++)
+            {
+                int ini = Math.Max(0, i - half);
+                int fin = Math.Min(datos.Length - 1, i + half);
+                double suma = 0;
+                int n = 0;
+                for (int j = ini; j <= fin; j++)
+                {
+                    if (!double.IsNaN(datos[j]))
+                    {
+                        suma += datos[j];
+                        n++;
+                    }
+                }
+                salida[i] = n > 0 ? suma / n : double.NaN;
+            }
+            return salida;
         }
          
         /// <summary>
