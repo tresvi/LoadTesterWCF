@@ -43,7 +43,7 @@ namespace ClienteHCS_2
             string advertencias = GenerarAdvertencias(out hayAdvertenciaFuerte);
             if (string.IsNullOrEmpty(advertencias))
             {
-                lblAdvertencias.Text = "Comparación homogénea: configuración equivalente en hilos, pausa, conexión única y duración.";
+                lblAdvertencias.Text = "Comparación homogénea: configuración equivalente en hilos, pausa, conexión única, rampa y duración.";
                 lblAdvertencias.ForeColor = Color.DarkGreen;
             }
             else
@@ -213,6 +213,51 @@ namespace ClienteHCS_2
                     "No homogéneo: uso de única conexión distinto ({0} vs {1}).",
                     _defActual.UsarUnicaConexion ? "Sí" : "No",
                     _defComparado.UsarUnicaConexion ? "Sí" : "No"));
+            }
+
+            if (_defActual.UsarRampa != _defComparado.UsarRampa)
+            {
+                hayAdvertenciaFuerte = true;
+                mensajes.Add(string.Format(
+                    CultureInfo.InvariantCulture,
+                    "No homogéneo: modo rampa distinto ({0} vs {1}).",
+                    _defActual.UsarRampa ? "Sí" : "No",
+                    _defComparado.UsarRampa ? "Sí" : "No"));
+            }
+            else if (_defActual.UsarRampa && _defComparado.UsarRampa)
+            {
+                if (_defActual.IncrementoHilos != _defComparado.IncrementoHilos)
+                {
+                    hayAdvertenciaFuerte = true;
+                    mensajes.Add(string.Format(
+                        CultureInfo.InvariantCulture,
+                        "No homogéneo: incremento de hilos en rampa distinto ({0} vs {1}).",
+                        _defActual.IncrementoHilos,
+                        _defComparado.IncrementoHilos));
+                }
+
+                if (_defActual.IntervaloRampaSeg > 0 && _defComparado.IntervaloRampaSeg > 0)
+                {
+                    double diffIntPct = Math.Abs(_defActual.IntervaloRampaSeg - _defComparado.IntervaloRampaSeg) /
+                                        Math.Max(_defActual.IntervaloRampaSeg, _defComparado.IntervaloRampaSeg) * 100.0;
+                    if (diffIntPct > 10)
+                    {
+                        mensajes.Add(string.Format(
+                            CultureInfo.InvariantCulture,
+                            "Intervalo de rampa distinto: {0:F1} s vs {1:F1} s (diferencia {2:F1}%). Interpretar resultados con cautela.",
+                            _defActual.IntervaloRampaSeg,
+                            _defComparado.IntervaloRampaSeg,
+                            diffIntPct));
+                    }
+                }
+                else if (Math.Abs(_defActual.IntervaloRampaSeg - _defComparado.IntervaloRampaSeg) > double.Epsilon)
+                {
+                    mensajes.Add(string.Format(
+                        CultureInfo.InvariantCulture,
+                        "Intervalo de rampa distinto: {0:F1} s vs {1:F1} s. Interpretar resultados con cautela.",
+                        _defActual.IntervaloRampaSeg,
+                        _defComparado.IntervaloRampaSeg));
+                }
             }
 
             if (_defActual.DuracionSeg > 0 && _defComparado.DuracionSeg > 0)

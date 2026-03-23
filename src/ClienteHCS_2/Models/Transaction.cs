@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.IO;
-using System.Text.RegularExpressions;
 
 namespace ClienteHCS_2
 {
@@ -28,37 +27,29 @@ namespace ClienteHCS_2
 
         public void SaveToFile(string filePath)
         {
-            try
+            using (StreamWriter sw = new StreamWriter(filePath))
             {
-                using (StreamWriter sw = new StreamWriter(filePath))
-                {
-                    sw.WriteLine(TXFile + FILE_FIELDS_SAPARATOR + Mensaje + FILE_FIELDS_SAPARATOR + EsHexa.ToString() + FILE_FIELDS_SAPARATOR + Descripcion);
-                }
+                sw.WriteLine(TXFile + FILE_FIELDS_SAPARATOR + Mensaje + FILE_FIELDS_SAPARATOR + EsHexa.ToString() + FILE_FIELDS_SAPARATOR + Descripcion);
             }
-            catch { throw; }
         }
 
 
         public void LoadFromFile(string filePath)
         {
-            try
-            {
-                string fileContent = File.ReadAllText(filePath);
+            string fileContent = File.ReadAllText(filePath);
 
-                if (string.IsNullOrWhiteSpace(fileContent)) throw new Exception("El archivo es nulo o en blanco");
+            if (string.IsNullOrWhiteSpace(fileContent)) throw new Exception("El archivo es nulo o en blanco");
 
-                string[] contenido = fileContent.Split(new string[] { "|@|" }, StringSplitOptions.None);
+            string[] contenido = fileContent.Split(new string[] { "|@|" }, StringSplitOptions.None);
 
-                if (contenido.Length < 4) throw new Exception("La estructura del archivo en incorrecta");
+            if (contenido.Length < 4) throw new Exception("La estructura del archivo en incorrecta");
 
-                if (!bool.TryParse(contenido[2], out bool isHexa)) throw new Exception("La estructura del archivo es incorrecta. La marca de Hexa debe ser un dato tipo boolean");
+            if (!bool.TryParse(contenido[2], out bool isHexa)) throw new Exception("La estructura del archivo es incorrecta. La marca de Hexa debe ser un dato tipo boolean");
 
-                this.TXFile = contenido[0];
-                this.Mensaje = contenido[1];
-                this.EsHexa = isHexa;
-                this.Descripcion = contenido[3];
-            }
-            catch { throw; }
+            this.TXFile = contenido[0];
+            this.Mensaje = contenido[1];
+            this.EsHexa = isHexa;
+            this.Descripcion = contenido[3];
         }
 
 
@@ -93,18 +84,20 @@ namespace ClienteHCS_2
 
         static bool IsHexadecimal(string input, out string errorMessage)
         {
-            const string hexPattern = "^[0-9A-Fa-f]+$";
-
             if (input.Length % 2 != 0)
             {
                 errorMessage = "La longitud de la cadena debe ser par.";
                 return false;
             }
 
-            if (!Regex.IsMatch(input, hexPattern))
+            for (int i = 0; i < input.Length; i++)
             {
-                errorMessage = "La cadena tiene caracteres no validos para un hexa";
-                return false;
+                char c = input[i];
+                if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f')))
+                {
+                    errorMessage = "La cadena tiene caracteres no validos para un hexa";
+                    return false;
+                }
             }
 
             errorMessage = "";

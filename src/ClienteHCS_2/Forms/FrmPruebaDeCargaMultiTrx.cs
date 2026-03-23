@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -17,8 +17,8 @@ namespace ClienteHCS_2.Forms
         OpenFileDialog _openFileDialog = new OpenFileDialog();
         List<Task> _tasks = new List<Task>();
         CancellationTokenSource _cancelationTokenSource;
-        Random _random = new Random(DateTime.Now.Millisecond);
         int _contadorClientes = 0;
+        int _transmitirCadaMs;
         object _locker = new object();
         StreamWriter _outputFile = null;
 
@@ -118,48 +118,51 @@ namespace ClienteHCS_2.Forms
 
             _cancelationTokenSource = new CancellationTokenSource();
             CancellationToken token = _cancelationTokenSource.Token;
+            _transmitirCadaMs = (int)nudTransmitirCada.Value;
+            _tasks.Clear();
 
-            //Por cada fila en el datagrid, creare un cliente con su hilo pegandole a su trx correspondiente
+            var rng = new Random();
             foreach (DataGridViewRow  row in dgvTransacciones.Rows)
             {
                 int nroCliente = (int)row.Cells["Cliente"].Value;
                 Transaction transaccion = (Transaction)row.Cells["ObjetoTransaccion"].Value;
-                _tasks.Add(Task.Run(() => TaskEnviarRecibir(nroCliente, transaccion, token), token));
+                int initialDelay = rng.Next(0, 1200);
+                _tasks.Add(Task.Run(() => TaskEnviarRecibirAsync(nroCliente, transaccion, token, initialDelay), token));
             }
 
             btnAgregarCliente.Enabled = false;
             nudTransmitirCada.Enabled = false;
             btnIniciar.Enabled = false;
             btnFinalizar.Enabled = true;
-            lblInicio.Text = $"Inicio: {DateTime.Now:yyyy/MM/dd hh:mm:ss}";
+            lblInicio.Text = $"Inicio: {DateTime.Now:yyyy/MM/dd HH:mm:ss}";
         }
 
-        public void TaskEnviarRecibir(int nroCliente, Transaction transaccion, CancellationToken token)
+        private async Task TaskEnviarRecibirAsync(int nroCliente, Transaction transaccion, CancellationToken token, int initialDelayMs)
         {
             WriteOutput($"Cliente #{nroCliente} Iniciando. Se escribirá en TxFile {transaccion.TXFile}");
             int nroEnvio = 0;
 
-            Thread.Sleep(_random.Next(0, 1200)); //Solo para que no arranquen al mismo tiempo
-            DataGridViewRow rowCliente = dgvTransacciones.Rows[nroCliente - 1];
+            await Task.Delay(initialDelayMs);
 
             while (!token.IsCancellationRequested)
             {
-                if ((bool)rowCliente.Cells["Habilitado"].Value == false)
+                if (!LeerHabilitado(nroCliente))
                 {
-                    Thread.Sleep(250);
+                    await Task.Delay(250);
                     continue;
                 }
 
                 try
                 {
-                    Thread.Sleep((int)nudTransmitirCada.Value);
-                    Stopwatch sw = new Stopwatch();
-                    sw.Start();
+                    await Task.Delay(_transmitirCadaMs);
+                    if (token.IsCancellationRequested) break;
+
+                    Stopwatch sw = Stopwatch.StartNew();
                     nroEnvio++;
 
                     using (HCSClient hcsClient = new HCSClient(_server, _networkCredential))
                     {
-                        hcsClient.EnviarYRecibir(transaccion, true).GetAwaiter().GetResult();
+                        await hcsClient.EnviarYRecibir(transaccion, true);
                         WriteOutput($"Cliente #{nroCliente} nroEnvio {nroEnvio}. Envio OK en {sw.ElapsedMilliseconds} ms");
                     }
                 }
@@ -171,22 +174,25 @@ namespace ClienteHCS_2.Forms
             WriteOutput($"**FIN** Cliente #{nroCliente} Finalizó con un total de {nroEnvio} envíos");
         }
 
+        private bool LeerHabilitado(int nroCliente)
+        {
+            return (bool)dgvTransacciones.Invoke(
+                new Func<bool>(() => (bool)dgvTransacciones.Rows[nroCliente - 1].Cells["Habilitado"].Value));
+        }
 
-        //delegate void WriteOutputCallback(string msje);
+
         private void WriteOutput(string text)
         {
+            if (txtSalida.InvokeRequired)
+            {
+                txtSalida.BeginInvoke((MethodInvoker)(() => WriteOutput(text)));
+                return;
+            }
+
             string fechaHora = DateTime.Now.ToString("yy/MM/dd HH:mm:ss");
 
             if (chkLogText.Checked)
-            { 
-                if (txtSalida.InvokeRequired)
-                {
-                    // WriteOutputCallback writeCallback = new WriteOutputCallback(WriteOutput);
-                    // this.BeginInvoke(writeCallback, new object[] { text });
-                    txtSalida.BeginInvoke((MethodInvoker)(() => WriteOutput(text))); // Se evita la delegación explícita
-                    return;
-                }
-                
+            {
                 if (txtSalida.Text.Length > NRO_MAX_CARACTERES_SALIDA)
                     txtSalida.Text = txtSalida.Text.Substring(txtSalida.Text.Length - NRO_MAX_CARACTERES_SALIDA);
 
@@ -206,14 +212,14 @@ namespace ClienteHCS_2.Forms
         }
 
 
-        private void btnFinalizar_Click(object sender, EventArgs e)
+        private async void btnFinalizar_Click(object sender, EventArgs e)
         {
             _cancelationTokenSource?.Cancel();
-            Task.WaitAll(_tasks.ToArray());
+            btnFinalizar.Enabled = false;
+            await Task.WhenAll(_tasks.ToArray());
             nudTransmitirCada.Enabled = true;
             btnAgregarCliente.Enabled = true;
             btnIniciar.Enabled = true;
-            btnFinalizar.Enabled = false;
             _outputFile?.Close();
         }
 
@@ -234,7 +240,7 @@ namespace ClienteHCS_2.Forms
                 $"(hasta {NRO_MAXIMO_CLIENTES} clientes) y envia las transacciones especificadas para cada uno. Los " +
                 $"envios se harán según los milisegundos configurados en el campo 'Transmitir cada'.\n" +
                 $"En otras palabras, simula la presencia de varios clientes consumiendo diferentes transacciones.\n\n" +
-                $"Los clientes mantienen cada uno su conexion abierta durante todo el ensayo."
+                $"Los clientes no mantienen su conexion abierta durante todo el ensayo, abren una por transmisión"
                 , "Ayuda", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -246,7 +252,7 @@ namespace ClienteHCS_2.Forms
 
         private void dgvTransacciones_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
-            if (!_cancelationTokenSource.IsCancellationRequested)
+            if (_cancelationTokenSource != null && !_cancelationTokenSource.IsCancellationRequested)
             {
                 MessageBox.Show("No puede eliminar un cliente durante un ensayo. En su lugar, deshabilitelo, o bien detenga el ensayo para eliminarlo.", "Salir", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 e.Cancel = true;
@@ -264,7 +270,7 @@ namespace ClienteHCS_2.Forms
             try
             {
                 _outputFile?.Close();
-                string fileName = $"CargaMultiTRX_{DateTime.Now:yyyMMdd_hhmmss_fff}.log";
+                string fileName = $"CargaMultiTRX_{DateTime.Now:yyyyMMdd_HHmmss_fff}.log";
                 _outputFile = new StreamWriter(fileName);
                 _outputFile.AutoFlush = true;
             }

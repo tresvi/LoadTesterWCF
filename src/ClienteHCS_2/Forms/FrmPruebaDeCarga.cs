@@ -20,6 +20,9 @@ namespace ClienteHCS_2
         SortableBindingList<LoadTestThreadItem> _listaHilos = new SortableBindingList<LoadTestThreadItem>();
         LoadTestReport _lastReport;
 
+        int _incrementoHilosRampa = 10;
+        double _intervaloRampaSeg = 5;
+
 
         public FrmPruebaDeCarga(string server, Transaction transaccion, NetworkCredential networkCredential)
         {
@@ -67,6 +70,56 @@ namespace ClienteHCS_2
             lblTxFile.Text = $"TxFile: {transaccion.TXFile}";
             lblTransaccion.Text = $"Transaccion: {transaccion.Mensaje}";
             lblCredenciales.Text = $"Credenciales: {usuario}";
+
+            ConfigurarControlesRampa();
+        }
+
+        /// <summary>Eventos de rampa; layout en diseñador (flpRampa en tlpParams).</summary>
+        private void ConfigurarControlesRampa()
+        {
+            cbUsarRampa.CheckedChanged += (s, ev) => ActualizarVisibilidadRampa();
+            nudHilosParalelos.ValueChanged += (s, ev) => ActualizarResumenRampa();
+            nudDuracion.ValueChanged += (s, ev) => ActualizarResumenRampa();
+            ActualizarVisibilidadRampa();
+        }
+
+        private void ActualizarVisibilidadRampa()
+        {
+            bool on = cbUsarRampa.Checked;
+            btnConfigurarRampa.Visible = on;
+            lblResumenRampa.Visible = on;
+            ActualizarResumenRampa();
+        }
+
+        private void ActualizarResumenRampa()
+        {
+            if (lblResumenRampa == null) return;
+            if (!cbUsarRampa.Checked)
+            {
+                lblResumenRampa.Text = "";
+                return;
+            }
+            int totalHilos = (int)nudHilosParalelos.Value;
+            int incremento = _incrementoHilosRampa;
+            double intervalo = _intervaloRampaSeg;
+            int pasos = (int)Math.Ceiling((double)totalHilos / Math.Max(1, incremento));
+            double tiempoRampa = (pasos - 1) * intervalo;
+            double tiempoTotal = tiempoRampa + (double)nudDuracion.Value;
+            lblResumenRampa.Text = $"{incremento} hilos cada {intervalo:F0} s · ({pasos} pasos) · ~{tiempoTotal:F0} s total";
+        }
+
+        private void btnConfigurarRampa_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new FrmConfiguracionRampa())
+            {
+                dlg.TotalHilosEnsayo = (int)nudHilosParalelos.Value;
+                dlg.IncrementoHilos = _incrementoHilosRampa;
+                dlg.IntervaloRampaSeg = _intervaloRampaSeg;
+                if (dlg.ShowDialog(this) != DialogResult.OK) return;
+                _incrementoHilosRampa = dlg.IncrementoHilos;
+                _intervaloRampaSeg = dlg.IntervaloRampaSeg;
+                ActualizarResumenRampa();
+            }
         }
 
 
@@ -77,7 +130,10 @@ namespace ClienteHCS_2
                 $"cada respuesta antes de la siguiente), con la pausa configurada en \"Pausa entre envíos (ms)\" entre cada envío " +
                 $"(0 = sin pausa).\nCada hilo abrirá su propia conexión hacia el servidor, a menos que se habilite " +
                 $"\"{cbUsarUnicaConexion.Text}\", en cuyo caso todas compartirán la misma conexión (puede producir cuellos de botella).\n" +
-                $"Al finalizar se muestran throughput, latencias (min/max/prom/percentiles)."
+                $"Al finalizar se muestran throughput, latencias (min/max/prom/percentiles).\n\n" +
+                $"Modo rampa: si se habilita \"Usar rampa\", los hilos se incorporan de forma gradual — se lanzan M hilos " +
+                $"cada X segundos hasta alcanzar el total configurado. Una vez alcanzado el total, el ensayo " +
+                $"continúa durante la duración configurada. Todos los hilos terminan juntos."
                 , "Ayuda", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -87,6 +143,7 @@ namespace ClienteHCS_2
             lblCreandoHilos.Visible = true;
             btnIniciar.Enabled = cbUsarUnicaConexion.Enabled = false;
             nudDuracion.Enabled = nudHilosParalelos.Enabled = nudPausaMs.Enabled = false;
+            cbUsarRampa.Enabled = btnConfigurarRampa.Enabled = false;
             btnVerDetalles.Enabled = false;
 
             _loadTestDefinition = new LoadTestDefinition
@@ -96,7 +153,10 @@ namespace ClienteHCS_2
                 NroHilos = (int)nudHilosParalelos.Value,
                 DuracionSeg = (double)nudDuracion.Value,
                 PausaMs = (int)nudPausaMs.Value,
-                UsarUnicaConexion = cbUsarUnicaConexion.Checked
+                UsarUnicaConexion = cbUsarUnicaConexion.Checked,
+                UsarRampa = cbUsarRampa.Checked,
+                IncrementoHilos = cbUsarRampa.Checked ? _incrementoHilosRampa : 0,
+                IntervaloRampaSeg = cbUsarRampa.Checked ? _intervaloRampaSeg : 0
             };
 
             _runner = new LoadTestRunner(_loadTestDefinition, _transaccion, _networkCredential);
@@ -204,18 +264,36 @@ namespace ClienteHCS_2
         private void tmrFinalizacion_Tick(object sender, EventArgs e)
         {
             decimal elapsedSeconds = (decimal)_runner.ElapsedMs / 1000;
-            int porcentajeAvance = (int)(elapsedSeconds / nudDuracion.Value * 100);
-            porcentajeAvance = porcentajeAvance > 100 ? 100 : porcentajeAvance;
+            decimal duracionEstimada = _loadTestDefinition.UsarRampa
+                ? (decimal)_loadTestDefinition.CalcularDuracionEstimadaSeg()
+                : nudDuracion.Value;
+            int porcentajeAvance = duracionEstimada > 0
+                ? (int)(elapsedSeconds / duracionEstimada * 100)
+                : 0;
+            porcentajeAvance = Math.Min(porcentajeAvance, 100);
             prgbarHilos.Value = porcentajeAvance;
             prgbarHilos.Visible = true;
 
-            int pendientes = _runner.TareasPendientes;
-            Debug.WriteLine($"Pendientes: {pendientes}");
+            if (_loadTestDefinition.UsarRampa)
+            {
+                int lanzados = _runner.HilosLanzados;
+                int total = _loadTestDefinition.NroHilos;
+                if (lanzados < total)
+                {
+                    lblCreandoHilos.Text = $"Rampa: {lanzados} / {total} hilos activos";
+                    lblCreandoHilos.Visible = true;
+                }
+                else
+                {
+                    lblCreandoHilos.Visible = false;
+                }
+            }
 
             if (!_runner.TodasFinalizadas) return;
 
             tmrFinalizacion.Stop();
             prgbarHilos.Visible = false;
+            lblCreandoHilos.Visible = false;
 
             _lastReport = _runner.Finalizar(_listaHilos.ToList());
 
@@ -267,6 +345,7 @@ namespace ClienteHCS_2
         {
             btnIniciar.Enabled = cbUsarUnicaConexion.Enabled = true;
             nudDuracion.Enabled = nudHilosParalelos.Enabled = nudPausaMs.Enabled = true;
+            cbUsarRampa.Enabled = btnConfigurarRampa.Enabled = true;
         }
     }
 }

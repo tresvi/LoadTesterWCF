@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ClienteHCS_2
@@ -15,10 +16,10 @@ namespace ClienteHCS_2
         HCSClient _hcsClient = null;
         decimal _duration;
         int _periodoEnvioDatosmSeg;
-        static bool _ensayoEnCurso = false;
+        volatile bool _ensayoEnCurso;
+        CancellationTokenSource _cts;
         int _contadorConexiones, _contadorOK, _contadorFAIL = 0;
-        object lockObject = new object();
-        Thread _taskEnsayo;
+        Task _taskEnsayo;
         Stopwatch _timerEnsayo;
 
 
@@ -57,12 +58,11 @@ namespace ClienteHCS_2
                 txtSalida.Text = "";
                 _timerEnsayo = new Stopwatch();
 
-                ThreadStart threadStart = new ThreadStart(TaskEnviarRecibir);
                 _contadorConexiones = _contadorOK = _contadorFAIL = 0;
                 _duration = nudDuracion.Value;
                 _periodoEnvioDatosmSeg = (int)(nudPeriodoEnvioDatos.Value * 1000);
-                _taskEnsayo = new Thread(threadStart);
-                _taskEnsayo.Start();
+                _cts = new CancellationTokenSource();
+                _taskEnsayo = Task.Run(() => TaskEnviarRecibirAsync(_cts.Token));
                 _timerEnsayo.Start();
                 _ensayoEnCurso = true;
 
@@ -79,12 +79,12 @@ namespace ClienteHCS_2
         }
 
 
-        public void TaskEnviarRecibir()
+        private async Task TaskEnviarRecibirAsync(CancellationToken token)
         {
             Stopwatch sw = new Stopwatch();
             bool esPrimerEnvio;
 
-            while (_ensayoEnCurso)
+            while (!token.IsCancellationRequested)
             {
                 UpdateCountersLabel();
                 try
@@ -93,28 +93,28 @@ namespace ClienteHCS_2
                     WriteLog($"Iniciando conexion {++_contadorConexiones} ");
                     _hcsClient = new HCSClient(_server, _networkCredential);
 
-                    sw.Start();
-                    while (sw.ElapsedMilliseconds / 1000 < _duration && _ensayoEnCurso)
+                    sw.Restart();
+                    while (sw.ElapsedMilliseconds / 1000 < _duration && !token.IsCancellationRequested)
                     {
-                        _hcsClient.EnviarYRecibir(_transaccion, false).GetAwaiter().GetResult();
-                        Thread.Sleep(_periodoEnvioDatosmSeg);
+                        await _hcsClient.EnviarYRecibir(_transaccion, false);
+                        await Task.Delay(_periodoEnvioDatosmSeg);
                         if (esPrimerEnvio)
                         {
                             WriteLog($"Conexion {_contadorConexiones} establecida OK. Se continua transmitiendo por {_duration} segundos...");
                             esPrimerEnvio = false;
                         }
                     }
-                    lock (lockObject) { ++_contadorOK; }
+                    Interlocked.Increment(ref _contadorOK);
                     WriteLog($"Conexion {_contadorConexiones} Finalizo OK en {sw.ElapsedMilliseconds} ms");
                     _hcsClient.Cerrar();
                 }
                 catch (Exception ex)
                 {
-                    _hcsClient.Cerrar();
-                    lock (lockObject) { ++_contadorFAIL; }
+                    _hcsClient?.Cerrar();
+                    Interlocked.Increment(ref _contadorFAIL);
                     WriteLog($"!!!!!!Conexion {_contadorConexiones} finalizo con ERROR en {sw.ElapsedMilliseconds} ms. Detalles: {ex.Message}");
                     WriteLog("Esperando 3 seg. antes de continuar...");
-                    Thread.Sleep(2000);
+                    await Task.Delay(2000);
                 }
                 sw.Stop();
                 sw.Reset();
@@ -122,9 +122,10 @@ namespace ClienteHCS_2
         }
 
 
-        private void btnFinalizar_Click(object sender, EventArgs e)
+        private async void btnFinalizar_Click(object sender, EventArgs e)
         {
-            FinalizarEnsayo();
+            btnFinalizar.Enabled = false;
+            await FinalizarEnsayoAsync();
         }
 
 
@@ -132,6 +133,7 @@ namespace ClienteHCS_2
         {
             if (_ensayoEnCurso)
             {
+                _cts?.Cancel();
                 _ensayoEnCurso = false;
                 _hcsClient?.Cerrar();
             }
@@ -160,23 +162,31 @@ namespace ClienteHCS_2
         {
             if (!_ensayoEnCurso) return;
 
+            e.Cancel = true;
+
             DialogResult dialogResult = MessageBox.Show(
                 "Hay un ensayo en curso, debe finalizarlo para salir. Desea finalizarlo ahora?"
                 , "Detener ensayo de continuidad"
                 , MessageBoxButtons.YesNo
                 , MessageBoxIcon.Question);
 
-            if (dialogResult == DialogResult.Yes) FinalizarEnsayo();
-
-            e.Cancel = true;
+            if (dialogResult == DialogResult.Yes)
+            {
+                _cts?.Cancel();
+                _ensayoEnCurso = false;
+            }
         }
 
-        private void FinalizarEnsayo()
+        private async Task FinalizarEnsayoAsync()
         {
+            _cts?.Cancel();
             _ensayoEnCurso = false;
 
             WriteLog($"+++++++++++++++++ FINALIZANDO Ensayo de Continuidad +++++++++++++++++. Duracion Total: {_timerEnsayo.ElapsedMilliseconds / 1000} seg");
-            Thread.Sleep(3 * _periodoEnvioDatosmSeg);
+            if (_taskEnsayo != null)
+            {
+                try { await _taskEnsayo; } catch { }
+            }
             UpdateCountersLabel();
 
             MessageBox.Show($"Prueba Finalizada." +
