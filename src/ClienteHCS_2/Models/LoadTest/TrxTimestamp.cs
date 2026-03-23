@@ -4,7 +4,7 @@ namespace ClienteHCS_2
     /// Registro del instante (relativo al inicio del ensayo) en que se complet� una transacci�n exitosa.
     /// Se usa para construir la curva de throughput en funci�n del tiempo.
     /// </summary>
-    public sealed class TrxTimestamp
+    public struct TrxTimestamp
     {
         /// <summary>Segundo relativo al inicio del ensayo (truncado a entero).</summary>
         public int SegundoRelativo { get; set; }
