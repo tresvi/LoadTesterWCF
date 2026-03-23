@@ -111,6 +111,7 @@ namespace ClienteHCS_2
                 var areaVacio = new ChartArea("Default");
                 areaVacio.AxisX.Minimum = 0;
                 areaVacio.AxisX.IsMarginVisible = false;
+                ConfigurarZoomTemporal(areaVacio, false);
                 chartThroughputTemporal.ChartAreas.Add(areaVacio);
                 chartThroughputTemporal.Titles.Add(new Title("Sin datos de throughput temporal")
                 {
@@ -147,6 +148,7 @@ namespace ClienteHCS_2
             area.AxisY2.LabelStyle.ForeColor = System.Drawing.Color.OrangeRed;
             area.AxisY2.MajorGrid.Enabled = false;
             area.AxisY2.Enabled = AxisEnabled.True;
+            ConfigurarZoomTemporal(area, true);
 
             chartThroughputTemporal.ChartAreas.Add(area);
 
@@ -169,7 +171,7 @@ namespace ClienteHCS_2
                 }
             }
 
-            var serieThroughput = new Series("Throughput")
+            Series serieThroughput = new Series("Throughput")
             {
                 ChartType = SeriesChartType.Line,
                 Color = System.Drawing.Color.Black,
@@ -183,7 +185,7 @@ namespace ClienteHCS_2
             bool hayLatencia = countLatenciaPorSegundo.Any(c => c > 0);
             if (hayLatencia)
             {
-                var serieLatencia = new Series("Latencia Promedio (ms)")
+                Series serieLatencia = new Series("Latencia Promedio (ms)")
                 {
                     ChartType = SeriesChartType.Line,
                     Color = System.Drawing.Color.OrangeRed,
@@ -210,7 +212,7 @@ namespace ClienteHCS_2
             chartThroughputTemporal.Legends.Add(legend);
 
             // Evitar que el autoscale muestre -1 en X: fijar rango tras cargar series
-            var ax = chartThroughputTemporal.ChartAreas["Default"].AxisX;
+            Axis ax = chartThroughputTemporal.ChartAreas["Default"].AxisX;
             ax.Minimum = 0;
             ax.Maximum = maxSeg;
             int intervaloEtiquetasX = 5;
@@ -294,6 +296,7 @@ namespace ClienteHCS_2
             bool ok = _temporalThroughputOriginal != null && _temporalThroughputOriginal.Length > 0;
             btnMediaMovilTemporal.Enabled = ok;
             btnResetGraficoTemporal.Enabled = ok;
+            btnResetZoomTemporal.Enabled = ok;
         }
 
         private void btnMediaMovilTemporal_Click(object sender, EventArgs e)
@@ -315,6 +318,15 @@ namespace ClienteHCS_2
             _temporalThroughputActual = null;
             _temporalLatenciaActual = null;
             RefrescarPuntosGraficoTemporal();
+        }
+
+        private void btnResetZoomTemporal_Click(object sender, EventArgs e)
+        {
+            if (chartThroughputTemporal.ChartAreas.Count == 0) return;
+            var area = chartThroughputTemporal.ChartAreas["Default"];
+            area.AxisX.ScaleView.ZoomReset(0);
+            area.AxisY.ScaleView.ZoomReset(0);
+            area.AxisY2.ScaleView.ZoomReset(0);
         }
 
         private void RefrescarPuntosGraficoTemporal()
@@ -368,6 +380,24 @@ namespace ClienteHCS_2
         {
             if (cantidadPuntos <= 0) return 1;
             return Math.Max(1, (int)Math.Ceiling((double)cantidadPuntos / Math.Max(1, maxEtiquetasVisibles)));
+        }
+
+        private static void ConfigurarZoomTemporal(ChartArea area, bool conDatos)
+        {
+            area.CursorX.IsUserEnabled = conDatos;
+            area.CursorX.IsUserSelectionEnabled = conDatos;
+            area.CursorX.Interval = 0;
+
+            area.AxisX.ScaleView.Zoomable = conDatos;
+            area.AxisX.ScrollBar.Enabled = conDatos;
+            area.AxisX.ScrollBar.IsPositionedInside = true;
+            area.AxisX.ScrollBar.ButtonStyle = ScrollBarButtonStyles.SmallScroll;
+
+            // Mantener zoom horizontal: Y no seleccionable, pero reseteable por botón
+            area.CursorY.IsUserEnabled = false;
+            area.CursorY.IsUserSelectionEnabled = false;
+            area.AxisY.ScaleView.Zoomable = false;
+            area.AxisY2.ScaleView.Zoomable = false;
         }
          
         /// <summary>
