@@ -58,7 +58,7 @@ namespace ClienteHCS_2
             this.grpResumen.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpResumen.Location = new System.Drawing.Point(9, 11);
             this.grpResumen.Name = "grpResumen";
-            this.grpResumen.Size = new System.Drawing.Size(650, 181);
+            this.grpResumen.Size = new System.Drawing.Size(786, 181);
             this.grpResumen.TabIndex = 0;
             this.grpResumen.TabStop = false;
             this.grpResumen.Text = "Configuración y resultados del ensayo";
@@ -75,10 +75,10 @@ namespace ClienteHCS_2
             this.tlpResumen.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpResumen.Location = new System.Drawing.Point(3, 17);
             this.tlpResumen.Name = "tlpResumen";
-            this.tlpResumen.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tlpResumen.Padding = new System.Windows.Forms.Padding(4);
             this.tlpResumen.RowCount = 1;
             this.tlpResumen.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpResumen.Size = new System.Drawing.Size(644, 161);
+            this.tlpResumen.Size = new System.Drawing.Size(780, 161);
             this.tlpResumen.TabIndex = 0;
             // 
             // lblResultados2
@@ -88,8 +88,8 @@ namespace ClienteHCS_2
             this.lblResultados2.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.lblResultados2.Location = new System.Drawing.Point(372, 4);
             this.lblResultados2.Name = "lblResultados2";
-            this.lblResultados2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.lblResultados2.Size = new System.Drawing.Size(265, 153);
+            this.lblResultados2.Padding = new System.Windows.Forms.Padding(4);
+            this.lblResultados2.Size = new System.Drawing.Size(401, 153);
             this.lblResultados2.TabIndex = 2;
             this.lblResultados2.Text = "Resultados...";
             // 
@@ -99,7 +99,7 @@ namespace ClienteHCS_2
             this.lblConfig.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.lblConfig.Location = new System.Drawing.Point(7, 4);
             this.lblConfig.Name = "lblConfig";
-            this.lblConfig.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lblConfig.Padding = new System.Windows.Forms.Padding(4);
             this.lblConfig.Size = new System.Drawing.Size(264, 153);
             this.lblConfig.TabIndex = 0;
             this.lblConfig.Text = "Configuración...";
@@ -111,7 +111,7 @@ namespace ClienteHCS_2
             this.lblResultados1.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.lblResultados1.Location = new System.Drawing.Point(277, 4);
             this.lblResultados1.Name = "lblResultados1";
-            this.lblResultados1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lblResultados1.Padding = new System.Windows.Forms.Padding(4);
             this.lblResultados1.Size = new System.Drawing.Size(89, 153);
             this.lblResultados1.TabIndex = 1;
             this.lblResultados1.Text = "Resultados...";
@@ -130,14 +130,14 @@ namespace ClienteHCS_2
             this.tableLayoutPanel1.Controls.Add(this.lblTituloThroughputTemporal, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.tlpTemporalChart, 0, 3);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(9, 197);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 227F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 227F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(644, 586);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(783, 586);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // lblTituloThroughputOk
@@ -145,7 +145,7 @@ namespace ClienteHCS_2
             this.lblTituloThroughputOk.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblTituloThroughputOk.AutoSize = true;
             this.lblTituloThroughputOk.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
-            this.lblTituloThroughputOk.Location = new System.Drawing.Point(322, 3);
+            this.lblTituloThroughputOk.Location = new System.Drawing.Point(391, 3);
             this.lblTituloThroughputOk.Margin = new System.Windows.Forms.Padding(0);
             this.lblTituloThroughputOk.Name = "lblTituloThroughputOk";
             this.lblTituloThroughputOk.Size = new System.Drawing.Size(266, 17);
@@ -155,10 +155,10 @@ namespace ClienteHCS_2
             // chartThroughputOk
             // 
             this.chartThroughputOk.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chartThroughputOk.Location = new System.Drawing.Point(322, 23);
+            this.chartThroughputOk.Location = new System.Drawing.Point(391, 23);
             this.chartThroughputOk.Margin = new System.Windows.Forms.Padding(0, 0, 4, 4);
             this.chartThroughputOk.Name = "chartThroughputOk";
-            this.chartThroughputOk.Size = new System.Drawing.Size(318, 223);
+            this.chartThroughputOk.Size = new System.Drawing.Size(388, 223);
             this.chartThroughputOk.TabIndex = 9;
             // 
             // lblTituloLatencia
@@ -178,7 +178,7 @@ namespace ClienteHCS_2
             this.chartLatencia.Location = new System.Drawing.Point(0, 23);
             this.chartLatencia.Margin = new System.Windows.Forms.Padding(0, 0, 4, 4);
             this.chartLatencia.Name = "chartLatencia";
-            this.chartLatencia.Size = new System.Drawing.Size(318, 221);
+            this.chartLatencia.Size = new System.Drawing.Size(387, 221);
             this.chartLatencia.TabIndex = 2;
             // 
             // lblTituloThroughputTemporal
@@ -208,7 +208,7 @@ namespace ClienteHCS_2
             this.tlpTemporalChart.Name = "tlpTemporalChart";
             this.tlpTemporalChart.RowCount = 1;
             this.tlpTemporalChart.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpTemporalChart.Size = new System.Drawing.Size(640, 309);
+            this.tlpTemporalChart.Size = new System.Drawing.Size(779, 309);
             this.tlpTemporalChart.TabIndex = 12;
             // 
             // chartThroughputTemporal
@@ -217,7 +217,7 @@ namespace ClienteHCS_2
             this.chartThroughputTemporal.Location = new System.Drawing.Point(0, 0);
             this.chartThroughputTemporal.Margin = new System.Windows.Forms.Padding(0);
             this.chartThroughputTemporal.Name = "chartThroughputTemporal";
-            this.chartThroughputTemporal.Size = new System.Drawing.Size(541, 309);
+            this.chartThroughputTemporal.Size = new System.Drawing.Size(680, 309);
             this.chartThroughputTemporal.TabIndex = 0;
             // 
             // flowTemporalBotones
@@ -226,7 +226,7 @@ namespace ClienteHCS_2
             this.flowTemporalBotones.Controls.Add(this.btnResetGraficoTemporal);
             this.flowTemporalBotones.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowTemporalBotones.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowTemporalBotones.Location = new System.Drawing.Point(541, 0);
+            this.flowTemporalBotones.Location = new System.Drawing.Point(680, 0);
             this.flowTemporalBotones.Margin = new System.Windows.Forms.Padding(0);
             this.flowTemporalBotones.Name = "flowTemporalBotones";
             this.flowTemporalBotones.Padding = new System.Windows.Forms.Padding(3, 5, 3, 3);
@@ -250,7 +250,7 @@ namespace ClienteHCS_2
             // 
             this.btnResetGraficoTemporal.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnResetGraficoTemporal.Location = new System.Drawing.Point(5, 41);
-            this.btnResetGraficoTemporal.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnResetGraficoTemporal.Margin = new System.Windows.Forms.Padding(2);
             this.btnResetGraficoTemporal.Name = "btnResetGraficoTemporal";
             this.btnResetGraficoTemporal.Size = new System.Drawing.Size(87, 27);
             this.btnResetGraficoTemporal.TabIndex = 1;
@@ -271,7 +271,7 @@ namespace ClienteHCS_2
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.toolStrip1.Size = new System.Drawing.Size(713, 55);
+            this.toolStrip1.Size = new System.Drawing.Size(815, 55);
             this.toolStrip1.TabIndex = 43;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -324,14 +324,14 @@ namespace ClienteHCS_2
             this.pnlContenido.Location = new System.Drawing.Point(0, 55);
             this.pnlContenido.Margin = new System.Windows.Forms.Padding(0);
             this.pnlContenido.Name = "pnlContenido";
-            this.pnlContenido.Size = new System.Drawing.Size(713, 471);
+            this.pnlContenido.Size = new System.Drawing.Size(815, 471);
             this.pnlContenido.TabIndex = 44;
             // 
             // FrmDetallesEnsayoCarga
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(713, 526);
+            this.ClientSize = new System.Drawing.Size(815, 526);
             this.Controls.Add(this.pnlContenido);
             this.Controls.Add(this.toolStrip1);
             this.MinimumSize = new System.Drawing.Size(596, 388);
