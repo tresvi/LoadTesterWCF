@@ -2,7 +2,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -243,7 +242,8 @@ namespace ClienteHCS_2
             string correlationIdTarea = correlationIDBase + "-" + nroTarea.ToString("D4");
             OnHiloIniciado?.Invoke(nroTarea - 1, nroTarea, correlationIdTarea);
 
-            var latenciasHilo = new List<long>();
+            long latSumHilo = 0, latMinHilo = long.MaxValue, latMaxHilo = 0;
+            int latCountHilo = 0;
             int trxOk = 0, trxFail = 0;
             Stopwatch sw = Stopwatch.StartNew();
             HCSClient client = null;
@@ -279,7 +279,10 @@ namespace ClienteHCS_2
                         long ms = reqSw.ElapsedMilliseconds;
                         if (_timerEnsayo.ElapsedMilliseconds <= _finGlobalMs)
                         {
-                            latenciasHilo.Add(ms);
+                            latCountHilo++;
+                            latSumHilo += ms;
+                            if (ms < latMinHilo) latMinHilo = ms;
+                            if (ms > latMaxHilo) latMaxHilo = ms;
                             _latencies.Add(ms);
                             _timestamps.Add(new TrxTimestamp
                             {
@@ -318,9 +321,9 @@ namespace ClienteHCS_2
             }
 
             double durationSec = (endTime - startTime).TotalSeconds;
-            long latMin = latenciasHilo.Count > 0 ? latenciasHilo.Min() : 0;
-            long latMax = latenciasHilo.Count > 0 ? latenciasHilo.Max() : 0;
-            long latAvg = latenciasHilo.Count > 0 ? (long)latenciasHilo.Average() : 0;
+            long latMin = latCountHilo > 0 ? latMinHilo : 0;
+            long latMax = latCountHilo > 0 ? latMaxHilo : 0;
+            long latAvg = latCountHilo > 0 ? latSumHilo / latCountHilo : 0;
             double thrOk = durationSec > 0 ? trxOk / durationSec : 0;
             double thrTotal = durationSec > 0 ? (trxOk + trxFail) / durationSec : 0;
 
