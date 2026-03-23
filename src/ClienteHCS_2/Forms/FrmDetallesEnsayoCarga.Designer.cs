@@ -31,6 +31,7 @@ namespace ClienteHCS_2
             this.flowTemporalBotones = new System.Windows.Forms.FlowLayoutPanel();
             this.btnMediaMovilTemporal = new System.Windows.Forms.Button();
             this.btnResetGraficoTemporal = new System.Windows.Forms.Button();
+            this.btnResetZoomTemporal = new System.Windows.Forms.Button();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsbAbrirEnsayo = new System.Windows.Forms.ToolStripButton();
             this.tsbGuardarEnsayo = new System.Windows.Forms.ToolStripButton();
@@ -224,6 +225,7 @@ namespace ClienteHCS_2
             // 
             this.flowTemporalBotones.Controls.Add(this.btnMediaMovilTemporal);
             this.flowTemporalBotones.Controls.Add(this.btnResetGraficoTemporal);
+            this.flowTemporalBotones.Controls.Add(this.btnResetZoomTemporal);
             this.flowTemporalBotones.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowTemporalBotones.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowTemporalBotones.Location = new System.Drawing.Point(680, 0);
@@ -257,6 +259,18 @@ namespace ClienteHCS_2
             this.btnResetGraficoTemporal.Text = "Restaurar";
             this.btnResetGraficoTemporal.UseVisualStyleBackColor = true;
             this.btnResetGraficoTemporal.Click += new System.EventHandler(this.btnResetGraficoTemporal_Click);
+            // 
+            // btnResetZoomTemporal
+            // 
+            this.btnResetZoomTemporal.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnResetZoomTemporal.Location = new System.Drawing.Point(5, 72);
+            this.btnResetZoomTemporal.Margin = new System.Windows.Forms.Padding(2);
+            this.btnResetZoomTemporal.Name = "btnResetZoomTemporal";
+            this.btnResetZoomTemporal.Size = new System.Drawing.Size(87, 50);
+            this.btnResetZoomTemporal.TabIndex = 2;
+            this.btnResetZoomTemporal.Text = "Reset Zoom";
+            this.btnResetZoomTemporal.UseVisualStyleBackColor = true;
+            this.btnResetZoomTemporal.Click += new System.EventHandler(this.btnResetZoomTemporal_Click);
             // 
             // toolStrip1
             // 
@@ -379,6 +393,7 @@ namespace ClienteHCS_2
         private System.Windows.Forms.FlowLayoutPanel flowTemporalBotones;
         private System.Windows.Forms.Button btnMediaMovilTemporal;
         private System.Windows.Forms.Button btnResetGraficoTemporal;
+        private System.Windows.Forms.Button btnResetZoomTemporal;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartThroughputTemporal;
         private System.Windows.Forms.Panel pnlContenido;
     }
