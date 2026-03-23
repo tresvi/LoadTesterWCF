@@ -114,7 +114,7 @@ namespace ClienteHCS_2
                 chartThroughputTemporal.ChartAreas.Add(areaVacio);
                 chartThroughputTemporal.Titles.Add(new Title("Sin datos de throughput temporal")
                 {
-                    Font = new System.Drawing.Font("Segoe UI", 10f),
+                    Font = new System.Drawing.Font("Segoe UI", 11f),
                     ForeColor = System.Drawing.Color.Gray
                 });
                 LimpiarBuffersGraficoTemporal();
@@ -123,17 +123,26 @@ namespace ClienteHCS_2
 
             var area = new ChartArea("Default");
             area.AxisX.Title = "Tiempo (seg)";
+            area.AxisX.TitleFont = new System.Drawing.Font("Segoe UI", 10f, System.Drawing.FontStyle.Bold);
+            area.AxisX.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 9f);
             area.AxisX.MajorGrid.LineColor = System.Drawing.Color.LightGray;
+            area.AxisX.MinorGrid.Enabled = true;
+            area.AxisX.MinorGrid.Interval = 1;
+            area.AxisX.MinorGrid.LineColor = System.Drawing.Color.Gainsboro;
             area.AxisX.Interval = 1;
             area.AxisX.Minimum = 0;
             area.AxisX.IsMarginVisible = false;
             area.BackColor = System.Drawing.Color.White;
 
             area.AxisY.Title = "Trx/seg";
+            area.AxisY.TitleFont = new System.Drawing.Font("Segoe UI", 10f, System.Drawing.FontStyle.Bold);
+            area.AxisY.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 9f);
             area.AxisY.TitleForeColor = System.Drawing.Color.Black;
             area.AxisY.MajorGrid.LineColor = System.Drawing.Color.LightGray;
 
             area.AxisY2.Title = "Latencia Promedio (ms)";
+            area.AxisY2.TitleFont = new System.Drawing.Font("Segoe UI", 10f, System.Drawing.FontStyle.Bold);
+            area.AxisY2.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 9f);
             area.AxisY2.TitleForeColor = System.Drawing.Color.OrangeRed;
             area.AxisY2.LabelStyle.ForeColor = System.Drawing.Color.OrangeRed;
             area.AxisY2.MajorGrid.Enabled = false;
@@ -203,6 +212,10 @@ namespace ClienteHCS_2
             var ax = chartThroughputTemporal.ChartAreas["Default"].AxisX;
             ax.Minimum = 0;
             ax.Maximum = maxSeg;
+            int intervaloEtiquetasX = CalcularIntervaloEtiquetasX(maxSeg + 1, 18);
+            ax.Interval = intervaloEtiquetasX;
+            ax.LabelStyle.Interval = intervaloEtiquetasX;
+            ax.MajorGrid.Interval = intervaloEtiquetasX;
 
             _temporalHayLatencia = hayLatencia;
             _temporalThroughputOriginal = new double[maxSeg + 1];
@@ -306,6 +319,15 @@ namespace ClienteHCS_2
             }
             return salida;
         }
+
+        /// <summary>
+        /// Calcula cada cuántas marcas mostrar etiquetas en X para evitar superposición visual.
+        /// </summary>
+        private static int CalcularIntervaloEtiquetasX(int cantidadPuntos, int maxEtiquetasVisibles = 12)
+        {
+            if (cantidadPuntos <= 0) return 1;
+            return Math.Max(1, (int)Math.Ceiling((double)cantidadPuntos / Math.Max(1, maxEtiquetasVisibles)));
+        }
          
         /// <summary>
         /// Configura un Chart con datos de histograma (mismo algoritmo que el original: buckets con paso redondo, Y = cantidad de hilos).
@@ -379,6 +401,7 @@ namespace ClienteHCS_2
                 string textoX = valorBucket.ToString(formatoX);
                 series.Points.AddXY(textoX, buckets[i]);
             }
+
         }
 
 
@@ -393,7 +416,8 @@ namespace ClienteHCS_2
                 double duracion = _definition?.DuracionSeg ?? 0;
                 int pausa = _definition?.PausaMs ?? 0;
                 string hora = _report.Fecha.ToString("HHmmss");
-                dlg.FileName = $"{servidor}-{hilos}-{duracion}-{pausa}-{hora}";
+                string sufijoRampa = (_definition != null && _definition.UsarRampa) ? "-ramp" : "";
+                dlg.FileName = $"{servidor}-{hilos}-{duracion}-{pausa}{sufijoRampa}-{hora}";
                 if (dlg.ShowDialog() != DialogResult.OK) return;
 
                 try
