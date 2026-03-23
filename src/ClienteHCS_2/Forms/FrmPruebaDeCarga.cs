@@ -20,6 +20,9 @@ namespace ClienteHCS_2
         SortableBindingList<LoadTestThreadItem> _listaHilos = new SortableBindingList<LoadTestThreadItem>();
         LoadTestReport _lastReport;
 
+        int _incrementoHilosRampa = 10;
+        double _intervaloRampaSeg = 5;
+
 
         public FrmPruebaDeCarga(string server, Transaction transaccion, NetworkCredential networkCredential)
         {
@@ -71,86 +74,52 @@ namespace ClienteHCS_2
             ConfigurarControlesRampa();
         }
 
+        /// <summary>Eventos de rampa; layout en diseñador (flpRampa en tlpParams).</summary>
         private void ConfigurarControlesRampa()
         {
-            var fontLabel = new Font("Arial", 11.25f, FontStyle.Bold);
-            var fontNud = new Font("Arial", 12f, FontStyle.Bold);
-            var marginLabel = new Padding(2, 8, 2, 0);
-
-            cbUsarRampa = new CheckBox
-            {
-                Text = "Usar rampa",
-                AutoSize = true,
-                Font = fontLabel,
-                Anchor = AnchorStyles.Left,
-                Margin = new Padding(4)
-            };
             cbUsarRampa.CheckedChanged += (s, ev) => ActualizarVisibilidadRampa();
-
-            nudIncrementoHilos = new NumericUpDown
-            {
-                Minimum = 1, Maximum = 1000, Value = 10,
-                Width = 80,
-                Font = fontNud,
-                Margin = new Padding(2)
-            };
-            nudIntervaloRampa = new NumericUpDown
-            {
-                Minimum = 1, Maximum = 600, Value = 5,
-                Width = 80,
-                Font = fontNud,
-                Margin = new Padding(2)
-            };
-            lblResumenRampa = new Label
-            {
-                AutoSize = true,
-                Font = new Font("Arial", 9f, FontStyle.Italic),
-                ForeColor = Color.DimGray,
-                Margin = new Padding(6, 8, 0, 0)
-            };
-
-            flpRampa = new FlowLayoutPanel
-            {
-                AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                WrapContents = false,
-                Margin = new Padding(0),
-                Anchor = AnchorStyles.Left,
-                Visible = false
-            };
-            flpRampa.Controls.Add(new Label { Text = "de", AutoSize = true, Font = fontLabel, Margin = marginLabel });
-            flpRampa.Controls.Add(nudIncrementoHilos);
-            flpRampa.Controls.Add(new Label { Text = "hilos cada", AutoSize = true, Font = fontLabel, Margin = marginLabel });
-            flpRampa.Controls.Add(nudIntervaloRampa);
-            flpRampa.Controls.Add(new Label { Text = "seg", AutoSize = true, Font = fontLabel, Margin = marginLabel });
-            flpRampa.Controls.Add(lblResumenRampa);
-
-            tlpParams.Controls.Add(cbUsarRampa, 3, 1);
-            tlpParams.Controls.Add(flpRampa, 4, 1);
-            tlpParams.SetColumnSpan(flpRampa, 4);
-
-            nudIncrementoHilos.ValueChanged += (s, ev) => ActualizarResumenRampa();
-            nudIntervaloRampa.ValueChanged += (s, ev) => ActualizarResumenRampa();
             nudHilosParalelos.ValueChanged += (s, ev) => ActualizarResumenRampa();
             nudDuracion.ValueChanged += (s, ev) => ActualizarResumenRampa();
+            ActualizarVisibilidadRampa();
         }
 
         private void ActualizarVisibilidadRampa()
         {
-            flpRampa.Visible = cbUsarRampa.Checked;
+            bool on = cbUsarRampa.Checked;
+            btnConfigurarRampa.Visible = on;
+            lblResumenRampa.Visible = on;
             ActualizarResumenRampa();
         }
 
         private void ActualizarResumenRampa()
         {
-            if (!cbUsarRampa.Checked || lblResumenRampa == null) return;
+            if (lblResumenRampa == null) return;
+            if (!cbUsarRampa.Checked)
+            {
+                lblResumenRampa.Text = "";
+                return;
+            }
             int totalHilos = (int)nudHilosParalelos.Value;
-            int incremento = (int)nudIncrementoHilos.Value;
-            double intervalo = (double)nudIntervaloRampa.Value;
-            int pasos = (int)Math.Ceiling((double)totalHilos / incremento);
+            int incremento = _incrementoHilosRampa;
+            double intervalo = _intervaloRampaSeg;
+            int pasos = (int)Math.Ceiling((double)totalHilos / Math.Max(1, incremento));
             double tiempoRampa = (pasos - 1) * intervalo;
             double tiempoTotal = tiempoRampa + (double)nudDuracion.Value;
-            lblResumenRampa.Text = $"({pasos} pasos, ~{tiempoTotal:F0} seg total)";
+            lblResumenRampa.Text = $"{incremento} hilos cada {intervalo:F0} s · ({pasos} pasos) · ~{tiempoTotal:F0} s total";
+        }
+
+        private void btnConfigurarRampa_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new FrmConfiguracionRampa())
+            {
+                dlg.TotalHilosEnsayo = (int)nudHilosParalelos.Value;
+                dlg.IncrementoHilos = _incrementoHilosRampa;
+                dlg.IntervaloRampaSeg = _intervaloRampaSeg;
+                if (dlg.ShowDialog(this) != DialogResult.OK) return;
+                _incrementoHilosRampa = dlg.IncrementoHilos;
+                _intervaloRampaSeg = dlg.IntervaloRampaSeg;
+                ActualizarResumenRampa();
+            }
         }
 
 
@@ -174,7 +143,7 @@ namespace ClienteHCS_2
             lblCreandoHilos.Visible = true;
             btnIniciar.Enabled = cbUsarUnicaConexion.Enabled = false;
             nudDuracion.Enabled = nudHilosParalelos.Enabled = nudPausaMs.Enabled = false;
-            cbUsarRampa.Enabled = nudIncrementoHilos.Enabled = nudIntervaloRampa.Enabled = false;
+            cbUsarRampa.Enabled = btnConfigurarRampa.Enabled = false;
             btnVerDetalles.Enabled = false;
 
             _loadTestDefinition = new LoadTestDefinition
@@ -186,8 +155,8 @@ namespace ClienteHCS_2
                 PausaMs = (int)nudPausaMs.Value,
                 UsarUnicaConexion = cbUsarUnicaConexion.Checked,
                 UsarRampa = cbUsarRampa.Checked,
-                IncrementoHilos = cbUsarRampa.Checked ? (int)nudIncrementoHilos.Value : 0,
-                IntervaloRampaSeg = cbUsarRampa.Checked ? (double)nudIntervaloRampa.Value : 0
+                IncrementoHilos = cbUsarRampa.Checked ? _incrementoHilosRampa : 0,
+                IntervaloRampaSeg = cbUsarRampa.Checked ? _intervaloRampaSeg : 0
             };
 
             _runner = new LoadTestRunner(_loadTestDefinition, _transaccion, _networkCredential);
@@ -376,7 +345,7 @@ namespace ClienteHCS_2
         {
             btnIniciar.Enabled = cbUsarUnicaConexion.Enabled = true;
             nudDuracion.Enabled = nudHilosParalelos.Enabled = nudPausaMs.Enabled = true;
-            cbUsarRampa.Enabled = nudIncrementoHilos.Enabled = nudIntervaloRampa.Enabled = true;
+            cbUsarRampa.Enabled = btnConfigurarRampa.Enabled = true;
         }
     }
 }

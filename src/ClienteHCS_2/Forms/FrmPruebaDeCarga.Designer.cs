@@ -42,6 +42,10 @@ namespace ClienteHCS_2
             this.btnAyuda = new System.Windows.Forms.Button();
             this.prgbarHilos = new System.Windows.Forms.ProgressBar();
             this.cbUsarUnicaConexion = new System.Windows.Forms.CheckBox();
+            this.flpRampa = new System.Windows.Forms.FlowLayoutPanel();
+            this.cbUsarRampa = new System.Windows.Forms.CheckBox();
+            this.btnConfigurarRampa = new System.Windows.Forms.Button();
+            this.lblResumenRampa = new System.Windows.Forms.Label();
             this.dgvHilos = new System.Windows.Forms.DataGridView();
             this.colRowNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblContadorOK = new System.Windows.Forms.Label();
@@ -67,6 +71,7 @@ namespace ClienteHCS_2
             ((System.ComponentModel.ISupportInitialize)(this.nudHilosParalelos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudDuracion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudPausaMs)).BeginInit();
+            this.flpRampa.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHilos)).BeginInit();
             this.tlpBottom.SuspendLayout();
             this.gbConectividad.SuspendLayout();
@@ -80,9 +85,9 @@ namespace ClienteHCS_2
             this.groupBox1.Controls.Add(this.tlpParams);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(11, 63);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(879, 124);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
@@ -110,6 +115,7 @@ namespace ClienteHCS_2
             this.tlpParams.Controls.Add(this.btnAyuda, 8, 2);
             this.tlpParams.Controls.Add(this.prgbarHilos, 3, 2);
             this.tlpParams.Controls.Add(this.cbUsarUnicaConexion, 3, 0);
+            this.tlpParams.Controls.Add(this.flpRampa, 3, 1);
             this.tlpParams.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpParams.Location = new System.Drawing.Point(4, 18);
             this.tlpParams.Margin = new System.Windows.Forms.Padding(0);
@@ -129,7 +135,7 @@ namespace ClienteHCS_2
             this.btnIniciar.Image = global::ClienteHCS_2.Properties.Resources.boton_de_play_48x48;
             this.btnIniciar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnIniciar.Location = new System.Drawing.Point(717, 8);
-            this.btnIniciar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnIniciar.Margin = new System.Windows.Forms.Padding(4);
             this.btnIniciar.Name = "btnIniciar";
             this.tlpParams.SetRowSpan(this.btnIniciar, 2);
             this.btnIniciar.Size = new System.Drawing.Size(148, 56);
@@ -155,7 +161,7 @@ namespace ClienteHCS_2
             this.nudHilosParalelos.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.nudHilosParalelos.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.nudHilosParalelos.Location = new System.Drawing.Point(166, 8);
-            this.nudHilosParalelos.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.nudHilosParalelos.Margin = new System.Windows.Forms.Padding(4);
             this.nudHilosParalelos.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -192,7 +198,7 @@ namespace ClienteHCS_2
             this.nudDuracion.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.nudDuracion.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.nudDuracion.Location = new System.Drawing.Point(166, 40);
-            this.nudDuracion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.nudDuracion.Margin = new System.Windows.Forms.Padding(4);
             this.nudDuracion.Maximum = new decimal(new int[] {
             6000,
             0,
@@ -229,7 +235,7 @@ namespace ClienteHCS_2
             this.nudPausaMs.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.nudPausaMs.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudPausaMs.Location = new System.Drawing.Point(166, 72);
-            this.nudPausaMs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.nudPausaMs.Margin = new System.Windows.Forms.Padding(4);
             this.nudPausaMs.Maximum = new decimal(new int[] {
             5000,
             0,
@@ -249,7 +255,7 @@ namespace ClienteHCS_2
             this.btnAyuda.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAyuda.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAyuda.Location = new System.Drawing.Point(719, 72);
-            this.btnAyuda.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAyuda.Margin = new System.Windows.Forms.Padding(4);
             this.btnAyuda.Name = "btnAyuda";
             this.btnAyuda.Size = new System.Drawing.Size(148, 26);
             this.btnAyuda.TabIndex = 19;
@@ -263,7 +269,7 @@ namespace ClienteHCS_2
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tlpParams.SetColumnSpan(this.prgbarHilos, 5);
             this.prgbarHilos.Location = new System.Drawing.Point(282, 72);
-            this.prgbarHilos.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.prgbarHilos.Margin = new System.Windows.Forms.Padding(4);
             this.prgbarHilos.Name = "prgbarHilos";
             this.prgbarHilos.Size = new System.Drawing.Size(425, 23);
             this.prgbarHilos.TabIndex = 15;
@@ -283,6 +289,61 @@ namespace ClienteHCS_2
             this.cbUsarUnicaConexion.Text = "Usar única conexión p/todos los hilos";
             this.cbUsarUnicaConexion.UseVisualStyleBackColor = true;
             // 
+            // flpRampa
+            // 
+            this.flpRampa.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.flpRampa.AutoSize = true;
+            this.flpRampa.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tlpParams.SetColumnSpan(this.flpRampa, 5);
+            this.flpRampa.Controls.Add(this.cbUsarRampa);
+            this.flpRampa.Controls.Add(this.btnConfigurarRampa);
+            this.flpRampa.Controls.Add(this.lblResumenRampa);
+            this.flpRampa.Location = new System.Drawing.Point(278, 36);
+            this.flpRampa.Margin = new System.Windows.Forms.Padding(0);
+            this.flpRampa.Name = "flpRampa";
+            this.flpRampa.Size = new System.Drawing.Size(433, 30);
+            this.flpRampa.TabIndex = 23;
+            this.flpRampa.WrapContents = false;
+            // 
+            // cbUsarRampa
+            // 
+            this.cbUsarRampa.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cbUsarRampa.AutoSize = true;
+            this.cbUsarRampa.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbUsarRampa.Location = new System.Drawing.Point(0, 4);
+            this.cbUsarRampa.Margin = new System.Windows.Forms.Padding(0, 4, 4, 4);
+            this.cbUsarRampa.Name = "cbUsarRampa";
+            this.cbUsarRampa.Size = new System.Drawing.Size(107, 22);
+            this.cbUsarRampa.TabIndex = 0;
+            this.cbUsarRampa.Text = "Usar rampa";
+            this.cbUsarRampa.UseVisualStyleBackColor = true;
+            // 
+            // btnConfigurarRampa
+            // 
+            this.btnConfigurarRampa.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConfigurarRampa.Location = new System.Drawing.Point(111, 2);
+            this.btnConfigurarRampa.Margin = new System.Windows.Forms.Padding(0, 2, 4, 2);
+            this.btnConfigurarRampa.Name = "btnConfigurarRampa";
+            this.btnConfigurarRampa.Size = new System.Drawing.Size(32, 26);
+            this.btnConfigurarRampa.TabIndex = 1;
+            this.btnConfigurarRampa.Text = "...";
+            this.btnConfigurarRampa.UseVisualStyleBackColor = true;
+            this.btnConfigurarRampa.Visible = false;
+            this.btnConfigurarRampa.Click += new System.EventHandler(this.btnConfigurarRampa_Click);
+            // 
+            // lblResumenRampa
+            // 
+            this.lblResumenRampa.AutoSize = true;
+            this.lblResumenRampa.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblResumenRampa.ForeColor = System.Drawing.Color.DimGray;
+            this.lblResumenRampa.Location = new System.Drawing.Point(147, 8);
+            this.lblResumenRampa.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
+            this.lblResumenRampa.Name = "lblResumenRampa";
+            this.lblResumenRampa.Size = new System.Drawing.Size(0, 15);
+            this.lblResumenRampa.TabIndex = 2;
+            this.lblResumenRampa.Visible = false;
+            // 
             // dgvHilos
             // 
             this.dgvHilos.AllowUserToAddRows = false;
@@ -294,7 +355,7 @@ namespace ClienteHCS_2
             this.dgvHilos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colRowNum});
             this.dgvHilos.Location = new System.Drawing.Point(12, 196);
-            this.dgvHilos.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvHilos.Margin = new System.Windows.Forms.Padding(4);
             this.dgvHilos.MultiSelect = false;
             this.dgvHilos.Name = "dgvHilos";
             this.dgvHilos.ReadOnly = true;
@@ -552,7 +613,7 @@ namespace ClienteHCS_2
             this.Controls.Add(this.tlpBottom);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgvHilos);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(898, 494);
             this.Name = "FrmPruebaDeCarga";
@@ -565,6 +626,8 @@ namespace ClienteHCS_2
             ((System.ComponentModel.ISupportInitialize)(this.nudHilosParalelos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudDuracion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudPausaMs)).EndInit();
+            this.flpRampa.ResumeLayout(false);
+            this.flpRampa.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHilos)).EndInit();
             this.tlpBottom.ResumeLayout(false);
             this.tlpBottom.PerformLayout();
@@ -610,10 +673,9 @@ namespace ClienteHCS_2
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Button btnVerDetalles;
         private System.Windows.Forms.Label lblMetricasNuevas;
-        private System.Windows.Forms.CheckBox cbUsarRampa;
         private System.Windows.Forms.FlowLayoutPanel flpRampa;
-        private System.Windows.Forms.NumericUpDown nudIncrementoHilos;
-        private System.Windows.Forms.NumericUpDown nudIntervaloRampa;
+        private System.Windows.Forms.CheckBox cbUsarRampa;
+        private System.Windows.Forms.Button btnConfigurarRampa;
         private System.Windows.Forms.Label lblResumenRampa;
     }
 }
