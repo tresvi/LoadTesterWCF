@@ -19,9 +19,8 @@ namespace ClienteHCS_2
 
         private void FrmConfiguracionRampa_Load(object sender, EventArgs e)
         {
-            int inc = IncrementoHilos < 1 ? 1 : IncrementoHilos;
-            nudIncremento.Value = Math.Max(nudIncremento.Minimum, Math.Min(nudIncremento.Maximum, inc));
-            double iv = IntervaloRampaSeg < 1 ? 1 : IntervaloRampaSeg;
+            nudIncrementoHilosPorPaso.Value = Math.Max(nudIncrementoHilosPorPaso.Minimum, Math.Min(nudIncrementoHilosPorPaso.Maximum, IncrementoHilos));
+            double iv = IntervaloRampaSeg;
             nudIntervaloSeg.Value = (decimal)Math.Max((double)nudIntervaloSeg.Minimum,
                 Math.Min((double)nudIntervaloSeg.Maximum, iv));
         }
@@ -34,7 +33,7 @@ namespace ClienteHCS_2
                 return;
             }
 
-            IncrementoHilos = (int)nudIncremento.Value;
+            IncrementoHilos = (int)nudIncrementoHilosPorPaso.Value;
             IntervaloRampaSeg = (double)nudIntervaloSeg.Value;
             DialogResult = DialogResult.OK;
             Close();
@@ -43,36 +42,10 @@ namespace ClienteHCS_2
         private bool Validar(out string error)
         {
             error = null;
-            int inc = (int)nudIncremento.Value;
-            double intervalo = (double)nudIntervaloSeg.Value;
 
             if (TotalHilosEnsayo < 1)
             {
                 error = "El número de hilos del ensayo debe ser al menos 1.";
-                return false;
-            }
-
-            if (inc < 1)
-            {
-                error = "El incremento de hilos debe ser al menos 1.";
-                return false;
-            }
-
-            if (inc > 1000)
-            {
-                error = "El incremento de hilos no puede superar 1000.";
-                return false;
-            }
-
-            if (intervalo < 1)
-            {
-                error = "El intervalo entre pasos debe ser de al menos 1 segundo.";
-                return false;
-            }
-
-            if (intervalo > 600)
-            {
-                error = "El intervalo entre pasos no puede superar 600 segundos.";
                 return false;
             }
 
