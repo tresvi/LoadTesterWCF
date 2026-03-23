@@ -19,7 +19,6 @@ namespace ClienteHCS_2
         volatile bool _ensayoEnCurso;
         CancellationTokenSource _cts;
         int _contadorConexiones, _contadorOK, _contadorFAIL = 0;
-        object lockObject = new object();
         Task _taskEnsayo;
         Stopwatch _timerEnsayo;
 
@@ -105,14 +104,14 @@ namespace ClienteHCS_2
                             esPrimerEnvio = false;
                         }
                     }
-                    lock (lockObject) { ++_contadorOK; }
+                    Interlocked.Increment(ref _contadorOK);
                     WriteLog($"Conexion {_contadorConexiones} Finalizo OK en {sw.ElapsedMilliseconds} ms");
                     _hcsClient.Cerrar();
                 }
                 catch (Exception ex)
                 {
                     _hcsClient?.Cerrar();
-                    lock (lockObject) { ++_contadorFAIL; }
+                    Interlocked.Increment(ref _contadorFAIL);
                     WriteLog($"!!!!!!Conexion {_contadorConexiones} finalizo con ERROR en {sw.ElapsedMilliseconds} ms. Detalles: {ex.Message}");
                     WriteLog("Esperando 3 seg. antes de continuar...");
                     await Task.Delay(2000);
